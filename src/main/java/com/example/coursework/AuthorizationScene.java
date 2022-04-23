@@ -5,11 +5,16 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -18,6 +23,10 @@ public class AuthorizationScene implements Initializable {
 
     @FXML
     private ImageView ImageAu;
+    @FXML
+    private TextField LoginText;
+    @FXML
+    private TextField PasswordText;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -26,6 +35,7 @@ public class AuthorizationScene implements Initializable {
     }
     @FXML
     protected void SignIn() throws IOException {
+
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("WelcomeS.fxml"));
         Parent root = fxmlLoader.load();
         Stage stage = new Stage();
@@ -40,15 +50,16 @@ public class AuthorizationScene implements Initializable {
 
     @FXML
     protected void SignUp() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("SignUpS.fxml"));
-        Parent root = fxmlLoader.load();
-        Stage stage = new Stage();
-        stage.initModality(Modality.APPLICATION_MODAL);
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("SignUpS.fxml"));
+            Parent root = fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
 
-        stage.setOpacity(1);
-        stage.setTitle("Coin Searcher");
-        stage.getIcons().add(new Image("file:resourses/images/icon1.png"));
-        stage.setScene(new Scene(root, 800, 600));
-        stage.showAndWait();
+            stage.setOpacity(1);
+            stage.setTitle("Coin Searcher");
+            stage.getIcons().add(new Image("file:resourses/images/icon1.png"));
+            stage.setScene(new Scene(root, 800, 600));
+            stage.showAndWait();
     }
+
 }

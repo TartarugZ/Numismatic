@@ -4,15 +4,22 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 
 public class SignUpScene {
+    @FXML private TextField CreateL;
+    @FXML private TextField CreateP;
+
     @FXML
     protected void Registered() throws IOException {
+
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AuthorizationS.fxml"));
         Parent root = fxmlLoader.load();
         Stage stage = new Stage();
