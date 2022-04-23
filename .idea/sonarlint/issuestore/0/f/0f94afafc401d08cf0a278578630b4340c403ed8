@@ -1,22 +1,0 @@
-
-J
-java:S3740&"/Provide the parametrized type for this generic.(Ñì£ıÿÿÿÿ
-c	java:S116"NRename this field "TF1" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(÷Ä ğ
-c	java:S116"NRename this field "TF2" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ëçü…
-g	java:S116"MRename this field "TA" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ä‡¦úÿÿÿÿ
-h	java:S116"NRename this field "TA1" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Áïªıÿÿÿÿ
-l	java:S116"RRename this field "Country" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(º†«Äıÿÿÿÿ
-e	java:S116"PRename this field "Years" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ªÕš
-m	java:S116"SRename this field "ComboBox" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(èòş¬ùÿÿÿÿ
-i	java:S116"TRename this field "ChoiceBox" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÒÜ¤Ê
-h	java:S116%"SRename this field "BoxCheck" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ü”Û·
-g	java:S116&"MRename this field "CC" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ñì£ıÿÿÿÿ
-‡
-java:S1130)"lRemove the declaration of thrown exception 'java.io.IOException', as it cannot be thrown from method's body.(§ £²ûÿÿÿÿ
-G
-java:S1602D",Remove useless curly braces around statement(ŒÙõıÿÿÿÿ
-W
-java:S1126O"AReplace this if-then-else statement by a single return statement.(ƒÚ©›
-Q	java:S125U"<This block of commented-out lines of code should be removed.(ƒ±Ï
-a
-java:S1128"KRemove this unused import 'javafx.scene.control.cell.PropertyValueFactory'.(àÎ¬õ

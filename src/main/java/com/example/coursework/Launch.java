@@ -22,8 +22,8 @@ public class Launch extends Application {
     @Override
     public void start(Stage stage) throws IOException {
 
-        FXMLLoader fxmlLoader = new FXMLLoader(Launch.class.getResource("WelcomeS.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 700, 400);
+        FXMLLoader fxmlLoader = new FXMLLoader(Launch.class.getResource("LanguageS.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 800, 600);
         stage.setScene(scene);
 
         stage.setTitle("Coin Searcher");
