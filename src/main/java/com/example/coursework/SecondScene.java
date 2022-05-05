@@ -3,12 +3,13 @@ package com.example.coursework;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -16,33 +17,53 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class SecondScene {
-    @FXML
-    private TableView<Coin> coinTableView;
-    @FXML
-    private TableColumn<Coin, String> country;
-    @FXML
-    private TableColumn<Coin, String> year;
+public class SecondScene  {
 
-    @FXML
-    private Label Lcountry;
-    @FXML
-    private Label Lyear;
-    @FXML
-    private Label Lprice;
-    @FXML
-    private Label Lcurrency;
-    @FXML
-    private Button DeleteButton;
-    @FXML
-    private Button EditButton;
+    @FXML private TableView<Coin> coinTableView;
+    @FXML private TableColumn<Coin, String> countryColumn;
+    @FXML private TableColumn<Coin, String> yearColumn;
+    @FXML private Label lcountry;
+    @FXML private Label lyear;
+    @FXML private Label lprice;
+    @FXML private Label lcurrency;
+    @FXML private Label collectionNameLabel;
+    @FXML private Label detailsLabel;
+    @FXML private Label country;
+    @FXML private Label year;
+    @FXML private Label price;
+    @FXML private Label currency;
+    @FXML private Button goSearchButton;
+    @FXML private Button createButton;
+    @FXML private Button editButton;
+    @FXML private Button deleteButton;
+    @FXML private TextField tf1;
 
+
+    private Stage stage=Launch.getMainStage();
     private ArrayList<Coin> CC= new ArrayList<>();
     private ObservableList<Coin> CC2= FXCollections.observableArrayList(CC);
+    FilteredList<Coin> filteredCollections = new FilteredList<>(CC2, b -> true);
+
     @FXML
     private void initialize() {
-        country.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getCountry()));
-        year.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getYears()));
+        if(LanguageSelectionScene.language=="ru"){
+            collectionNameLabel.setText("Название коллекции");
+            detailsLabel.setText("Подробнее о монете:");
+            country.setText("Страна");
+            year.setText("Год");
+            price.setText("Цена");
+            currency.setText("Номинал");
+            goSearchButton.setText("К поиску");
+            createButton.setText("Добавить");
+            editButton.setText("Изменить");
+            deleteButton.setText("Удалить");
+            countryColumn.setText("Страна");
+            yearColumn.setText("Год");
+            tf1.setPromptText("Поиск");
+        }
+
+        countryColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getCountry()));
+        yearColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getYears()));
 
         coinTableView.setItems(CC2);
 
@@ -50,12 +71,35 @@ public class SecondScene {
         coinTableView.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> CoinDetails(newValue));
 
-        EditButton.setDisable(true);
-        DeleteButton.setDisable(true);
+        editButton.setDisable(true);
+        deleteButton.setDisable(true);
+
+        tf1.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredCollections.setPredicate(coin -> {
+                // If filter text is empty, display all persons.
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+                // Compare first name and last name of every person with filter text.
+                String lowerCaseFilter = newValue.toLowerCase();
+                if(coin.getYears().toLowerCase().indexOf(lowerCaseFilter) != -1 ){
+                    return true;
+                }else if(coin.getCountry().toLowerCase().indexOf(lowerCaseFilter) != -1){
+                    return true;
+                }
+                else return false; // Does not match.
+            });
+        });
+
+        SortedList<Coin> sortedCollections = new SortedList<>(filteredCollections);
+
+        sortedCollections.comparatorProperty().bind(coinTableView.comparatorProperty());
+
+        coinTableView.setItems(sortedCollections);
     }
 
     @FXML
-    protected void DeleteItem()throws IOException {
+    protected void deleteItem(){
         int selectedIndex = coinTableView.getSelectionModel().getSelectedIndex();
         if (selectedIndex >= 0) {
             coinTableView.getItems().remove(selectedIndex);
@@ -67,7 +111,7 @@ public class SecondScene {
         }
     }
     @FXML
-    protected void EditItem()throws IOException{
+    protected void editItem(){
         Coin selectedCoin = coinTableView.getSelectionModel().getSelectedItem();
         if (selectedCoin != null) {
             boolean okClicked = showEditStage(selectedCoin);
@@ -87,8 +131,8 @@ public class SecondScene {
 
     }
     @FXML
-    protected void CreateItem()throws IOException{
-        Coin tempCoin = new Coin("a");
+    protected void createItem(){
+        Coin tempCoin = new Coin("");
         boolean okClicked = showEditStage(tempCoin);
         if (okClicked) {
             CC.add(tempCoin);
@@ -101,20 +145,18 @@ public class SecondScene {
 
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("EditS.fxml"));
             Parent root = fxmlLoader.load();
-            Stage stage = new Stage();
-            stage.initModality(Modality.APPLICATION_MODAL);
-
-            stage.setOpacity(1);
-            stage.setTitle("Searching Coins");
-            stage.getIcons().add(new Image("file:resourses/images/icon1.png"));
-            stage.setScene(new Scene(root, 600, 600));
+            Stage stageEdit = new Stage();
+            stageEdit.initModality(Modality.APPLICATION_MODAL);
+            stageEdit.setTitle("Coin Searcher");
+            stageEdit.getIcons().add(new Image("file:resourses/images/icon1.png"));
+            stageEdit.setScene(new Scene(root, 600, 600));
 
 
             EditStage controller = fxmlLoader.getController();
-            controller.setDialogStage(stage);
+            controller.setDialogStage(stageEdit);
             controller.setCoin(coin);
 
-            stage.showAndWait();
+            stageEdit.showAndWait();
 
             return controller.isOkClicked();
         } catch (IOException e) {
@@ -125,20 +167,27 @@ public class SecondScene {
 
     private void CoinDetails(Coin coin) {
         if (coin != null) {
-            Lcountry.setText(coin.getCountry());
-            Lyear.setText(coin.getYears());
-            Lprice.setText(coin.getPrice());
-            Lcurrency.setText(coin.getCurrency());
-            EditButton.setDisable(false);
-            DeleteButton.setDisable(false);
+            lcountry.setText(coin.getCountry());
+            lyear.setText(coin.getYears());
+            lprice.setText(coin.getPrice());
+            lcurrency.setText(coin.getCurrency());
+            editButton.setDisable(false);
+            deleteButton.setDisable(false);
         } else {
-            Lcountry.setText("");
-            Lyear.setText("");
-            Lprice.setText("");
-            Lcurrency.setText("");
+            lcountry.setText("");
+            lyear.setText("");
+            lprice.setText("");
+            lcurrency.setText("");
         }
     }
 
+    @FXML
+    protected void goSearch() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("FirstS.fxml"));
+        stage.setTitle("Coin Searcher");
+        stage.getIcons().add(new Image("file:resourses/images/icon1.png"));
+        stage.setScene(new Scene(fxmlLoader.load(), 1000, 600));
+    }
 
     }
 

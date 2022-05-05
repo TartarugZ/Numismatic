@@ -3,63 +3,71 @@ package com.example.coursework;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class AuthorizationScene implements Initializable {
+public class AuthorizationScene{
 
-    @FXML
-    private ImageView ImageAu;
-    @FXML
-    private TextField LoginText;
-    @FXML
-    private TextField PasswordText;
+    @FXML private ImageView imageAu;
+    @FXML private TextField loginText;
+    @FXML private TextField passwordText;
+    @FXML private Button enterButton;
+    @FXML private Button signUpButton;
+    @FXML private Button withoutRegistrationButton;
+    @FXML private Label withoutRegistrationLabel;
+    @FXML private Label signUpLabel;
+    @FXML private Label signInLabel;
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        Image image=new Image("file:resourses/images/Coins.png");
-        ImageAu.setImage(new Image("file:resourses/images/Coins.png"));
+
+    private Stage stage=Launch.getMainStage();
+
+
+    public void initialize() {
+        imageAu.setImage(new Image("file:resourses/images/Coins.png"));
+
+        if(LanguageSelectionScene.language=="ru"){
+            loginText.setPromptText("Логин");
+            passwordText.setPromptText("Пароль");
+            enterButton.setText("Войти");
+            signUpButton.setText("Регистрация");
+            withoutRegistrationLabel.setText("Войти без регистрации");
+            signUpLabel.setText("У вас ещё нет аккаунта? Тогда создайте его!");
+            signInLabel.setText("Авторизация");
+        }
     }
+
     @FXML
-    protected void SignIn() throws IOException {
-
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("WelcomeS.fxml"));
-        Parent root = fxmlLoader.load();
-        Stage stage = new Stage();
-        stage.initModality(Modality.APPLICATION_MODAL);
-
-        stage.setOpacity(1);
+    protected void signIn() throws IOException {
+        //добавить способ авторизации
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("FirstS.fxml"));
         stage.setTitle("Coin Searcher");
         stage.getIcons().add(new Image("file:resourses/images/icon1.png"));
-        stage.setScene(new Scene(root, 800, 600));
-        stage.showAndWait();
+        stage.setScene(new Scene(fxmlLoader.load(), 1000, 600));
     }
 
     @FXML
-    protected void SignUp() throws IOException {
+    protected void signUp() throws IOException {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("SignUpS.fxml"));
-            Parent root = fxmlLoader.load();
-            Stage stage = new Stage();
-            stage.initModality(Modality.APPLICATION_MODAL);
-
-            stage.setOpacity(1);
             stage.setTitle("Coin Searcher");
             stage.getIcons().add(new Image("file:resourses/images/icon1.png"));
-            stage.setScene(new Scene(root, 800, 600));
-            stage.showAndWait();
+            stage.setScene(new Scene(fxmlLoader.load(), 800, 600));
+    }
+
+    @FXML
+    protected void withoutRegistration() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("FirstS.fxml"));
+        stage.setTitle("Coin Searcher");
+        stage.getIcons().add(new Image("file:resourses/images/icon1.png"));
+        stage.setScene(new Scene(fxmlLoader.load(), 1000, 600));
     }
 
 }

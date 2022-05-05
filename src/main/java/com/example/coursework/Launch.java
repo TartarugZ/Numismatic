@@ -16,12 +16,18 @@ import java.util.Optional;
 
 public class Launch extends Application {
 
+    private static Stage mainStage;
 
-    public static String linkOnMainPageUcoin = "https://en.ucoin.net";//ссылка на главную страницу сайта uCoin с возможность изменения языка
+    public static Stage getMainStage() {
+        return mainStage;
+    }
+
+    public static String linkOnMainPageUcoin = "https://"+LanguageSelectionScene.language+".ucoin.net";//ссылка на главную страницу сайта uCoin с возможность изменения языка
 
     @Override
     public void start(Stage stage) throws IOException {
-
+        mainStage=new Stage();
+        stage=mainStage;
         FXMLLoader fxmlLoader = new FXMLLoader(Launch.class.getResource("LanguageS.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 800, 600);
         stage.setScene(scene);
@@ -31,62 +37,36 @@ public class Launch extends Application {
         stage.show();
     }
 
-
     public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException {
-
-
-
-
-
-
         newCoinSearch();
         launch();
-
         //Coin coin =createCoin( "country","currency","value","category",null,"linkUcoin");
-
-
     }
 
     public static Coin createCoin(String country, String currency, String value, String category, Optional <Float> costActual, String linkUcoin){
-
-
         Coin coin = new Coin(country);
 
         return coin;
-
-    };
+    }
 
     public void addCoinToCollection(Collection collection,Coin coin){
-
         collection.addToCollection(coin);
-
-    };
+    }
 
     public static void newCoinSearch() throws IOException {
-
         CoinSearcher coinSearcher = new CoinSearcher();
-
-
-
         //Scanner scanCountry = new Scanner(System.in);
         //System.out.println("Enter country");
         //String country = scanCountry.nextLine();*/
         //coinSearcher.smartCoutrySelection(country);
         //coinSearcher.getCounrtyLink("Germany");
         coinSearcher.testgetCounrtyLink();
-
     }
     public static String replaceAmpersand(String text){
-
         return text.replace("&amp;","&");
-
     }
 
-
-
     public static String replaceCatalogToTable(String text){
-
         return text.replaceAll("catalog","table");
-
     }
 }

@@ -11,7 +11,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="406.0" prefWidth="629.0" styleClass="background" stylesheets="@Theme.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.coursework.EditStage">
     <children>
-        <GridPane prefHeight="179.0" prefWidth="600.0" AnchorPane.bottomAnchor="219.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+        <GridPane prefHeight="179.0" prefWidth="593.0" AnchorPane.bottomAnchor="219.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
             <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -23,20 +23,20 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <Label text="Country" />
-                <Label text="Year" GridPane.rowIndex="1" />
-                <Label text="Price" GridPane.rowIndex="2" />
-                <Label text="Currency" GridPane.rowIndex="3" />
-                <TextField fx:id="Country" GridPane.columnIndex="1" />
-                <TextField fx:id="Year" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                <TextField fx:id="Price" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                <TextField fx:id="Currency" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                <Label fx:id="countryLabel" text="Country" />
+                <Label fx:id="yearLabel" text="Year" GridPane.rowIndex="1" />
+                <Label fx:id="priceLabel" text="Price" GridPane.rowIndex="2" />
+                <Label fx:id="currencyLabel" text="Currency" GridPane.rowIndex="3" />
+                <TextField fx:id="country" GridPane.columnIndex="1" />
+                <TextField fx:id="year" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                <TextField fx:id="price" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                <TextField fx:id="currency" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             </children>
         </GridPane>
-        <ButtonBar layoutX="400.0" layoutY="360.0" prefHeight="40.0" prefWidth="200.0" AnchorPane.rightAnchor="5.0">
+        <ButtonBar layoutX="400.0" layoutY="360.0" prefHeight="40.0" prefWidth="231.0" AnchorPane.rightAnchor="5.0">
             <buttons>
-                <Button mnemonicParsing="false" onAction="#OKButton" text="OK" />
-                <Button mnemonicParsing="false" onAction="#CancelButton" text="Cancel" />
+                <Button mnemonicParsing="false" onAction="#oKButton" text="OK" />
+                <Button fx:id="otmena" mnemonicParsing="false" onAction="#cancelButton" text="Cancel" />
             </buttons>
         </ButtonBar>
     </children>

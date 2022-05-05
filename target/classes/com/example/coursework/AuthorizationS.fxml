@@ -6,15 +6,16 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
 <AnchorPane prefHeight="511.0" prefWidth="800.0" styleClass="background" stylesheets="@Theme.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.coursework.AuthorizationScene">
    <children>
-      <ImageView fx:id="ImageAu" fitHeight="268.0" fitWidth="297.0" layoutX="71.0" layoutY="88.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="70.0" AnchorPane.topAnchor="110.0" />
-      <TextField fx:id="LoginText" layoutX="430.0" layoutY="142.0" promptText="login" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="160.0" />
-      <TextField fx:id="PasswordText" layoutX="430.0" layoutY="210.0" promptText="password" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="240.0" />
-      <Label layoutX="481.0" layoutY="48.0" styleClass="label-header" text="Sign in" AnchorPane.topAnchor="48.0" />
-      <Button layoutX="558.0" layoutY="309.0" mnemonicParsing="false" onAction="#SignIn" text="Enter" />
-      <Button layoutX="367.0" layoutY="434.0" mnemonicParsing="false" onAction="#SignUp" text="Sign up" />
-      <Label layoutX="51.0" layoutY="440.0" text="You are not signed up? Then do it right now!" />
+      <ImageView fx:id="imageAu" fitHeight="268.0" fitWidth="297.0" layoutX="71.0" layoutY="88.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="70.0" AnchorPane.topAnchor="110.0" />
+      <TextField fx:id="loginText" layoutX="430.0" layoutY="142.0" promptText="login" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="160.0" />
+      <TextField fx:id="passwordText" layoutX="430.0" layoutY="210.0" promptText="password" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="240.0" />
+      <Label fx:id="signInLabel" layoutX="446.0" layoutY="48.0" styleClass="label-header" text="Sign in" AnchorPane.topAnchor="48.0" />
+      <Button fx:id="enterButton" layoutX="567.0" layoutY="300.0" mnemonicParsing="false" onAction="#signIn" text="Enter" />
+      <Button fx:id="signUpButton" layoutX="367.0" layoutY="434.0" mnemonicParsing="false" onAction="#signUp" text="Sign up" />
+      <Label fx:id="signUpLabel" layoutX="51.0" layoutY="440.0" text="You are not signed up? Then do it right now!" />
+      <Button fx:id="withoutRegistrationButton" layoutX="694.0" layoutY="434.0" mnemonicParsing="false" onAction="#withoutRegistration" text="&gt;&gt;&gt;" />
+      <Label fx:id="withoutRegistrationLabel" layoutX="511.0" layoutY="440.0" text="Enter without registration" />
    </children>
 </AnchorPane>

@@ -6,66 +6,55 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-
+import javafx.scene.image.Image;
+import javafx.stage.Stage;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.ResourceBundle;
 
+public class FirstScene{
+    @FXML  private TextField tf;
+    @FXML  private TableView<String> tableview;
+    @FXML  private TableView<String> tableview2;
+    @FXML  private TableColumn<String, String> Coins;
+    @FXML  private TableColumn<String, String> Collect;
+    @FXML  private Button goCollectionButton;
+    @FXML  private Button createCollectionButton;
 
-public class FirstScene implements Initializable {
-    @FXML  private Label welcomeText;
-    @FXML  private TextArea TF1;
-    @FXML  private TextArea TF2;
-    @FXML  private TextField TA;
-    @FXML  private TextField TA1;
-    @FXML  private TableView<String> tableviewCountry;
-    @FXML  private TableColumn<String, String> Country;
-    @FXML  private TableColumn<Coin,String> Years;
-    @FXML  private TableColumn<Coin,String> toilet;
-    @FXML  private ComboBox<String> ComboBox;
-    @FXML  private ChoiceBox<String> ChoiceBox;
-    @FXML  private Label lbl1;
-    @FXML  private Label lbl2;
-
-
-    private final ObservableList<String> dataListCounty = FXCollections.observableArrayList();
-    private final ObservableList<String> BoxCheck= FXCollections.observableArrayList();
+    private final ObservableList<String> dataList = FXCollections.observableArrayList();
+    private final ObservableList<String> Collections= FXCollections.observableArrayList();
     private ArrayList<String> CC= new ArrayList( CoinSearcher.getCountry());
+    private Stage stage= Launch.getMainStage();
+
 
     @FXML
-    protected void onHelloButtonClick() throws IOException, StringIndexOutOfBoundsException{
-
-        welcomeText.setText("Welcome to Coin Searcher Application!");
-        for(int i=0;i<CC.size();i++){
-            TF1.appendText(CC.get(i)+"\n");
-        }
+    protected void goCollection() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("SecondS.fxml"));
+        stage.setTitle("Coin Searcher");
+        stage.getIcons().add(new Image("file:resourses/images/icon1.png"));
+        stage.setScene(new Scene(fxmlLoader.load(), 1000, 600));
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        Collections.sort(CC);
-        Country.setCellValueFactory(data -> new SimpleStringProperty(data.getValue()));
+    public void initialize() {
 
-        dataListCounty.addAll(CC);
-        BoxCheck.addAll(CC);
-        ChoiceBox.setItems(BoxCheck);
-        ComboBox.setItems(BoxCheck);
-        ComboBox.setOnAction(event -> lbl2.setText(ComboBox.getValue()));
-        ChoiceBox.setOnAction(event -> lbl1.setText(ChoiceBox.getValue()));
+    if(LanguageSelectionScene.language=="ru"){
+        tf.setPromptText("Поиск");
+        Coins.setText("Результаты поиска");
+        Collect.setText("Ваши коллекции");
+        goCollectionButton.setText("К коллекции");
+        createCollectionButton.setText("Создать коллекцию");
+    }
 
+        //Collections.sort(CC);
+       Coins.setCellValueFactory(data -> new SimpleStringProperty(data.getValue()));
+       dataList.addAll(CC);
 
-        // Wrap the ObservableList in a FilteredList (initially display all data).
-        FilteredList<String> filteredDataCountry = new FilteredList<>(dataListCounty, b -> true);
+        FilteredList<String> filteredDataCountry = new FilteredList<>(dataList, b -> true);
 
-
-        // 2. Set the filter Predicate whenever the filter changes.
-        TA.textProperty().addListener((observable, oldValue, newValue) -> {
+        tf.textProperty().addListener((observable, oldValue, newValue) -> {
             filteredDataCountry.setPredicate(coin -> {
 
                 if (newValue == null || newValue.isEmpty()) {
@@ -82,26 +71,13 @@ public class FirstScene implements Initializable {
                     return false; // Does not match.
             });
         });
-       /* TA1.textProperty().addListener((observable, oldValue, newValue) -> {
-            filteredDataYears.setPredicate(coin -> {
-                // If filter text is empty, display all persons.
-                if (newValue == null || newValue.isEmpty()) {
-                    return true;
-                }
-                // Compare first name and last name of every person with filter text.
-                String lowerCaseFilter = newValue.toLowerCase();
-                if(coin.getYears().toLowerCase().indexOf(lowerCaseFilter) != -1 ){
-                    return true;
-                }else
-                    return false; // Does not match.
-            });
-        });*/
+
 
         SortedList<String> sortedDataCountry = new SortedList<>(filteredDataCountry);
 
-        sortedDataCountry.comparatorProperty().bind(tableviewCountry.comparatorProperty());
+        sortedDataCountry.comparatorProperty().bind(tableview.comparatorProperty());
 
-        tableviewCountry.setItems(sortedDataCountry);
+        tableview.setItems(sortedDataCountry);
 
 
     }

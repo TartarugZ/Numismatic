@@ -4,11 +4,10 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
 <AnchorPane prefHeight="561.0" prefWidth="794.0" styleClass="background" stylesheets="@Theme.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.coursework.LanguageSelectionScene">
    <children>
-      <Button fx:id="LEnglish" layoutX="193.0" layoutY="236.0" mnemonicParsing="false" onAction="#ChooseEnglish" AnchorPane.leftAnchor="193.0" />
-      <Button fx:id="LRussian" layoutX="506.0" layoutY="236.0" mnemonicParsing="false" onAction="#ChooseRussian" prefHeight="33.0" prefWidth="92.0" AnchorPane.rightAnchor="196.0" />
-      <Label layoutX="193.0" layoutY="76.0" styleClass="label-header" text="Choose your language" />
+      <Button fx:id="lEnglish" layoutX="193.0" layoutY="236.0" mnemonicParsing="false" onAction="#ChooseEnglish" prefHeight="33.0" prefWidth="92.0" AnchorPane.leftAnchor="193.0" />
+      <Button fx:id="lRussian" layoutX="506.0" layoutY="236.0" mnemonicParsing="false" onAction="#ChooseRussian" prefHeight="33.0" prefWidth="92.0" AnchorPane.rightAnchor="196.0" />
+      <Label fx:id="chooseLabel" layoutX="193.0" layoutY="76.0" styleClass="label-header" text="Choose Your Language" />
    </children>
 </AnchorPane>

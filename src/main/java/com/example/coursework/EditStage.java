@@ -3,29 +3,36 @@ package com.example.coursework;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class EditStage {
 
-    @FXML
-    private TextField Country;
-    @FXML
-    private TextField Year;
-    @FXML
-    private TextField Price;
-    @FXML
-    private TextField Currency;
-
-
+    @FXML private TextField country;
+    @FXML private TextField year;
+    @FXML private TextField price;
+    @FXML private TextField currency;
+    @FXML private Button otmena;
+    @FXML private Label countryLabel;
+    @FXML private Label yearLabel;
+    @FXML private Label priceLabel;
+    @FXML private Label currencyLabel;
 
     private Stage dialogStage;
     private Coin coin;
     private boolean okClicked = false;
 
-
     @FXML
     private void initialize() {
+        if(LanguageSelectionScene.language=="ru"){
+            otmena.setText("Назад");
+            countryLabel.setText("Страна");
+            yearLabel.setText("Год");
+            priceLabel.setText("Цена");
+            currencyLabel.setText("Номинал");
+        }
     }
 
     public void setDialogStage(Stage dialogStage) {
@@ -34,11 +41,10 @@ public class EditStage {
 
     public void setCoin(Coin coin) {
         this.coin = coin;
-
-        Country.setText(coin.getCountry());
-        Year.setText(coin.getYears());
-        Price.setText(coin.getPrice());
-        Currency.setText(coin.getCurrency());
+        country.setText(coin.getCountry());
+        year.setText(coin.getYears());
+        price.setText(coin.getPrice());
+        currency.setText(coin.getCurrency());
     }
 
     public boolean isOkClicked() {
@@ -46,35 +52,34 @@ public class EditStage {
     }
 
     @FXML
-    private void OKButton() {
+    private void oKButton() {
         if (isInputValid()) {
-            coin.setCountry(Country.getText());
-            coin.setYears(Year.getText());
-            coin.setPrice(Price.getText());
-            coin.setCurrency(Currency.getText());
-
+            coin.setCountry(country.getText());
+            coin.setYears(year.getText());
+            coin.setPrice(price.getText());
+            coin.setCurrency(currency.getText());
             dialogStage.close();
         }
     }
 
     @FXML
-    private void CancelButton() {
+    private void cancelButton() {
         dialogStage.close();
     }
 
     private boolean isInputValid() {
         String errorMessage = "";
 
-        if (Country.getText() == null || Country.getText().length() == 0) {
+        if (country.getText() == null || country.getText().length() == 0) {
             errorMessage += "No valid country!\n";
         }
-        if (Year.getText() == null || Year.getText().length() == 0) {
+        if (year.getText() == null || year.getText().length() == 0) {
             errorMessage += "No valid year!\n";
         }
-        if (Price.getText() == null || Price.getText().length() == 0) {
+        if (price.getText() == null || price.getText().length() == 0) {
             errorMessage += "No valid price!\n";
         }
-        if (Currency.getText() == null || Currency.getText().length() == 0) {
+        if (currency.getText() == null || currency.getText().length() == 0) {
             errorMessage += "No valid currency!\n";
         }
 
@@ -87,9 +92,7 @@ public class EditStage {
             alert.setTitle("Invalid Fields");
             alert.setHeaderText("Please correct invalid fields");
             alert.setContentText(errorMessage);
-
             alert.showAndWait();
-
             return false;
         }
     }
