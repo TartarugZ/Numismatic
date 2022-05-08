@@ -1,17 +1,14 @@
 package com.example.coursework;
 
 import javafx.application.Application;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.Optional;
 
 public class Launch extends Application {
@@ -36,6 +33,15 @@ public class Launch extends Application {
         stage.getIcons().add(new Image("file:resourses/images/icon1.png"));//wewe
         stage.show();
     }
+
+
+    private static final Collection get=new Collection("Charl");
+
+    public static Collection colt(){
+        return get;
+    }
+
+
 
     public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException {
         newCoinSearch();

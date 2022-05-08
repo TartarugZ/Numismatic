@@ -25,7 +25,7 @@ public class EditStage {
     private boolean okClicked = false;
 
     @FXML
-    private void initialize() {
+    public void initialize() {
         if(LanguageSelectionScene.language=="ru"){
             otmena.setText("Назад");
             countryLabel.setText("Страна");
@@ -58,6 +58,7 @@ public class EditStage {
             coin.setYears(year.getText());
             coin.setPrice(price.getText());
             coin.setCurrency(currency.getText());
+            okClicked=true;
             dialogStage.close();
         }
     }

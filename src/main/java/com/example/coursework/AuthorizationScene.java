@@ -23,6 +23,7 @@ public class AuthorizationScene{
     @FXML private Button enterButton;
     @FXML private Button signUpButton;
     @FXML private Button withoutRegistrationButton;
+    @FXML private Button changeButton;
     @FXML private Label withoutRegistrationLabel;
     @FXML private Label signUpLabel;
     @FXML private Label signInLabel;
@@ -42,6 +43,7 @@ public class AuthorizationScene{
             withoutRegistrationLabel.setText("Войти без регистрации");
             signUpLabel.setText("У вас ещё нет аккаунта? Тогда создайте его!");
             signInLabel.setText("Авторизация");
+            changeButton.setText("Смена языка");
         }
     }
 
@@ -70,4 +72,11 @@ public class AuthorizationScene{
         stage.setScene(new Scene(fxmlLoader.load(), 1000, 600));
     }
 
+    @FXML
+    private void changeLanguage() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("LanguageS.fxml"));
+        stage.setTitle("Coin Searcher");
+        stage.getIcons().add(new Image("file:resourses/images/icon1.png"));
+        stage.setScene(new Scene(fxmlLoader.load(), 800, 600));
+    }
 }

@@ -31,7 +31,7 @@
                            </columnResizePolicy>
                         </TableView>
                         <Label fx:id="collectionNameLabel" layoutX="14.0" layoutY="14.0" prefHeight="21.0" prefWidth="193.0" text="Name of this collection" />
-                        <TextField fx:id="TF1" layoutX="67.0" layoutY="558.0" />
+                        <TextField fx:id="tf1" layoutX="67.0" layoutY="558.0" promptText="Search" />
                      </children>
                   </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" styleClass="background">

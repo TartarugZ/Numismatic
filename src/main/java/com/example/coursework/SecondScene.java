@@ -7,7 +7,6 @@ import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -39,37 +38,38 @@ public class SecondScene  {
     @FXML private TextField tf1;
 
 
-    private Stage stage=Launch.getMainStage();
-    private ArrayList<Coin> CC= new ArrayList<>();
-    private ObservableList<Coin> CC2= FXCollections.observableArrayList(CC);
-    FilteredList<Coin> filteredCollections = new FilteredList<>(CC2, b -> true);
+    private Stage stage;
+    private ArrayList<Coin> cc = new ArrayList<>();
+    private ObservableList<Coin> cc2;
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
+
+    public void setCC(Collection collection){
+        this.cc =collection.getCollection();
+
+    }
+
+    public void setCollectionNameLabel(String string){
+        this.collectionNameLabel.setText(string);
+    }
+
 
     @FXML
     private void initialize() {
-        if(LanguageSelectionScene.language=="ru"){
-            collectionNameLabel.setText("Название коллекции");
-            detailsLabel.setText("Подробнее о монете:");
-            country.setText("Страна");
-            year.setText("Год");
-            price.setText("Цена");
-            currency.setText("Номинал");
-            goSearchButton.setText("К поиску");
-            createButton.setText("Добавить");
-            editButton.setText("Изменить");
-            deleteButton.setText("Удалить");
-            countryColumn.setText("Страна");
-            yearColumn.setText("Год");
-            tf1.setPromptText("Поиск");
-        }
+        cc2= FXCollections.observableArrayList(cc);
+        setLanguage();
 
         countryColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getCountry()));
         yearColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getYears()));
 
-        coinTableView.setItems(CC2);
+        coinTableView.setItems(cc2);
+        FilteredList<Coin> filteredCollections = new FilteredList<>(cc2, b -> true);
 
-        CoinDetails(null);
+        coinDetails(null);
         coinTableView.getSelectionModel().selectedItemProperty().addListener(
-                (observable, oldValue, newValue) -> CoinDetails(newValue));
+                (observable, oldValue, newValue) -> coinDetails(newValue));
 
         editButton.setDisable(true);
         deleteButton.setDisable(true);
@@ -98,6 +98,24 @@ public class SecondScene  {
         coinTableView.setItems(sortedCollections);
     }
 
+    private void setLanguage(){
+        if(LanguageSelectionScene.language.equals("ru")){
+            collectionNameLabel.setText("Название коллекции");
+            detailsLabel.setText("Подробнее о монете:");
+            country.setText("Страна");
+            year.setText("Год");
+            price.setText("Цена");
+            currency.setText("Номинал");
+            goSearchButton.setText("К поиску");
+            createButton.setText("Добавить");
+            editButton.setText("Изменить");
+            deleteButton.setText("Удалить");
+            countryColumn.setText("Страна");
+            yearColumn.setText("Год");
+            tf1.setPromptText("Поиск");
+        }
+    }
+
     @FXML
     protected void deleteItem(){
         int selectedIndex = coinTableView.getSelectionModel().getSelectedIndex();
@@ -110,13 +128,14 @@ public class SecondScene  {
             alert.showAndWait();
         }
     }
+
     @FXML
     protected void editItem(){
         Coin selectedCoin = coinTableView.getSelectionModel().getSelectedItem();
         if (selectedCoin != null) {
             boolean okClicked = showEditStage(selectedCoin);
             if (okClicked) {
-                CoinDetails(selectedCoin);
+                coinDetails(selectedCoin);
             }
 
         } else {
@@ -135,21 +154,19 @@ public class SecondScene  {
         Coin tempCoin = new Coin("");
         boolean okClicked = showEditStage(tempCoin);
         if (okClicked) {
-            CC.add(tempCoin);
+            cc.add(tempCoin);
         }
 
     }
 
-    public boolean showEditStage(Coin coin) {
+    private boolean showEditStage(Coin coin) {
         try {
-
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("EditS.fxml"));
-            Parent root = fxmlLoader.load();
             Stage stageEdit = new Stage();
             stageEdit.initModality(Modality.APPLICATION_MODAL);
             stageEdit.setTitle("Coin Searcher");
             stageEdit.getIcons().add(new Image("file:resourses/images/icon1.png"));
-            stageEdit.setScene(new Scene(root, 600, 600));
+            stageEdit.setScene(new Scene(fxmlLoader.load(), 600, 600));
 
 
             EditStage controller = fxmlLoader.getController();
@@ -165,7 +182,7 @@ public class SecondScene  {
         }
     }
 
-    private void CoinDetails(Coin coin) {
+    private void coinDetails(Coin coin) {
         if (coin != null) {
             lcountry.setText(coin.getCountry());
             lyear.setText(coin.getYears());
