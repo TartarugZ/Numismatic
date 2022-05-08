@@ -1,6 +1,4 @@
 package com.example.coursework;
-
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -12,7 +10,6 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -40,7 +37,7 @@ public class SecondScene  {
 
     private Stage stage;
     private ArrayList<Coin> cc = new ArrayList<>();
-    private ObservableList<Coin> cc2;
+    private ObservableList<Coin> cc2= FXCollections.observableArrayList(cc);;
 
     public void setStage(Stage stage) {
         this.stage = stage;
@@ -48,7 +45,7 @@ public class SecondScene  {
 
     public void setCC(Collection collection){
         this.cc =collection.getCollection();
-
+       refreshTable();
     }
 
     public void setCollectionNameLabel(String string){
@@ -57,15 +54,15 @@ public class SecondScene  {
 
 
     @FXML
-    private void initialize() {
-        cc2= FXCollections.observableArrayList(cc);
+    public void initialize() {
+
         setLanguage();
 
-        countryColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getCountry()));
-        yearColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getYears()));
+        countryColumn.setCellValueFactory(data -> data.getValue().getCountryProperty());
+        yearColumn.setCellValueFactory(data -> data.getValue().getYearsProperty());
 
         coinTableView.setItems(cc2);
-        FilteredList<Coin> filteredCollections = new FilteredList<>(cc2, b -> true);
+        FilteredList<Coin> filteredCoins = new FilteredList<>(cc2, b -> true);
 
         coinDetails(null);
         coinTableView.getSelectionModel().selectedItemProperty().addListener(
@@ -75,27 +72,27 @@ public class SecondScene  {
         deleteButton.setDisable(true);
 
         tf1.textProperty().addListener((observable, oldValue, newValue) -> {
-            filteredCollections.setPredicate(coin -> {
-                // If filter text is empty, display all persons.
-                if (newValue == null || newValue.isEmpty()) {
-                    return true;
-                }
-                // Compare first name and last name of every person with filter text.
+            filteredCoins.setPredicate(coin -> {
+                if (newValue == null || newValue.isEmpty()) return true;
+                if(newValue.length()>coin.getCountry().length()) return false;
                 String lowerCaseFilter = newValue.toLowerCase();
-                if(coin.getYears().toLowerCase().indexOf(lowerCaseFilter) != -1 ){
-                    return true;
-                }else if(coin.getCountry().toLowerCase().indexOf(lowerCaseFilter) != -1){
-                    return true;
-                }
-                else return false; // Does not match.
+
+                if (coin.getCountry().toLowerCase().startsWith(lowerCaseFilter) ) {
+                    return true; // Filter matches first name.
+                }else if(coin.getYears().toLowerCase().startsWith(lowerCaseFilter))
+                    return true; // Does not match.
+                else return false;
             });
         });
+     refreshTable();
+    }
 
-        SortedList<Coin> sortedCollections = new SortedList<>(filteredCollections);
-
-        sortedCollections.comparatorProperty().bind(coinTableView.comparatorProperty());
-
-        coinTableView.setItems(sortedCollections);
+    private  void refreshTable(){
+        countryColumn.setCellValueFactory(data -> data.getValue().getCountryProperty());
+        yearColumn.setCellValueFactory(data -> data.getValue().getYearsProperty());
+        cc2= FXCollections.observableArrayList(cc);
+        coinTableView.setItems(cc2);
+        coinTableView.refresh();
     }
 
     private void setLanguage(){
@@ -118,15 +115,10 @@ public class SecondScene  {
 
     @FXML
     protected void deleteItem(){
-        int selectedIndex = coinTableView.getSelectionModel().getSelectedIndex();
-        if (selectedIndex >= 0) {
-            coinTableView.getItems().remove(selectedIndex);
-        } else {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("No Selection");
-            alert.setContentText("Please select a person in the table.");
-            alert.showAndWait();
+        if(coinTableView.getSelectionModel().getSelectedIndex()>=0) {
+            coinTableView.getItems().remove(coinTableView.getSelectionModel().getSelectedItem());
         }
+        refreshTable();
     }
 
     @FXML
@@ -154,7 +146,10 @@ public class SecondScene  {
         Coin tempCoin = new Coin("");
         boolean okClicked = showEditStage(tempCoin);
         if (okClicked) {
+            coinTableView.getItems().add(tempCoin);
             cc.add(tempCoin);
+            System.out.println(cc.get(0).getCountry());
+            System.out.println(cc.get(cc.size()-1).getCountry());
         }
 
     }
@@ -172,7 +167,6 @@ public class SecondScene  {
             EditStage controller = fxmlLoader.getController();
             controller.setDialogStage(stageEdit);
             controller.setCoin(coin);
-
             stageEdit.showAndWait();
 
             return controller.isOkClicked();

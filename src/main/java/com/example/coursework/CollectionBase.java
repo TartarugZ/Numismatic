@@ -3,6 +3,19 @@ package com.example.coursework;
 import java.util.ArrayList;
 
 public class CollectionBase {
+    CollectionBase(){
+        Collection collection=new Collection("Ishtar");
+        collection.addToCollection(new Coin("Grogu"));
+        collection.addToCollection(new Coin("Du"));
+        collection.addToCollection(new Coin("BD-1"));
+        collection.addToCollection(new Coin("AT-AT"));
+        collection.addToCollection(new Coin("Speed"));
+        collection.addToCollection(new Coin("Ameno"));
+        collection.addToCollection(new Coin("Rot"));
+        collection.addToCollection(new Coin("Ebal"));
+        collection.addToCollection(new Coin("())"));
+        allCollections.add(collection);
+    }
 
     private ArrayList<Collection> allCollections = new ArrayList<>();
 

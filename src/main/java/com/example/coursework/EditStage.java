@@ -21,7 +21,7 @@ public class EditStage {
     @FXML private Label currencyLabel;
 
     private Stage dialogStage;
-    private Coin coin;
+    private Coin coin= new Coin("");
     private boolean okClicked = false;
 
     @FXML
@@ -37,6 +37,9 @@ public class EditStage {
 
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
+    }
+    public String getCountry(){
+        return country.getText();
     }
 
     public void setCoin(Coin coin) {

@@ -15,8 +15,8 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Coin {
 
     private StringProperty country;
-    private IntegerProperty years;
-    private IntegerProperty price;
+    private StringProperty years;
+    private StringProperty price;
     private StringProperty currency;
     ArrayList<String> a=new ArrayList<>();
    /*
@@ -34,8 +34,8 @@ public class Coin {
         a.add("10000 yen");
 
         this.country = new SimpleStringProperty(country);
-        this.years = new SimpleIntegerProperty(ThreadLocalRandom.current().nextInt(1312,2022));
-        this.price= new SimpleIntegerProperty(ThreadLocalRandom.current().nextInt(10,100));
+        this.years = new SimpleStringProperty(String.valueOf(ThreadLocalRandom.current().nextInt(1312,2022)));
+        this.price= new SimpleStringProperty(String.valueOf(ThreadLocalRandom.current().nextInt(10,100)));
         this.currency=new SimpleStringProperty(a.get(y));
         /*
        this.value = value;
@@ -49,20 +49,19 @@ public class Coin {
     public String getCountry() {
         return country.get();
     }
+    public StringProperty getCountryProperty(){return  country;}
     public void setCountry(String string){this.country.set(string);}
 
     public String getYears(){return String.valueOf(this.years.get());}
-    public void setYears(String string){this.years.set(Integer.parseInt(string));}
+    public StringProperty getYearsProperty(){return  years;}
+    public void setYears(String string){this.years.set(string);}
 
     public String getPrice(){return String.valueOf(this.price.get());}
-    public void setPrice(String string){this.price.set(Integer.parseInt(string));}
+    public void setPrice(String string){this.price.set(string);}
 
     public String getCurrency(){return this.currency.get();}
     public void setCurrency(String string){this.currency.set(string);}
 
-    public IntegerProperty YearsProperty(){
-        return years;
-    }
 
 /*
 public Optional<Float> getCost() {

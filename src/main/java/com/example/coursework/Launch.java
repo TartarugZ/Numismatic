@@ -35,12 +35,6 @@ public class Launch extends Application {
     }
 
 
-    private static final Collection get=new Collection("Charl");
-
-    public static Collection colt(){
-        return get;
-    }
-
 
 
     public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException {

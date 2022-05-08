@@ -31,6 +31,7 @@ public class FirstScene{
     private final ObservableList<Collection> collections= FXCollections.observableArrayList();
     private ArrayList<String> cc = new ArrayList( CoinSearcher.getCountry());
     private Stage stage= Launch.getMainStage();
+    int y=0;
 
     public void initialize() {
         setLanguage();
@@ -44,7 +45,6 @@ public class FirstScene{
         Coins.setCellValueFactory(data -> new SimpleStringProperty(data.getValue()));
         Collect.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getNameCollection()));
         dataList.addAll(cc);
-        base.addCollection(Launch.colt());
         collections.addAll(base.getAllCollections());
         tableview2.setItems(collections);
     }
@@ -101,7 +101,11 @@ public class FirstScene{
                     String name = tableview2.getSelectionModel().getSelectedItem().getNameCollection();
                     SecondScene controller = fxmlLoader.getController();
                     controller.setStage(stage);
-                    controller.setCC(getSavedCollection(name));
+                    for(int i=0;i<base.getAllCollections().size();i++){
+                        if(base.getAllCollections().get(i).getNameCollection()==name){
+                            controller.setCC(base.getAllCollections().get(i));
+                        }
+                    }
                     controller.setCollectionNameLabel(name);
                 }
             }
@@ -109,11 +113,13 @@ public class FirstScene{
     }
 
     private Collection getSavedCollection(String string){//метод для нахождения уже существующей коллекции
+
         return new Collection(string) ;
     }
 
     private void setCollections(){
         FilteredList<Collection> filteredCollections = new FilteredList<>(collections, b -> true);
+
         tf.textProperty().addListener((observable, oldValue, newValue) -> {
             filteredCollections.setPredicate(coin -> {
 
@@ -123,7 +129,7 @@ public class FirstScene{
                 if(newValue.length()>coin.getCollection().size()) return false;
                 String lowerCaseFilter = newValue.toLowerCase();
 
-                if (coin.getNameCollection().toLowerCase().substring(0,lowerCaseFilter.length()).equals(lowerCaseFilter) ) {
+                if (coin.getNameCollection().toLowerCase().startsWith(lowerCaseFilter) ) {
                     return true; // Filter matches first name.
                 }else
                     return false; // Does not match.
