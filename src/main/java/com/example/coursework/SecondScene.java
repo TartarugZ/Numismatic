@@ -1,8 +1,6 @@
 package com.example.coursework;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
-import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -45,7 +43,7 @@ public class SecondScene  {
 
     public void setCC(Collection collection){
         this.cc =collection.getCollection();
-       refreshTable();
+        refreshTable();
     }
 
     public void setCollectionNameLabel(String string){
@@ -55,14 +53,7 @@ public class SecondScene  {
 
     @FXML
     public void initialize() {
-
         setLanguage();
-
-        countryColumn.setCellValueFactory(data -> data.getValue().getCountryProperty());
-        yearColumn.setCellValueFactory(data -> data.getValue().getYearsProperty());
-
-        coinTableView.setItems(cc2);
-        FilteredList<Coin> filteredCoins = new FilteredList<>(cc2, b -> true);
 
         coinDetails(null);
         coinTableView.getSelectionModel().selectedItemProperty().addListener(
@@ -70,21 +61,6 @@ public class SecondScene  {
 
         editButton.setDisable(true);
         deleteButton.setDisable(true);
-
-        tf1.textProperty().addListener((observable, oldValue, newValue) -> {
-            filteredCoins.setPredicate(coin -> {
-                if (newValue == null || newValue.isEmpty()) return true;
-                if(newValue.length()>coin.getCountry().length()) return false;
-                String lowerCaseFilter = newValue.toLowerCase();
-
-                if (coin.getCountry().toLowerCase().startsWith(lowerCaseFilter) ) {
-                    return true; // Filter matches first name.
-                }else if(coin.getYears().toLowerCase().startsWith(lowerCaseFilter))
-                    return true; // Does not match.
-                else return false;
-            });
-        });
-     refreshTable();
     }
 
     private  void refreshTable(){
@@ -92,7 +68,6 @@ public class SecondScene  {
         yearColumn.setCellValueFactory(data -> data.getValue().getYearsProperty());
         cc2= FXCollections.observableArrayList(cc);
         coinTableView.setItems(cc2);
-        coinTableView.refresh();
     }
 
     private void setLanguage(){
@@ -115,11 +90,26 @@ public class SecondScene  {
 
     @FXML
     protected void deleteItem(){
+
         if(coinTableView.getSelectionModel().getSelectedIndex()>=0) {
+            for(int i=0;i<cc.size();i++){
+                if(coinExists(cc.get(i))) {
+                    cc.remove(i);
+                }
+            }
             coinTableView.getItems().remove(coinTableView.getSelectionModel().getSelectedItem());
         }
-        refreshTable();
+
     }
+  private boolean coinExists(Coin coin){
+        int y=0;
+        if(coin.getCountry()==coinTableView.getSelectionModel().getSelectedItem().getCountry())y++;
+        if(coin.getYears()==coinTableView.getSelectionModel().getSelectedItem().getYears())y++;
+        if(coin.getPrice()==coinTableView.getSelectionModel().getSelectedItem().getPrice())y++;
+        if(coin.getCurrency()==coinTableView.getSelectionModel().getSelectedItem().getCurrency())y++;
+        return y == 4;
+  }
+
 
     @FXML
     protected void editItem(){
@@ -127,6 +117,14 @@ public class SecondScene  {
         if (selectedCoin != null) {
             boolean okClicked = showEditStage(selectedCoin);
             if (okClicked) {
+                for(int i=0;i<cc.size();i++){
+                    if(coinExists(cc.get(i))) {
+                        cc.get(i).setCountry(selectedCoin.getCountry());
+                        cc.get(i).setYears(selectedCoin.getYears());
+                        cc.get(i).setCurrency(selectedCoin.getCurrency());
+                        cc.get(i).setPrice(selectedCoin.getPrice());
+                    }
+                }
                 coinDetails(selectedCoin);
             }
 
@@ -148,8 +146,6 @@ public class SecondScene  {
         if (okClicked) {
             coinTableView.getItems().add(tempCoin);
             cc.add(tempCoin);
-            System.out.println(cc.get(0).getCountry());
-            System.out.println(cc.get(cc.size()-1).getCountry());
         }
 
     }

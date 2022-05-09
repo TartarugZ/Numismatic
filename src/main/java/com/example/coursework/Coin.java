@@ -62,8 +62,18 @@ public class Coin {
     public String getCurrency(){return this.currency.get();}
     public void setCurrency(String string){this.currency.set(string);}
 
+    @Override
+    public String toString() {
+        return "Coin{" +
+                "country=" + country +
+                ", years=" + years +
+                ", price=" + price +
+                ", currency=" + currency +
+                ", a=" + a +
+                '}';
+    }
 
-/*
+    /*
 public Optional<Float> getCost() {
         return cost;
     }

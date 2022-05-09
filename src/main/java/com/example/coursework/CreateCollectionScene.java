@@ -12,11 +12,14 @@ public class CreateCollectionScene {
     @FXML private Label name;
     @FXML private Button enterButton;
     private Stage stage;
+    private  CollectionBase collectionBase= new CollectionBase();
 
     public void setStage(Stage stage) {
         this.stage = stage;
     }
-
+ public void setBase(CollectionBase base){
+        this.collectionBase=base;
+ }
     public void initialize() {
         if(LanguageSelectionScene.language=="ru"){
             name.setText("Название коллекции");
@@ -27,7 +30,7 @@ public class CreateCollectionScene {
     private void enter(){
         String string = tf.getText();
         Collection collection=new Collection(string);
-        FirstScene.getBase().addCollection(collection);
+        collectionBase.addCollection(collection);
         stage.close();
     }
 }

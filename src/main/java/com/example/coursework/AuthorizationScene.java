@@ -50,10 +50,16 @@ public class AuthorizationScene{
     @FXML
     protected void signIn() throws IOException {
         //добавить способ авторизации
+        //если авторизация успешна
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("FirstS.fxml"));
         stage.setTitle("Coin Searcher");
         stage.getIcons().add(new Image("file:resourses/images/icon1.png"));
         stage.setScene(new Scene(fxmlLoader.load(), 1000, 600));
+        FirstScene controller = fxmlLoader.getController();
+        controller.setStage(stage);
+        CollectionBase collectionBase = new CollectionBase();
+        controller.setCollection(collectionBase);
+        controller.setAccount(loginText.getText());
     }
 
     @FXML

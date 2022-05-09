@@ -13,7 +13,7 @@ public class CollectionBase {
         collection.addToCollection(new Coin("Ameno"));
         collection.addToCollection(new Coin("Rot"));
         collection.addToCollection(new Coin("Ebal"));
-        collection.addToCollection(new Coin("())"));
+        collection.addToCollection(new Coin("Dendro"));
         allCollections.add(collection);
     }
 

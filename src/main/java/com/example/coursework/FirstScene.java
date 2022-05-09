@@ -25,8 +25,9 @@ public class FirstScene{
     @FXML  private TableColumn<Collection, String> Collect;
     @FXML  private Button createCollectionButton;
     @FXML  private Button leaveButton;
+    @FXML private  Label nickname;
 
-    private static CollectionBase base = new CollectionBase();
+    private CollectionBase collectionBase = new CollectionBase();
     private final ObservableList<String> dataList = FXCollections.observableArrayList();
     private final ObservableList<Collection> collections= FXCollections.observableArrayList();
     private ArrayList<String> cc = new ArrayList( CoinSearcher.getCountry());
@@ -36,18 +37,11 @@ public class FirstScene{
     public void initialize() {
         setLanguage();
         searchingTable();
-        setCollections();
         chosenCollection();
-        recaf();
     }
-
-    private void recaf(){
-        Coins.setCellValueFactory(data -> new SimpleStringProperty(data.getValue()));
-        Collect.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getNameCollection()));
-        dataList.addAll(cc);
-        collections.addAll(base.getAllCollections());
-        tableview2.setItems(collections);
-    }
+ public void setStage(Stage stage){
+        this.stage=stage;
+ }
 
     private void setLanguage(){
         if(LanguageSelectionScene.language=="ru"){
@@ -59,8 +53,13 @@ public class FirstScene{
         }
     }
 
-    private void searchingTable(){
+    public void setAccount(String string){
+        this.nickname.setText(string);
+    }
 
+    private void searchingTable(){
+        Coins.setCellValueFactory(data -> new SimpleStringProperty(data.getValue()));
+        dataList.addAll(cc);
         FilteredList<String> filteredCoins = new FilteredList<>(dataList, b -> true);
 
         tf.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -101,9 +100,9 @@ public class FirstScene{
                     String name = tableview2.getSelectionModel().getSelectedItem().getNameCollection();
                     SecondScene controller = fxmlLoader.getController();
                     controller.setStage(stage);
-                    for(int i=0;i<base.getAllCollections().size();i++){
-                        if(base.getAllCollections().get(i).getNameCollection()==name){
-                            controller.setCC(base.getAllCollections().get(i));
+                    for(int i=0;i<collectionBase.getAllCollections().size();i++){
+                        if(collectionBase.getAllCollections().get(i).getNameCollection()==name){
+                            controller.setCC(collectionBase.getAllCollections().get(i));
                         }
                     }
                     controller.setCollectionNameLabel(name);
@@ -112,33 +111,13 @@ public class FirstScene{
         });
     }
 
-    private Collection getSavedCollection(String string){//метод для нахождения уже существующей коллекции
-
-        return new Collection(string) ;
+    public void setCollection(CollectionBase base){
+        collectionBase=base;
+        Collect.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getNameCollection()));
+        collections.addAll(collectionBase.getAllCollections());
+        tableview2.setItems(collections);
     }
 
-    private void setCollections(){
-        FilteredList<Collection> filteredCollections = new FilteredList<>(collections, b -> true);
-
-        tf.textProperty().addListener((observable, oldValue, newValue) -> {
-            filteredCollections.setPredicate(coin -> {
-
-                if (newValue == null || newValue.isEmpty()) {
-                    return true;
-                }
-                if(newValue.length()>coin.getCollection().size()) return false;
-                String lowerCaseFilter = newValue.toLowerCase();
-
-                if (coin.getNameCollection().toLowerCase().startsWith(lowerCaseFilter) ) {
-                    return true; // Filter matches first name.
-                }else
-                    return false; // Does not match.
-            });
-        });
-        SortedList<Collection> sortedCollection = new SortedList<>(filteredCollections);
-        sortedCollection.comparatorProperty().bind(tableview2.comparatorProperty());
-        tableview2.setItems(sortedCollection);
-    }
 
     @FXML
     private void exit() throws IOException {
@@ -161,8 +140,8 @@ public class FirstScene{
         stageEdit.showAndWait();
     }
 
-    public static CollectionBase getBase(){
-        return base;
+    public CollectionBase getBase(){
+        return collectionBase;
     }
 
     public void setTableview2(TableView<Collection> tableview2) {

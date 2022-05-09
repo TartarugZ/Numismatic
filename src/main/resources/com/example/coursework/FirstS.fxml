@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -26,5 +27,6 @@
       </TableView>
       <TextField fx:id="tf" layoutX="175.0" layoutY="357.0" promptText="Search" />
       <Button fx:id="leaveButton" layoutX="35.0" layoutY="544.0" mnemonicParsing="false" onAction="#exit" text="Sign out" />
+      <Label fx:id="nickname" layoutX="826.0" layoutY="14.0" text="Without authorization" />
    </children>
 </AnchorPane>
