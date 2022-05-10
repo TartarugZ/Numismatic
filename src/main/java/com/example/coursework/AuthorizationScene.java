@@ -2,7 +2,6 @@ package com.example.coursework;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -10,10 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 
 public class AuthorizationScene{
 
@@ -22,20 +18,19 @@ public class AuthorizationScene{
     @FXML private TextField passwordText;
     @FXML private Button enterButton;
     @FXML private Button signUpButton;
-    @FXML private Button withoutRegistrationButton;
     @FXML private Button changeButton;
     @FXML private Label withoutRegistrationLabel;
     @FXML private Label signUpLabel;
     @FXML private Label signInLabel;
 
 
-    private Stage stage=Launch.getMainStage();
+    private Stage stage;
 
 
     public void initialize() {
-        imageAu.setImage(new Image("file:resourses/images/Coins.png"));
+        imageAu.setImage(new Image("file:resources/images/Coins.png"));
 
-        if(LanguageSelectionScene.language=="ru"){
+        if(LanguageSelectionScene.language.equals("ru")){
             loginText.setPromptText("Логин");
             passwordText.setPromptText("Пароль");
             enterButton.setText("Войти");
@@ -46,14 +41,15 @@ public class AuthorizationScene{
             changeButton.setText("Смена языка");
         }
     }
-
+    public void setStage(Stage stage){
+        this.stage=stage;
+    }
     @FXML
     protected void signIn() throws IOException {
         //добавить способ авторизации
         //если авторизация успешна
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("FirstS.fxml"));
-        stage.setTitle("Coin Searcher");
-        stage.getIcons().add(new Image("file:resourses/images/icon1.png"));
+        sets();
         stage.setScene(new Scene(fxmlLoader.load(), 1000, 600));
         FirstScene controller = fxmlLoader.getController();
         controller.setStage(stage);
@@ -64,25 +60,35 @@ public class AuthorizationScene{
 
     @FXML
     protected void signUp() throws IOException {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("SignUpS.fxml"));
-            stage.setTitle("Coin Searcher");
-            stage.getIcons().add(new Image("file:resourses/images/icon1.png"));
-            stage.setScene(new Scene(fxmlLoader.load(), 800, 600));
+        //добавление нового аккаунта
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("SignUpS.fxml"));
+        sets();
+        stage.setScene(new Scene(fxmlLoader.load(), 800, 600));
+        SignUpScene controller = fxmlLoader.getController();
+        controller.setStage(stage);
     }
 
     @FXML
     protected void withoutRegistration() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("FirstS.fxml"));
-        stage.setTitle("Coin Searcher");
-        stage.getIcons().add(new Image("file:resourses/images/icon1.png"));
+        sets();
         stage.setScene(new Scene(fxmlLoader.load(), 1000, 600));
+        FirstScene controller = fxmlLoader.getController();
+        controller.setStage(stage);
+        controller.disableTable2();
     }
 
     @FXML
     private void changeLanguage() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("LanguageS.fxml"));
-        stage.setTitle("Coin Searcher");
-        stage.getIcons().add(new Image("file:resourses/images/icon1.png"));
+        sets();
         stage.setScene(new Scene(fxmlLoader.load(), 800, 600));
+        LanguageSelectionScene controller = fxmlLoader.getController();
+        controller.setStage(stage);
+    }
+
+    private void sets(){
+        stage.setTitle("Coin Searcher");
+        stage.getIcons().add(new Image("file:resources/images/icon1.png"));
     }
 }

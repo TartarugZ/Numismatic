@@ -6,10 +6,8 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
-import java.time.Period;
 import java.util.*;
 
-import static com.example.coursework.Launch.linkOnMainPageUcoin;
 
 public class CountryPeriod { // содержит в себе информацию об одном периоде :
 
@@ -21,6 +19,7 @@ public class CountryPeriod { // содержит в себе информаци�
     private Set<String> currencies;
     private Set<String> nominalValues;
     private Document periodTablePage; //html код странцы с таблицей всех номиналов и годов периода
+    private String mainLink=Launch.linkOnMainPageUcoin;
 
     public Set<String> getCurrencies() {
         return currencies;
@@ -30,9 +29,13 @@ public class CountryPeriod { // содержит в себе информаци�
         return nominalValues;
     }
 
+    public void setMainLink(String mainLink) {
+        this.mainLink = mainLink;
+    }
+
     protected void setCurrenciesAndNominalValues() throws IOException { //излекает из html таблицы значения номиналов и валют в данном периоде
 
-       periodTablePage=Jsoup.connect(linkOnMainPageUcoin+link).get();
+       periodTablePage=Jsoup.connect(mainLink +link).get();
        Elements elWithCurAndVal=periodTablePage.getElementsByAttributeValue("class","legend");
 
        currenciesAndNominalValues =new HashMap<>();
@@ -64,7 +67,7 @@ public class CountryPeriod { // содержит в себе информаци�
 
 
 
-    public CountryPeriod(Element period) throws IOException {
+    public CountryPeriod(Element period){
 
         this.link= period.attr("href");
         this.namePeriod=period.attr("title");

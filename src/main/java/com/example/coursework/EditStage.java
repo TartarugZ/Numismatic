@@ -14,20 +14,20 @@ public class EditStage {
     @FXML private TextField year;
     @FXML private TextField price;
     @FXML private TextField currency;
-    @FXML private Button otmena;
+    @FXML private Button cancel;
     @FXML private Label countryLabel;
     @FXML private Label yearLabel;
     @FXML private Label priceLabel;
     @FXML private Label currencyLabel;
 
-    private Stage dialogStage;
+    private Stage stage;
     private Coin coin= new Coin("");
     private boolean okClicked = false;
 
     @FXML
     public void initialize() {
-        if(LanguageSelectionScene.language=="ru"){
-            otmena.setText("Назад");
+        if(LanguageSelectionScene.language.equals("ru")){
+            cancel.setText("Назад");
             countryLabel.setText("Страна");
             yearLabel.setText("Год");
             priceLabel.setText("Цена");
@@ -35,11 +35,8 @@ public class EditStage {
         }
     }
 
-    public void setDialogStage(Stage dialogStage) {
-        this.dialogStage = dialogStage;
-    }
-    public String getCountry(){
-        return country.getText();
+    public void setStage(Stage stage){
+        this.stage=stage;
     }
 
     public void setCoin(Coin coin) {
@@ -62,13 +59,13 @@ public class EditStage {
             coin.setPrice(price.getText());
             coin.setCurrency(currency.getText());
             okClicked=true;
-            dialogStage.close();
+            stage.close();
         }
     }
 
     @FXML
     private void cancelButton() {
-        dialogStage.close();
+        stage.close();
     }
 
     private boolean isInputValid() {
@@ -92,7 +89,7 @@ public class EditStage {
             return true;
         } else {
             Alert alert = new Alert(AlertType.ERROR);
-            alert.initOwner(dialogStage);
+            alert.initOwner(stage);
             alert.setTitle("Invalid Fields");
             alert.setHeaderText("Please correct invalid fields");
             alert.setContentText(errorMessage);

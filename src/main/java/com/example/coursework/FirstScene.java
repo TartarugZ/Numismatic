@@ -21,8 +21,8 @@ public class FirstScene{
     @FXML  private TextField tf;
     @FXML  private TableView<String> tableview;
     @FXML  private TableView<Collection> tableview2;
-    @FXML  private TableColumn<String, String> Coins;
-    @FXML  private TableColumn<Collection, String> Collect;
+    @FXML  private TableColumn<String, String> coins;
+    @FXML  private TableColumn<Collection, String> collect;
     @FXML  private Button createCollectionButton;
     @FXML  private Button leaveButton;
     @FXML private  Label nickname;
@@ -30,9 +30,18 @@ public class FirstScene{
     private CollectionBase collectionBase = new CollectionBase();
     private final ObservableList<String> dataList = FXCollections.observableArrayList();
     private final ObservableList<Collection> collections= FXCollections.observableArrayList();
-    private ArrayList<String> cc = new ArrayList( CoinSearcher.getCountry());
-    private Stage stage= Launch.getMainStage();
-    int y=0;
+
+    {
+        try {
+            //чисто чтобы первая таблица была не пустой и можно было бы проверить работет ли поиск и я ничего не поломал
+            CoinSearcher coinSearcher = new CoinSearcher();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private ArrayList<String> cc = new ArrayList(CoinSearcher.getCountry());
+    private Stage stage;
 
     public void initialize() {
         setLanguage();
@@ -43,11 +52,12 @@ public class FirstScene{
         this.stage=stage;
  }
 
+
     private void setLanguage(){
-        if(LanguageSelectionScene.language=="ru"){
+        if(LanguageSelectionScene.language.equals("ru")){
             tf.setPromptText("Поиск");
-            Coins.setText("Результаты поиска");
-            Collect.setText("Ваши коллекции");
+            coins.setText("Результаты поиска");
+            collect.setText("Ваши коллекции");
             createCollectionButton.setText("Создать коллекцию");
             leaveButton.setText("К авторизации");
         }
@@ -58,7 +68,7 @@ public class FirstScene{
     }
 
     private void searchingTable(){
-        Coins.setCellValueFactory(data -> new SimpleStringProperty(data.getValue()));
+        coins.setCellValueFactory(data -> new SimpleStringProperty(data.getValue()));
         dataList.addAll(cc);
         FilteredList<String> filteredCoins = new FilteredList<>(dataList, b -> true);
 
@@ -90,8 +100,7 @@ public class FirstScene{
             public void handle(MouseEvent event) {
                 if(event.getClickCount()==2){
                     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("SecondS.fxml"));
-                    stage.setTitle("Coin Searcher");
-                    stage.getIcons().add(new Image("file:resourses/images/icon1.png"));
+                    sets();
                     try {
                         stage.setScene(new Scene(fxmlLoader.load(), 1000, 600));
                     } catch (IOException e) {
@@ -100,8 +109,10 @@ public class FirstScene{
                     String name = tableview2.getSelectionModel().getSelectedItem().getNameCollection();
                     SecondScene controller = fxmlLoader.getController();
                     controller.setStage(stage);
+                    controller.setCollectionBase(collectionBase);
+                    controller.setNickname(nickname.getText());
                     for(int i=0;i<collectionBase.getAllCollections().size();i++){
-                        if(collectionBase.getAllCollections().get(i).getNameCollection()==name){
+                        if(collectionBase.getAllCollections().get(i).getNameCollection().equals(name)){
                             controller.setCC(collectionBase.getAllCollections().get(i));
                         }
                     }
@@ -112,19 +123,24 @@ public class FirstScene{
     }
 
     public void setCollection(CollectionBase base){
+
         collectionBase=base;
-        Collect.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getNameCollection()));
+        collect.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getNameCollection()));
         collections.addAll(collectionBase.getAllCollections());
         tableview2.setItems(collections);
+    }
+    public void disableTable2(){
+        tableview2.setDisable(true);
     }
 
 
     @FXML
     private void exit() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AuthorizationS.fxml"));
-        stage.setTitle("Coin Searcher");
-        stage.getIcons().add(new Image("file:resourses/images/icon1.png"));
+        sets();
         stage.setScene(new Scene(fxmlLoader.load(), 800, 600));
+        AuthorizationScene controller = fxmlLoader.getController();
+        controller.setStage(stage);
     }
 
     @FXML
@@ -133,18 +149,22 @@ public class FirstScene{
         Stage stageEdit = new Stage();
         stageEdit.initModality(Modality.APPLICATION_MODAL);
         stageEdit.setTitle("Coin Searcher");
-        stageEdit.getIcons().add(new Image("file:resourses/images/icon1.png"));
+        stageEdit.getIcons().add(new Image("file:resources/images/icon1.png"));
         stageEdit.setScene(new Scene(fxmlLoader.load(), 300, 200));
         CreateCollectionScene controller = fxmlLoader.getController();
         controller.setStage(stageEdit);
+        Collection collection=new Collection(" ");
+        controller.setCollection(collection);
         stageEdit.showAndWait();
+        if(controller.isClosed()){
+            tableview2.getItems().add(collection);
+            collectionBase.addCollection(collection);
+        }
     }
 
-    public CollectionBase getBase(){
-        return collectionBase;
+    private void sets(){
+        stage.setTitle("Coin Searcher");
+        stage.getIcons().add(new Image("file:resources/images/icon1.png"));
     }
 
-    public void setTableview2(TableView<Collection> tableview2) {
-        this.tableview2.refresh();
-    }
 }

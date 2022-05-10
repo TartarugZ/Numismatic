@@ -5,63 +5,36 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import org.xml.sax.SAXException;
-
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
-import java.util.Optional;
+
 
 public class Launch extends Application {
 
-    private static Stage mainStage;
-
-    public static Stage getMainStage() {
-        return mainStage;
-    }
-
     public static String linkOnMainPageUcoin = "https://"+LanguageSelectionScene.language+".ucoin.net";//ссылка на главную страницу сайта uCoin с возможность изменения языка
+    private Stage mainStage = new Stage();
+
+
 
     @Override
     public void start(Stage stage) throws IOException {
-        mainStage=new Stage();
         stage=mainStage;
         FXMLLoader fxmlLoader = new FXMLLoader(Launch.class.getResource("LanguageS.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 800, 600);
         stage.setScene(scene);
-
         stage.setTitle("Coin Searcher");
-        stage.getIcons().add(new Image("file:resourses/images/icon1.png"));//wewe
-        stage.show();
+        stage.getIcons().add(new Image("file:resources/images/icon1.png"));//wewe
+        LanguageSelectionScene controller = fxmlLoader.getController();
+        controller.setStage(stage);
+        stage.showAndWait();
     }
 
 
 
 
-    public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException {
-        newCoinSearch();
+    public static void main(String[] args){
         launch();
-        //Coin coin =createCoin( "country","currency","value","category",null,"linkUcoin");
     }
 
-    public static Coin createCoin(String country, String currency, String value, String category, Optional <Float> costActual, String linkUcoin){
-        Coin coin = new Coin(country);
-
-        return coin;
-    }
-
-    public void addCoinToCollection(Collection collection,Coin coin){
-        collection.addToCollection(coin);
-    }
-
-    public static void newCoinSearch() throws IOException {
-        CoinSearcher coinSearcher = new CoinSearcher();
-        //Scanner scanCountry = new Scanner(System.in);
-        //System.out.println("Enter country");
-        //String country = scanCountry.nextLine();*/
-        //coinSearcher.smartCoutrySelection(country);
-        //coinSearcher.getCounrtyLink("Germany");
-        coinSearcher.testgetCounrtyLink();
-    }
     public static String replaceAmpersand(String text){
         return text.replace("&amp;","&");
     }

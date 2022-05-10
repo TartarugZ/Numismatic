@@ -35,10 +35,19 @@ public class SecondScene  {
 
     private Stage stage;
     private ArrayList<Coin> cc = new ArrayList<>();
-    private ObservableList<Coin> cc2= FXCollections.observableArrayList(cc);;
+    private ObservableList<Coin> cc2= FXCollections.observableArrayList(cc);
+    private CollectionBase collectionBase;
+    private String nickname;
 
-    public void setStage(Stage stage) {
-        this.stage = stage;
+    public void setStage(Stage stage){
+        this.stage=stage;
+    }
+
+    public void setCollectionBase(CollectionBase collectionBase) {
+        this.collectionBase = collectionBase;
+    }
+    public void setNickname(String string){
+        this.nickname=string;
     }
 
     public void setCC(Collection collection){
@@ -103,10 +112,10 @@ public class SecondScene  {
     }
   private boolean coinExists(Coin coin){
         int y=0;
-        if(coin.getCountry()==coinTableView.getSelectionModel().getSelectedItem().getCountry())y++;
-        if(coin.getYears()==coinTableView.getSelectionModel().getSelectedItem().getYears())y++;
-        if(coin.getPrice()==coinTableView.getSelectionModel().getSelectedItem().getPrice())y++;
-        if(coin.getCurrency()==coinTableView.getSelectionModel().getSelectedItem().getCurrency())y++;
+        if(coin.getCountry().equals(coinTableView.getSelectionModel().getSelectedItem().getCountry()))y++;
+        if(coin.getYears().equals(coinTableView.getSelectionModel().getSelectedItem().getYears()))y++;
+        if(coin.getPrice().equals(coinTableView.getSelectionModel().getSelectedItem().getPrice()))y++;
+        if(coin.getCurrency().equals(coinTableView.getSelectionModel().getSelectedItem().getCurrency()))y++;
         return y == 4;
   }
 
@@ -156,12 +165,12 @@ public class SecondScene  {
             Stage stageEdit = new Stage();
             stageEdit.initModality(Modality.APPLICATION_MODAL);
             stageEdit.setTitle("Coin Searcher");
-            stageEdit.getIcons().add(new Image("file:resourses/images/icon1.png"));
+            stageEdit.getIcons().add(new Image("file:resources/images/icon1.png"));
             stageEdit.setScene(new Scene(fxmlLoader.load(), 600, 600));
 
 
             EditStage controller = fxmlLoader.getController();
-            controller.setDialogStage(stageEdit);
+            controller.setStage(stageEdit);
             controller.setCoin(coin);
             stageEdit.showAndWait();
 
@@ -192,8 +201,12 @@ public class SecondScene  {
     protected void goSearch() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("FirstS.fxml"));
         stage.setTitle("Coin Searcher");
-        stage.getIcons().add(new Image("file:resourses/images/icon1.png"));
+        stage.getIcons().add(new Image("file:resources/images/icon1.png"));
         stage.setScene(new Scene(fxmlLoader.load(), 1000, 600));
+        FirstScene controller = fxmlLoader.getController();
+        controller.setStage(stage);
+        controller.setAccount(nickname);
+        controller.setCollection(collectionBase);
     }
 
     }

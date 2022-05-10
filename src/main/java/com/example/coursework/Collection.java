@@ -28,5 +28,9 @@ public class Collection {
     public String getNameCollection(){
         return nameCollection.get();
     }
+
+    public void setNameCollection(String nameCollection) {
+        this.nameCollection.set(nameCollection);
+    }
 }
 

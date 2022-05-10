@@ -15,11 +15,7 @@ public class CountryInformation {                           // содержит 
 
         countryPeriods.forEach(period->{                   //на каждый период создается свой объект класса Period
 
-            try {
-                periods.add(new CountryPeriod(period));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            periods.add(new CountryPeriod(period));
 
 
         });
