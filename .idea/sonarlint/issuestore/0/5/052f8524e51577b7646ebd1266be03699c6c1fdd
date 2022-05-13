@@ -1,0 +1,9 @@
+
+
+java:S1450"iRemove the "currenciesAndNominalValues" field and declare it as a local variable in the relevant methods.(“ï Ω
+s
+java:S1450"^Remove the "periodTablePage" field and declare it as a local variable in the relevant methods.(®ç…V
+H
+java:S1611+"2Remove the parentheses around the "text" parameter(‰Æ¿≈
+W
+java:S1126Y"AReplace this if-then-else statement by a single return statement.(¡Ü¥Ü

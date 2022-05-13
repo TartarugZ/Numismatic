@@ -67,6 +67,8 @@
                         </ButtonBar>
                         <Label fx:id="detailsLabel" layoutX="-1.0" layoutY="31.0" prefHeight="57.0" prefWidth="517.0" styleClass="label-header" text="Coin details:" AnchorPane.bottomAnchor="511.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="41.0" AnchorPane.topAnchor="31.0" />
                         <Button fx:id="goSearchButton" layoutX="508.0" layoutY="15.0" mnemonicParsing="false" onAction="#goSearch" prefHeight="33.0" prefWidth="132.0" text="Go to Search" />
+                        <Button fx:id="saveButton" layoutX="5.0" layoutY="526.0" mnemonicParsing="false" onAction="#save" prefHeight="33.0" prefWidth="138.0" text="Local save" />
+                        <Button fx:id="saveButton1" layoutX="4.0" layoutY="563.0" mnemonicParsing="false" onAction="#save1" prefHeight="33.0" prefWidth="138.0" text="Account save" />
                      </children>
                   </AnchorPane>
               </items>

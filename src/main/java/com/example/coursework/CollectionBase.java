@@ -12,7 +12,7 @@ public class CollectionBase {
         collection.addToCollection(new Coin("Speed"));
         collection.addToCollection(new Coin("Ameno"));
         collection.addToCollection(new Coin("Rot"));
-        collection.addToCollection(new Coin("Ebal"));
+        collection.addToCollection(new Coin("Bot"));
         collection.addToCollection(new Coin("Dendro"));
         allCollections.add(collection);
     }

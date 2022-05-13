@@ -31,6 +31,8 @@ public class SecondScene  {
     @FXML private Button editButton;
     @FXML private Button deleteButton;
     @FXML private TextField tf1;
+    @FXML private Button saveButton1;
+    @FXML private Button saveButton;
 
 
     private Stage stage;
@@ -94,6 +96,8 @@ public class SecondScene  {
             countryColumn.setText("Страна");
             yearColumn.setText("Год");
             tf1.setPromptText("Поиск");
+            saveButton.setText("Сохранить локально");
+            saveButton1.setText("Сохранить на аккаунте");
         }
     }
 
@@ -168,7 +172,6 @@ public class SecondScene  {
             stageEdit.getIcons().add(new Image("file:resources/images/icon1.png"));
             stageEdit.setScene(new Scene(fxmlLoader.load(), 600, 600));
 
-
             EditStage controller = fxmlLoader.getController();
             controller.setStage(stageEdit);
             controller.setCoin(coin);
@@ -207,6 +210,16 @@ public class SecondScene  {
         controller.setStage(stage);
         controller.setAccount(nickname);
         controller.setCollection(collectionBase);
+    }
+
+    @FXML
+    private void save(){
+
+    }
+
+    @FXML
+    private void save1(){
+
     }
 
     }

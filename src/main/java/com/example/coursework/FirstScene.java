@@ -25,6 +25,7 @@ public class FirstScene{
     @FXML  private TableColumn<Collection, String> collect;
     @FXML  private Button createCollectionButton;
     @FXML  private Button leaveButton;
+    @FXML  private Button add;
     @FXML private  Label nickname;
 
     private CollectionBase collectionBase = new CollectionBase();
@@ -60,6 +61,7 @@ public class FirstScene{
             collect.setText("Ваши коллекции");
             createCollectionButton.setText("Создать коллекцию");
             leaveButton.setText("К авторизации");
+            add.setText("Добавить в коллекцию");
         }
     }
 
@@ -122,6 +124,10 @@ public class FirstScene{
         });
     }
 
+    private boolean chosenCoin(){
+        return tableview.getSelectionModel().getSelectedIndex() >= 0;
+    }
+
     public void setCollection(CollectionBase base){
 
         collectionBase=base;
@@ -166,5 +172,18 @@ public class FirstScene{
         stage.setTitle("Coin Searcher");
         stage.getIcons().add(new Image("file:resources/images/icon1.png"));
     }
-
+    @FXML
+ private  void  adding() throws IOException {
+        if(chosenCoin()) {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AddCoinS.fxml"));
+            Stage stageEdit = new Stage();
+            stageEdit.initModality(Modality.APPLICATION_MODAL);
+            stageEdit.setTitle("Coin Searcher");
+            stageEdit.getIcons().add(new Image("file:resources/images/icon1.png"));
+            stageEdit.setScene(new Scene(fxmlLoader.load(), 280, 250));
+            AddCoinScene controller = fxmlLoader.getController();
+            controller.setCollectionBase(collectionBase, new Coin(tableview.getSelectionModel().getSelectedItem()), stageEdit );
+            stageEdit.showAndWait();
+        }
+ }
 }

@@ -13,8 +13,6 @@ public class Launch extends Application {
     public static String linkOnMainPageUcoin = "https://"+LanguageSelectionScene.language+".ucoin.net";//ссылка на главную страницу сайта uCoin с возможность изменения языка
     private Stage mainStage = new Stage();
 
-
-
     @Override
     public void start(Stage stage) throws IOException {
         stage=mainStage;
