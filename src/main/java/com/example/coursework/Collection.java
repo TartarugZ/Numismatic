@@ -1,19 +1,16 @@
 package com.example.coursework;
-
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Collection {
+public class Collection implements Serializable {
 
     private ArrayList<Coin> collection=new ArrayList<>();
 
-    private StringProperty nameCollection = new SimpleStringProperty();
+    private String nameCollection ;
 
 
     public Collection(String nameCollection) {
-        this.nameCollection.set(nameCollection);
+        this.nameCollection=nameCollection;
     }
 
     public ArrayList<Coin> getCollection() {
@@ -26,11 +23,11 @@ public class Collection {
     }
 
     public String getNameCollection(){
-        return nameCollection.get();
+        return nameCollection;
     }
 
     public void setNameCollection(String nameCollection) {
-        this.nameCollection.set(nameCollection);
+        this.nameCollection=nameCollection;
     }
 }
 

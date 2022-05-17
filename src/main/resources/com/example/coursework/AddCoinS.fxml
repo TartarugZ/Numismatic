@@ -5,15 +5,14 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="238.0" prefWidth="227.0" styleClass="background" stylesheets="@Theme.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.coursework.AddCoinScene">
+<AnchorPane prefHeight="260.0" prefWidth="270.0" styleClass="background" stylesheets="@Theme.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.coursework.AddCoinScene">
    <children>
-      <TableView fx:id="tv1" prefHeight="200.0" prefWidth="256.0">
+      <TableView fx:id="tv1" layoutX="8.0" prefHeight="204.0" prefWidth="254.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="8.0">
         <columns>
-          <TableColumn fx:id="names" prefWidth="251.0" text="Your collections" />
+          <TableColumn fx:id="names" prefWidth="275.0" text="Your collections" />
         </columns>
       </TableView>
       <Button fx:id="cancel" layoutX="14.0" layoutY="208.0" mnemonicParsing="false" onAction="#canceling" text="Cancel" />
-      <Button fx:id="add" layoutX="150.0" layoutY="208.0" mnemonicParsing="false" onAction="#adding" prefHeight="33.0" prefWidth="91.0" text="Add" />
+      <Button fx:id="add" layoutX="126.0" layoutY="208.0" mnemonicParsing="false" onAction="#adding" prefHeight="33.0" prefWidth="130.0" text="Add" />
    </children>
 </AnchorPane>

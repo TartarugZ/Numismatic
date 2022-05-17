@@ -19,6 +19,7 @@ public class SignUpScene{
     @FXML private Button goBackButton;
     private Stage stage;
 
+
     public void setStage(Stage stage){
         this.stage=stage;
     }

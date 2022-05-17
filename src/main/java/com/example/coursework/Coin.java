@@ -5,6 +5,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -12,12 +13,12 @@ import java.util.concurrent.ThreadLocalRandom;
 
 
 
-public class Coin {
+public class Coin implements Serializable {
 
-    private StringProperty country;
-    private StringProperty years;
-    private StringProperty price;
-    private StringProperty currency;
+    private transient StringProperty country;
+    private transient StringProperty years;
+    private transient StringProperty price;
+    private transient StringProperty currency;
     ArrayList<String> a=new ArrayList<>();
    /*
     private  String category;
@@ -50,16 +51,19 @@ public class Coin {
         return country.get();
     }
     public StringProperty getCountryProperty(){return  country;}
-    public void setCountry(String string){this.country.set(string);}
+    public void setCountry(String string){
+        this.country.set(string);}
 
-    public String getYears(){return String.valueOf(this.years.get());}
+    public String getYears(){return years.get();}
     public StringProperty getYearsProperty(){return  years;}
     public void setYears(String string){this.years.set(string);}
 
-    public String getPrice(){return String.valueOf(this.price.get());}
+    public String getPrice(){return price.get();}
+    public StringProperty getPriceProperty(){return  price;}
     public void setPrice(String string){this.price.set(string);}
 
     public String getCurrency(){return this.currency.get();}
+    public StringProperty getCurrencyProperty(){return  currency;}
     public void setCurrency(String string){this.currency.set(string);}
 
     @Override
@@ -103,4 +107,19 @@ public Optional<Float> getCost() {
     }
 */
 
+    private void init(){
+        this.country = new SimpleStringProperty();
+        this.years = new SimpleStringProperty();
+        this.price= new SimpleStringProperty();
+        this.currency=new SimpleStringProperty();
+    }
+    @Serial
+    private void writeObject(ObjectOutputStream s) throws IOException {
+        WriteObjects.writeAllProp(s,country,years,price,currency);
+    }
+    @Serial
+    private void readObject(ObjectInputStream s) throws IOException, ClassNotFoundException {
+        init();
+        ReadObjects.readAllProp(s, country,years,price,currency);
+    }
 }

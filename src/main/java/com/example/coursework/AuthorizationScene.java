@@ -75,7 +75,7 @@ public class AuthorizationScene{
         stage.setScene(new Scene(fxmlLoader.load(), 1000, 600));
         FirstScene controller = fxmlLoader.getController();
         controller.setStage(stage);
-        controller.disableTable2();
+        controller.notAuthorized();
     }
 
     @FXML

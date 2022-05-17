@@ -41,10 +41,7 @@ public class AddCoinScene {
     private void canceling(){
         this.stage.close();
     }
-    @FXML
-    private void viewing(){
 
-    }
     public void setCollectionBase(CollectionBase collectionBase,Coin coin,Stage stage){
         this.collectionBase=collectionBase;
         this.collections=collectionBase.getAllCollections();

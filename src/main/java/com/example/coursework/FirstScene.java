@@ -14,7 +14,8 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import java.io.IOException;
+
+import java.io.*;
 import java.util.ArrayList;
 
 public class FirstScene{
@@ -27,10 +28,16 @@ public class FirstScene{
     @FXML  private Button leaveButton;
     @FXML  private Button add;
     @FXML private  Label nickname;
+    @FXML private Button addCollectionButton;
+    @FXML private  Label addCollectionLabel;
+    private boolean withoutAuthorization;
 
     private CollectionBase collectionBase = new CollectionBase();
+    private static CollectionBase localCollectionBase=new CollectionBase();
     private final ObservableList<String> dataList = FXCollections.observableArrayList();
     private final ObservableList<Collection> collections= FXCollections.observableArrayList();
+    static File file;
+
 
     {
         try {
@@ -44,10 +51,12 @@ public class FirstScene{
     private ArrayList<String> cc = new ArrayList(CoinSearcher.getCountry());
     private Stage stage;
 
-    public void initialize() {
+    public void initialize() throws IOException, ClassNotFoundException {
+        createFile();
         setLanguage();
         searchingTable();
         chosenCollection();
+        setLocalCollectionBase();
     }
  public void setStage(Stage stage){
         this.stage=stage;
@@ -62,6 +71,9 @@ public class FirstScene{
             createCollectionButton.setText("Создать коллекцию");
             leaveButton.setText("К авторизации");
             add.setText("Добавить в коллекцию");
+            nickname.setText("Без входа в аккаунт");
+            addCollectionButton.setText("Добавить");
+            addCollectionLabel.setText("Добавить локальную коллекцию");
         }
     }
 
@@ -135,8 +147,8 @@ public class FirstScene{
         collections.addAll(collectionBase.getAllCollections());
         tableview2.setItems(collections);
     }
-    public void disableTable2(){
-        tableview2.setDisable(true);
+    public void notAuthorized(){
+        withoutAuthorization=true;
     }
 
 
@@ -167,6 +179,24 @@ public class FirstScene{
             collectionBase.addCollection(collection);
         }
     }
+    @FXML
+    private void addLocalCollection() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AddCollectionS.fxml"));
+        Stage stageEdit = new Stage();
+        stageEdit.initModality(Modality.APPLICATION_MODAL);
+        stageEdit.setTitle("Coin Searcher");
+        stageEdit.getIcons().add(new Image("file:resources/images/icon1.png"));
+        stageEdit.setScene(new Scene(fxmlLoader.load(), 270, 260));
+        AddCollectionScene controller = fxmlLoader.getController();
+        controller.setCollectionBase(localCollectionBase,collectionBase,stageEdit);
+        Collection collection=new Collection(" ");
+        controller.setCollection(collection);
+        stageEdit.showAndWait();
+        if(controller.isClosed()){
+            tableview2.getItems().add(collection);
+            collectionBase.addCollection(collection);
+        }
+    }
 
     private void sets(){
         stage.setTitle("Coin Searcher");
@@ -184,6 +214,64 @@ public class FirstScene{
             AddCoinScene controller = fxmlLoader.getController();
             controller.setCollectionBase(collectionBase, new Coin(tableview.getSelectionModel().getSelectedItem()), stageEdit );
             stageEdit.showAndWait();
+
         }
+ }
+
+
+ public static void addStream(Collection collection) throws IOException, ClassNotFoundException {
+
+     /*System.out.println(localCollectionBase.getAllCollections().size());
+     localCollectionBase.addCollection(collection);
+     FileOutputStream fos ;
+     ObjectOutputStream outStream;
+     try {
+         fos = new FileOutputStream("E://temp//LocalCollectionBase.ser");
+         outStream = new ObjectOutputStream(fos);
+         outStream.writeObject(localCollectionBase);
+         outStream.flush();
+
+     } catch (Exception e) {
+         System.out.println("Error" + e.getMessage());
+     } finally {
+         fos.close();
+         outStream.close();
+     }
+     setLocalCollectionBase();
+     System.out.println(localCollectionBase.getAllCollections().size());
+
+      */
+
+
+ }
+
+ private static void setLocalCollectionBase() throws IOException, ClassNotFoundException {
+/*
+     if (file.length() != 0) {
+         FileInputStream fis = new FileInputStream("E://temp//LocalCollectionBase.ser");
+         ObjectInputStream inputStream = new ObjectInputStream(fis);
+             localCollectionBase = (CollectionBase) inputStream.readObject();
+             inputStream.close();
+
+         fis.close();
+         inputStream.close();
+     }else System.out.println("Файл пуст");
+
+ */
+
+
+ }
+
+ private void createFile() throws IOException {
+     file = new File("E://temp//LocalCollectionBase.ser");
+//create the file.
+     if (file.createNewFile()){
+         System.out.println("File is created!");
+     }
+     else{
+         System.out.println("File already exists.");
+     }
+
+
  }
 }

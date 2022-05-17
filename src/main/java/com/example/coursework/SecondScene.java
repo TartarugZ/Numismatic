@@ -39,6 +39,7 @@ public class SecondScene  {
     private ArrayList<Coin> cc = new ArrayList<>();
     private ObservableList<Coin> cc2= FXCollections.observableArrayList(cc);
     private CollectionBase collectionBase;
+    private Collection collection;
     private String nickname;
 
     public void setStage(Stage stage){
@@ -54,6 +55,7 @@ public class SecondScene  {
 
     public void setCC(Collection collection){
         this.cc =collection.getCollection();
+        this.collection=collection;
         refreshTable();
     }
 
@@ -213,8 +215,8 @@ public class SecondScene  {
     }
 
     @FXML
-    private void save(){
-
+    private void save() throws IOException, ClassNotFoundException {
+         FirstScene.addStream(collection);
     }
 
     @FXML
