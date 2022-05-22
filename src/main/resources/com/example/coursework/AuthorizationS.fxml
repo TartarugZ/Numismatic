@@ -8,15 +8,14 @@
 
 <AnchorPane prefHeight="511.0" prefWidth="800.0" styleClass="background" stylesheets="@Theme.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.coursework.AuthorizationScene">
    <children>
-      <ImageView fx:id="imageAu" fitHeight="268.0" fitWidth="297.0" layoutX="71.0" layoutY="88.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="70.0" AnchorPane.topAnchor="110.0" />
-      <TextField fx:id="loginText" layoutX="430.0" layoutY="142.0" promptText="login" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="160.0" />
-      <TextField fx:id="passwordText" layoutX="430.0" layoutY="210.0" promptText="password" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="240.0" />
-      <Label fx:id="signInLabel" layoutX="446.0" layoutY="48.0" styleClass="label-header" text="Sign in" AnchorPane.topAnchor="48.0" />
-      <Button fx:id="enterButton" layoutX="567.0" layoutY="300.0" mnemonicParsing="false" onAction="#signIn" text="Enter" />
-      <Button fx:id="signUpButton" layoutX="367.0" layoutY="434.0" mnemonicParsing="false" onAction="#signUp" text="Register" />
-      <Label fx:id="signUpLabel" layoutX="51.0" layoutY="440.0" text="You are not signed up? Then do it right now!" />
-      <Button fx:id="withoutRegistrationButton" layoutX="694.0" layoutY="434.0" mnemonicParsing="false" onAction="#withoutRegistration" text="&gt;&gt;&gt;" />
-      <Label fx:id="withoutRegistrationLabel" layoutX="511.0" layoutY="440.0" text="Enter without registration" />
-      <Button fx:id="changeButton" layoutX="613.0" layoutY="14.0" mnemonicParsing="false" onAction="#changeLanguage" text="Change language" />
+      <ImageView fx:id="imageAu" fitHeight="259.0" fitWidth="297.0" layoutX="42.0" layoutY="139.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="42.0" AnchorPane.topAnchor="139.0" />
+      <TextField fx:id="loginText" layoutX="446.0" layoutY="221.0" promptText="login" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="221.0" />
+      <TextField fx:id="passwordText" layoutX="446.0" layoutY="306.0" promptText="password" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="306.0" />
+      <Label fx:id="signInLabel" layoutX="446.0" layoutY="124.0" styleClass="label-header" text="Sign in" AnchorPane.topAnchor="124.0" />
+      <Button fx:id="enterButton" layoutX="566.0" layoutY="370.0" mnemonicParsing="false" onAction="#signIn" text="Enter" />
+      <Button fx:id="signUpButton" layoutX="674.0" layoutY="445.0" mnemonicParsing="false" onAction="#signUp" text="Register" />
+      <Label fx:id="signUpLabel" layoutX="339.0" layoutY="451.0" text="You are not signed up? Then do it right now!" />
+      <Button fx:id="changeButton" layoutX="613.0" layoutY="139.0" mnemonicParsing="false" onAction="#changeLanguage" text="Change language" />
+      <Label layoutX="226.0" prefHeight="103.0" prefWidth="349.0" styleClass="label-welcome" text="Coin Searcher" />
    </children>
 </AnchorPane>

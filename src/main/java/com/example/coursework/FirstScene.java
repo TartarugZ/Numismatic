@@ -30,13 +30,12 @@ public class FirstScene{
     @FXML private  Label nickname;
     @FXML private Button addCollectionButton;
     @FXML private  Label addCollectionLabel;
-    private boolean withoutAuthorization;
+    private FileWork fileWork = new FileWork();
 
     private CollectionBase collectionBase = new CollectionBase();
     private static CollectionBase localCollectionBase=new CollectionBase();
     private final ObservableList<String> dataList = FXCollections.observableArrayList();
     private final ObservableList<Collection> collections= FXCollections.observableArrayList();
-    static File file;
 
 
     {
@@ -52,11 +51,9 @@ public class FirstScene{
     private Stage stage;
 
     public void initialize() throws IOException, ClassNotFoundException {
-        createFile();
         setLanguage();
         searchingTable();
         chosenCollection();
-        setLocalCollectionBase();
     }
  public void setStage(Stage stage){
         this.stage=stage;
@@ -123,7 +120,7 @@ public class FirstScene{
                     String name = tableview2.getSelectionModel().getSelectedItem().getNameCollection();
                     SecondScene controller = fxmlLoader.getController();
                     controller.setStage(stage);
-                    controller.setCollectionBase(collectionBase);
+                    controller.setCollectionBase(collectionBase, localCollectionBase);
                     controller.setNickname(nickname.getText());
                     for(int i=0;i<collectionBase.getAllCollections().size();i++){
                         if(collectionBase.getAllCollections().get(i).getNameCollection().equals(name)){
@@ -146,9 +143,6 @@ public class FirstScene{
         collect.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getNameCollection()));
         collections.addAll(collectionBase.getAllCollections());
         tableview2.setItems(collections);
-    }
-    public void notAuthorized(){
-        withoutAuthorization=true;
     }
 
 
@@ -180,7 +174,8 @@ public class FirstScene{
         }
     }
     @FXML
-    private void addLocalCollection() throws IOException {
+    private void addLocalCollection() throws IOException, ClassNotFoundException {
+        localCollectionBase=fileWork.read(nickname.getText());
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AddCollectionS.fxml"));
         Stage stageEdit = new Stage();
         stageEdit.initModality(Modality.APPLICATION_MODAL);
@@ -218,60 +213,4 @@ public class FirstScene{
         }
  }
 
-
- public static void addStream(Collection collection) throws IOException, ClassNotFoundException {
-
-     /*System.out.println(localCollectionBase.getAllCollections().size());
-     localCollectionBase.addCollection(collection);
-     FileOutputStream fos ;
-     ObjectOutputStream outStream;
-     try {
-         fos = new FileOutputStream("E://temp//LocalCollectionBase.ser");
-         outStream = new ObjectOutputStream(fos);
-         outStream.writeObject(localCollectionBase);
-         outStream.flush();
-
-     } catch (Exception e) {
-         System.out.println("Error" + e.getMessage());
-     } finally {
-         fos.close();
-         outStream.close();
-     }
-     setLocalCollectionBase();
-     System.out.println(localCollectionBase.getAllCollections().size());
-
-      */
-
-
- }
-
- private static void setLocalCollectionBase() throws IOException, ClassNotFoundException {
-/*
-     if (file.length() != 0) {
-         FileInputStream fis = new FileInputStream("E://temp//LocalCollectionBase.ser");
-         ObjectInputStream inputStream = new ObjectInputStream(fis);
-             localCollectionBase = (CollectionBase) inputStream.readObject();
-             inputStream.close();
-
-         fis.close();
-         inputStream.close();
-     }else System.out.println("Файл пуст");
-
- */
-
-
- }
-
- private void createFile() throws IOException {
-     file = new File("E://temp//LocalCollectionBase.ser");
-//create the file.
-     if (file.createNewFile()){
-         System.out.println("File is created!");
-     }
-     else{
-         System.out.println("File already exists.");
-     }
-
-
- }
 }

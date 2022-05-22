@@ -33,12 +33,14 @@ public class SecondScene  {
     @FXML private TextField tf1;
     @FXML private Button saveButton1;
     @FXML private Button saveButton;
+    private FileWork fileWork=new FileWork();
 
 
     private Stage stage;
     private ArrayList<Coin> cc = new ArrayList<>();
     private ObservableList<Coin> cc2= FXCollections.observableArrayList(cc);
     private CollectionBase collectionBase;
+    private CollectionBase localCollectionBase;
     private Collection collection;
     private String nickname;
 
@@ -46,7 +48,8 @@ public class SecondScene  {
         this.stage=stage;
     }
 
-    public void setCollectionBase(CollectionBase collectionBase) {
+    public void setCollectionBase(CollectionBase collectionBase, CollectionBase localCollectionBase) {
+        this.localCollectionBase=localCollectionBase;
         this.collectionBase = collectionBase;
     }
     public void setNickname(String string){
@@ -114,8 +117,8 @@ public class SecondScene  {
             }
             coinTableView.getItems().remove(coinTableView.getSelectionModel().getSelectedItem());
         }
-
     }
+
   private boolean coinExists(Coin coin){
         int y=0;
         if(coin.getCountry().equals(coinTableView.getSelectionModel().getSelectedItem().getCountry()))y++;
@@ -215,8 +218,9 @@ public class SecondScene  {
     }
 
     @FXML
-    private void save() throws IOException, ClassNotFoundException {
-         FirstScene.addStream(collection);
+    private void save() throws IOException{
+         localCollectionBase.addCollection(collection);
+         fileWork.write(localCollectionBase,nickname);
     }
 
     @FXML

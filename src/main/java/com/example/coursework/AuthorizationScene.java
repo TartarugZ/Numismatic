@@ -19,7 +19,6 @@ public class AuthorizationScene{
     @FXML private Button enterButton;
     @FXML private Button signUpButton;
     @FXML private Button changeButton;
-    @FXML private Label withoutRegistrationLabel;
     @FXML private Label signUpLabel;
     @FXML private Label signInLabel;
 
@@ -35,7 +34,6 @@ public class AuthorizationScene{
             passwordText.setPromptText("Пароль");
             enterButton.setText("Войти");
             signUpButton.setText("Регистрация");
-            withoutRegistrationLabel.setText("Войти без регистрации");
             signUpLabel.setText("У вас ещё нет аккаунта? Тогда создайте его!");
             signInLabel.setText("Авторизация");
             changeButton.setText("Смена языка");
@@ -48,6 +46,8 @@ public class AuthorizationScene{
     protected void signIn() throws IOException {
         //добавить способ авторизации
         //если авторизация успешна
+        FileWork fileWork = new FileWork();
+        fileWork.fileCreation(loginText.getText());
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("FirstS.fxml"));
         sets();
         stage.setScene(new Scene(fxmlLoader.load(), 1000, 600));
@@ -66,16 +66,6 @@ public class AuthorizationScene{
         stage.setScene(new Scene(fxmlLoader.load(), 800, 600));
         SignUpScene controller = fxmlLoader.getController();
         controller.setStage(stage);
-    }
-
-    @FXML
-    protected void withoutRegistration() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("FirstS.fxml"));
-        sets();
-        stage.setScene(new Scene(fxmlLoader.load(), 1000, 600));
-        FirstScene controller = fxmlLoader.getController();
-        controller.setStage(stage);
-        controller.notAuthorized();
     }
 
     @FXML
