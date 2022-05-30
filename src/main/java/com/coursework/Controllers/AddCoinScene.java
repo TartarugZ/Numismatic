@@ -3,6 +3,7 @@ package com.coursework.Controllers;
 import com.coursework.Coin;
 import com.coursework.Collection;
 import com.coursework.CollectionBase;
+import com.coursework.PropertyConnection;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,7 +13,11 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+
+import static com.coursework.Controllers.LanguageSelectionScene.translation;
 
 public class AddCoinScene {
     @FXML private TableView<Collection> tv1;
@@ -20,19 +25,19 @@ public class AddCoinScene {
     @FXML private Button add;
     @FXML private Button cancel;
     private Coin coin;
-    private CollectionBase collectionBase;
     private Stage stage;
     private ArrayList<Collection> collections=new ArrayList<>();
     private ObservableList<Collection> collections2= FXCollections.observableArrayList(collections);
-    private String fxmlPath = LanguageSelectionScene.fxmlPath;
+    private String language;
 
-    public void initialize(){
-        if(LanguageSelectionScene.language.equals("ru")){
-            names.setText("Ваши коллекции");
-            add.setText("Добавить");
-            cancel.setText("Назад");
-        }
-
+    public void initialize() throws IOException {
+        setLanguage();
+        PropertyConnection p=new PropertyConnection(new File("")
+                .getAbsolutePath()+"/src/main/resources/translation_"+language+".properties");
+            names.setText(p.open().getProperty("namesCoin"));
+            add.setText(p.open().getProperty("addCoin"));
+            cancel.setText(p.open().getProperty("cancelCoin"));
+        p.close();
     }
     @FXML
     private void adding(){
@@ -47,13 +52,18 @@ public class AddCoinScene {
     }
 
     public void setCollectionBase(CollectionBase collectionBase,Coin coin,Stage stage){
-        this.collectionBase=collectionBase;
         this.collections=collectionBase.getAllCollections();
         this.coin=coin;
         this.stage=stage;
         names.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getNameCollection()));
         collections2.addAll(collections);
         tv1.setItems(collections2);
+    }
+
+    public void setLanguage() throws IOException {
+        PropertyConnection property=new PropertyConnection(translation);
+        this.language=property.open().getProperty("language");
+        property.close();
     }
 
 }

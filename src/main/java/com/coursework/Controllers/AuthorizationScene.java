@@ -1,7 +1,9 @@
 package com.coursework.Controllers;
 
 import com.coursework.CollectionBase;
+import com.coursework.PropertyConnection;
 import com.coursework.Serialization.FileWork;
+import javafx.application.HostServices;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -11,8 +13,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+
+import static com.coursework.Controllers.LanguageSelectionScene.translation;
 
 public class AuthorizationScene{
 
@@ -26,22 +32,32 @@ public class AuthorizationScene{
     @FXML private Label signInLabel;
     private String fxmlPath= LanguageSelectionScene.fxmlPath;
 
+    public void setLanguage() throws IOException {
+        PropertyConnection property=new PropertyConnection(translation);
+        this.language=property.open().getProperty("language");
+        property.close();
+    }
+
+    private String language;
 
     private Stage stage;
 
 
-    public void initialize() {
+    public void initialize() throws IOException {
         imageAu.setImage(new Image("file:resources/images/Coins.png"));
 
-        if(LanguageSelectionScene.language.equals("ru")){
-            loginText.setPromptText("Логин");
-            passwordText.setPromptText("Пароль");
-            enterButton.setText("Войти");
-            signUpButton.setText("Регистрация");
-            signUpLabel.setText("У вас ещё нет аккаунта? Тогда создайте его!");
-            signInLabel.setText("Авторизация");
-            changeButton.setText("Смена языка");
-        }
+        setLanguage();
+        PropertyConnection p=new PropertyConnection(new File("")
+                .getAbsolutePath()+"/src/main/resources/translation_"+language+".properties");
+            loginText.setPromptText(p.open().getProperty("loginTextAuth"));
+            passwordText.setPromptText(p.open().getProperty("passwordTextAuth"));
+            enterButton.setText(p.open().getProperty("enterButtonAuth"));
+            signUpButton.setText(p.open().getProperty("signUpButtonAuth"));
+            signUpLabel.setText(p.open().getProperty("signUpLabelAuth"));
+            signInLabel.setText(p.open().getProperty("signInLabelAuth"));
+            changeButton.setText(p.open().getProperty("changeButtonAuth"));
+            p.close();
+
     }
     public void setStage(Stage stage){
         this.stage=stage;
@@ -53,7 +69,7 @@ public class AuthorizationScene{
         fileWork.fileCreation(loginText.getText());
         FXMLLoader fxmlLoader = new FXMLLoader(new URL(fxmlPath+"FirstS.fxml"));
         sets();
-        stage.setScene(new Scene(fxmlLoader.load(), 1000, 600));
+        stage.setScene(new Scene(fxmlLoader.load(), 1200, 750));
         FirstScene controller = fxmlLoader.getController();
         controller.setStage(stage);
         CollectionBase collectionBase = new CollectionBase();
@@ -84,4 +100,6 @@ public class AuthorizationScene{
         stage.setTitle("Coin Searcher");
         stage.getIcons().add(new Image("file:resources/images/icon1.png"));
     }
+
+
 }

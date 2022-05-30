@@ -2,6 +2,7 @@ package com.coursework.Controllers;
 
 import com.coursework.Collection;
 import com.coursework.CollectionBase;
+import com.coursework.PropertyConnection;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -11,7 +12,11 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+
+import static com.coursework.Controllers.LanguageSelectionScene.translation;
 
 public class AddCollectionScene {
     @FXML private TableView<Collection> tv1;
@@ -25,13 +30,16 @@ public class AddCollectionScene {
     private ArrayList<Collection> collections=new ArrayList<>();
     private ObservableList<Collection> collections2= FXCollections.observableArrayList(collections);
     private boolean closed= false;
+    private String language;
 
-    public void initialize(){
-        if(LanguageSelectionScene.language.equals("ru")){
-            names.setText("Ваши коллекции");
-            add.setText("Добавить");
-            cancel.setText("Назад");
-        }
+    public void initialize() throws IOException {
+        setLanguage();
+        PropertyConnection p=new PropertyConnection(new File("")
+                .getAbsolutePath()+"/src/main/resources/translation_"+language+".properties");
+            names.setText(p.open().getProperty("namesCol"));
+            add.setText(p.open().getProperty("addCol"));
+            cancel.setText(p.open().getProperty("cancelCol"));
+        p.close();
     }
     @FXML
     private void adding(){
@@ -65,6 +73,12 @@ public class AddCollectionScene {
     }
     public boolean isClosed(){
         return closed;
+    }
+
+    public void setLanguage() throws IOException {
+        PropertyConnection property=new PropertyConnection(translation);
+        this.language=property.open().getProperty("language");
+        property.close();
     }
 
 }

@@ -2,19 +2,28 @@ package com.coursework.Controllers;
 import com.coursework.Coin;
 import com.coursework.Collection;
 import com.coursework.CollectionBase;
+import com.coursework.PropertyConnection;
 import com.coursework.Serialization.FileWork;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.awt.Desktop;
+
+import static com.coursework.Controllers.LanguageSelectionScene.translation;
 
 public class SecondScene  {
 
@@ -48,7 +57,7 @@ public class SecondScene  {
     @FXML private Button saveButton;
     private String fxmlPath = LanguageSelectionScene.fxmlPath;
     private FileWork fileWork=new FileWork();
-
+    private String language;
 
     private Stage stage;
     private ArrayList<Coin> cc = new ArrayList<>();
@@ -57,6 +66,7 @@ public class SecondScene  {
     private CollectionBase localCollectionBase;
     private Collection collection;
     private String nickname;
+    private Desktop desktop=Desktop.getDesktop();
 
     public void setStage(Stage stage){
         this.stage=stage;
@@ -65,6 +75,7 @@ public class SecondScene  {
     public void setCollectionBase(CollectionBase collectionBase, CollectionBase localCollectionBase) {
         this.localCollectionBase=localCollectionBase;
         this.collectionBase = collectionBase;
+
     }
     public void setNickname(String string){
         this.nickname=string;
@@ -82,8 +93,8 @@ public class SecondScene  {
 
 
     @FXML
-    public void initialize() {
-        setLanguage();
+    public void initialize() throws IOException {
+        setTranslation();
 
         coinDetails(null);
         coinTableView.getSelectionModel().selectedItemProperty().addListener(
@@ -100,27 +111,29 @@ public class SecondScene  {
         coinTableView.setItems(cc2);
     }
 
-    private void setLanguage(){
-        if(LanguageSelectionScene.language.equals("ru")){
-            collectionNameLabel.setText("Название коллекции");
-            detailsLabel.setText("Подробнее о монете:");
-            country.setText("Страна");
-            year.setText("Год");
-            price.setText("Цена");
-            currency.setText("Валюта");
-            value.setText("Номинал");
-            category.setText("Категория");
-            mint.setText("Монетный двор");
-            dateOf.setText("Дата добавления");
-            link.setText("Ссылка на сайт Ucoin");
-            goSearchButton.setText("К поиску");
-            editButton.setText("Изменить");
-            deleteButton.setText("Удалить");
-            countryColumn.setText("Страна");
-            yearColumn.setText("Год");
-            saveButton.setText("Сохранить локально");
-            saveButton1.setText("Сохранить на аккаунте");
-        }
+    private void setTranslation() throws IOException {
+        setLanguage();
+        PropertyConnection p=new PropertyConnection(new File("")
+                .getAbsolutePath()+"/src/main/resources/translation_"+language+".properties");
+        collectionNameLabel.setText(p.open().getProperty("collectionNameLabelS"));
+        detailsLabel.setText(p.open().getProperty("detailsLabelS"));
+        country.setText(p.open().getProperty("countryS"));
+        year.setText(p.open().getProperty("yearS"));
+        price.setText(p.open().getProperty("priceS"));
+        currency.setText(p.open().getProperty("currencyS"));
+        value.setText(p.open().getProperty("valueS"));
+        category.setText(p.open().getProperty("categoryS"));
+        mint.setText(p.open().getProperty("mintS"));
+        dateOf.setText(p.open().getProperty("dateOfS"));
+        link.setText(p.open().getProperty("linkS"));
+        goSearchButton.setText(p.open().getProperty("goSearchButtonS"));
+        editButton.setText(p.open().getProperty("editButtonS"));
+        deleteButton.setText(p.open().getProperty("deleteButtonS"));
+        countryColumn.setText(p.open().getProperty("countryColumnS"));
+        yearColumn.setText(p.open().getProperty("yearColumnS"));
+        saveButton.setText(p.open().getProperty("saveButtonS"));
+        saveButton1.setText(p.open().getProperty("saveButton1S"));
+        p.close();
     }
 
     @FXML
@@ -129,7 +142,9 @@ public class SecondScene  {
         if(coinTableView.getSelectionModel().getSelectedIndex()>=0) {
             for(int i=0;i<cc.size();i++){
                 if(coinExists(cc.get(i))) {
+                    System.out.println(cc.size());
                     cc.remove(i);
+                    System.out.println(cc.size());
                 }
             }
             coinTableView.getItems().remove(coinTableView.getSelectionModel().getSelectedItem());
@@ -137,15 +152,7 @@ public class SecondScene  {
     }
 
   private boolean coinExists(Coin coin){
-        int y=0;
-        //if(coin==coinTableView.getSelectionModel().getSelectedItem()) return true;else return false;
-        if(coin.getCountry().equals(coinTableView.getSelectionModel().getSelectedItem().getCountry()))y++;
-        if(coin.getYears().equals(coinTableView.getSelectionModel().getSelectedItem().getYears()))y++;
-        if(coin.getCost().equals(coinTableView.getSelectionModel().getSelectedItem().getCost()))y++;
-        if(coin.getCurrency().equals(coinTableView.getSelectionModel().getSelectedItem().getCurrency()))y++;
-        return y == 4;
-
-
+      return coin == coinTableView.getSelectionModel().getSelectedItem();
   }
 
 
@@ -215,16 +222,18 @@ public class SecondScene  {
             llink.setText(coin.getLinkUcoin());
             editButton.setDisable(false);
             deleteButton.setDisable(false);
-        } else {
-            lcountry.setText("");
-            lyear.setText("");
-            lcost.setText("");
-            lcurrency.setText("");
-            lvalue.setText("");
-            lcategory.setText("");
-            lmint.setText("");
-            ldate.setText("");
-            llink.setText("");
+
+            llink.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent mouseEvent) {
+                    try {
+                        desktop.browse(new URL("https://" +llink.getText()).toURI());
+                    } catch (IOException | URISyntaxException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            });
         }
     }
 
@@ -233,7 +242,7 @@ public class SecondScene  {
         FXMLLoader fxmlLoader = new FXMLLoader(new URL(fxmlPath+"FirstS.fxml"));
         stage.setTitle("Coin Searcher");
         stage.getIcons().add(new Image("file:resources/images/icon1.png"));
-        stage.setScene(new Scene(fxmlLoader.load(), 1000, 600));
+        stage.setScene(new Scene(fxmlLoader.load(), 1200, 750));
         FirstScene controller = fxmlLoader.getController();
         controller.setStage(stage);
         controller.setAccount(nickname);
@@ -250,6 +259,12 @@ public class SecondScene  {
     private void save1(){
 
     }
-
+    public void setLanguage() throws IOException {
+        PropertyConnection property=new PropertyConnection(translation);
+        this.language=property.open().getProperty("language");
+        property.close();
     }
+
+
+}
 

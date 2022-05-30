@@ -1,5 +1,6 @@
 package com.coursework.Controllers;
 
+import com.coursework.PropertyConnection;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -9,8 +10,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+
+import static com.coursework.Controllers.LanguageSelectionScene.translation;
 
 public class SignUpScene{
     @FXML private TextField createL;
@@ -20,6 +24,7 @@ public class SignUpScene{
     @FXML private Button goBackButton;
     private String fxmlPath = LanguageSelectionScene.fxmlPath;
     private Stage stage;
+    private String language;
 
 
     public void setStage(Stage stage){
@@ -49,15 +54,22 @@ public class SignUpScene{
     }
 
 
-    public void initialize() {
-        if(LanguageSelectionScene.language.equals("ru")){
-            createL.setPromptText("Создайте логин");
-            createP.setPromptText("Создайте пароль");
-            registrationLabel.setText("Регистрация");
-            signUpButton.setText("Создать");
-            goBackButton.setText("Назад");
-        }
+    public void initialize() throws IOException {
+        setLanguage();
+        PropertyConnection p=new PropertyConnection(new File("")
+                .getAbsolutePath()+"/src/main/resources/translation_"+language+".properties");
+        createL.setPromptText(p.open().getProperty("createLSU"));
+        createP.setPromptText(p.open().getProperty("createPSU"));
+        registrationLabel.setText(p.open().getProperty("registrationLabelSU"));
+        signUpButton.setText(p.open().getProperty("signUpButtonSU"));
+        goBackButton.setText(p.open().getProperty("goBackButtonSU"));
+        p.close();
 
+    }
+    public void setLanguage() throws IOException {
+        PropertyConnection property=new PropertyConnection(translation);
+        this.language=property.open().getProperty("language");
+        property.close();
     }
 
 }

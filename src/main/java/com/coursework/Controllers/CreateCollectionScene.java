@@ -1,11 +1,17 @@
 package com.coursework.Controllers;
 
 import com.coursework.Collection;
+import com.coursework.PropertyConnection;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+
+import java.io.File;
+import java.io.IOException;
+
+import static com.coursework.Controllers.LanguageSelectionScene.translation;
 
 public class CreateCollectionScene {
 
@@ -14,6 +20,7 @@ public class CreateCollectionScene {
     private Stage stage;
     private Collection collection;
     private boolean closed = false;
+    public String language;
 
     public void setStage(Stage stage){
         this.stage=stage;
@@ -21,10 +28,13 @@ public class CreateCollectionScene {
  public void setCollection(Collection collection){
         this.collection=collection;
  }
-    public void initialize() {
-        if(LanguageSelectionScene.language.equals("ru")){
-            name.setText("Название коллекции");
-        }
+    public void initialize() throws IOException {
+        setLanguage();
+        PropertyConnection p=new PropertyConnection(new File("")
+                .getAbsolutePath()+"/src/main/resources/translation_"+language+".properties");
+            name.setText(p.open().getProperty("nameC"));
+        p.close();
+
     }
 
     @FXML
@@ -50,5 +60,10 @@ public class CreateCollectionScene {
 
     public boolean isClosed(){
         return closed;
+    }
+    public void setLanguage() throws IOException {
+        PropertyConnection property=new PropertyConnection(translation);
+        this.language=property.open().getProperty("language");
+        property.close();
     }
 }

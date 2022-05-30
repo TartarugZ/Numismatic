@@ -42,10 +42,7 @@ public class ComboBoxListener<T> implements EventHandler<KeyEvent>{
             caretPos = -1;
             moveCaret(comboBox.getEditor().getText().length());
             return;
-        } else if(event.getCode() == KeyCode.BACK_SPACE) {
-            moveCaretToPos = true;
-            caretPos = comboBox.getEditor().getCaretPosition();
-        } else if(event.getCode() == KeyCode.DELETE) {
+        } else if(event.getCode() == KeyCode.BACK_SPACE || event.getCode() == KeyCode.DELETE) {
             moveCaretToPos = true;
             caretPos = comboBox.getEditor().getCaretPosition();
         }
@@ -59,7 +56,6 @@ public class ComboBoxListener<T> implements EventHandler<KeyEvent>{
         ObservableList<T> list = FXCollections.observableArrayList();
         for (int i = 0; i < data.size(); i++) {
             if(data.get(i).toString().toLowerCase().startsWith(
-                   // ComboBoxListener.this.comboBox.getEditor().getText().toLowerCase().trim())) {
                     comboBox.getEditor().getText().toLowerCase().trim())) {
                 list.add(data.get(i));
             }
@@ -67,7 +63,6 @@ public class ComboBoxListener<T> implements EventHandler<KeyEvent>{
         String t = comboBox.getEditor().getText();
 
         comboBox.setItems(list);
-        //comboBox.getEditor().setText(t);
         if(!moveCaretToPos) {
             caretPos = -1;
         }

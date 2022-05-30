@@ -9,6 +9,7 @@ module com.example.coursework {
     requires org.apache.httpcomponents.httpclient.fluent;
     requires org.json;
     requires com.fasterxml.jackson.databind;
+    requires java.desktop;
 
 
     opens com.coursework to javafx.fxml;

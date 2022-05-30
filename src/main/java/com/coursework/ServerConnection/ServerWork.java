@@ -256,16 +256,16 @@ if(HttpURLConnection.HTTP_OK== connection.getResponseCode()){
 
     }
 
-    public ObservableList<String> getCountries() {
+    public ObservableList<String> getCountries(String string) {
         HttpURLConnection con = null;
         ArrayList<String> we=new ArrayList<>();
         try {
-            con = (HttpURLConnection) new URL("http://localhost:8080/search/countries?lang=ru").openConnection();
+            con = (HttpURLConnection) new URL("http://localhost:8080/search/countries?lang="+string).openConnection();
             UserWork userWork=new UserWork();
             con.setRequestProperty("Authorization",userWork.getPasswordAuthentication().toString());
             con.setRequestMethod("GET");
             con.connect();
-            
+
             StringBuilder sb = new StringBuilder();
 
             if (HttpURLConnection.HTTP_OK == con.getResponseCode()) {
@@ -275,23 +275,12 @@ if(HttpURLConnection.HTTP_OK== connection.getResponseCode()){
                     sb.append(line);
                 }
                 line = sb.toString();
-                System.out.println(sb);
                 ObjectMapper objectMapper = new ObjectMapper();
                 we = objectMapper.readValue(line, new TypeReference<ArrayList<String>>() {
                 });
 
-                we.forEach((key) -> {
-
-                    System.out.println(key + "  :  ");
-                });
-
-
-                System.out.println(sb);
-                System.out.println(we.get(3));
-
             }else System.out.println(con.getResponseCode());
         }catch (IOException e){e.printStackTrace();}
-        ObservableList<String> countries = FXCollections.observableArrayList(we);
-        return countries;
+        return FXCollections.observableArrayList(we);
     }
 }

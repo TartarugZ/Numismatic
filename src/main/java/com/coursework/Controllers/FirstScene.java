@@ -2,6 +2,7 @@ package com.coursework.Controllers;
 
 import com.coursework.*;
 import com.coursework.Serialization.FileWork;
+import com.coursework.ServerConnection.SearchInformation;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -23,6 +24,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import com.coursework.ServerConnection.ServerWork;
 
+import static com.coursework.Controllers.LanguageSelectionScene.translation;
+
 public class FirstScene{
     @FXML  private TextField tf;
     @FXML  private TableView<String> tableview;
@@ -35,77 +38,79 @@ public class FirstScene{
     @FXML private  Label nickname;
     @FXML private Button addCollectionButton;
     @FXML private  Label addCollectionLabel;
-    @FXML private  ComboBox cbCountry;
-    @FXML private  ComboBox cbYears;
-    @FXML private  ComboBox cbCost;
-    @FXML private  ComboBox cbCurrency;
-    @FXML private  ComboBox cbValue;
-    @FXML private  ComboBox cbCategory;
-    @FXML private  ComboBox cbMint;
+    @FXML private  ComboBox<String> cbCountry;
+    @FXML private  ComboBox<String> cbYears;
+    @FXML private  ComboBox<String> cbCurrency;
+    @FXML private  ComboBox<String> cbValue;
+    @FXML private  ComboBox<String> cbMint;
+    @FXML private Button search;
     private String fxmlPath = LanguageSelectionScene.fxmlPath;
     private FileWork fileWork = new FileWork();
+    private String language;
 
     private CollectionBase collectionBase = new CollectionBase();
     private CollectionBase localCollectionBase= new CollectionBase();
     private final ObservableList<String> dataList = FXCollections.observableArrayList();
     private final ObservableList<Collection> collections= FXCollections.observableArrayList();
     private ServerWork serverWork=new ServerWork();
-
-    {
-        try {
-            //чисто чтобы первая таблица была не пустой и можно было бы проверить работет ли поиск и я ничего не поломал
-            CoinSearcher coinSearcher = new CoinSearcher();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private ArrayList<String> cc = new ArrayList(CoinSearcher.getCountry());
+    
+    private ArrayList<String> cc = new ArrayList();
     private Stage stage;
 
-    public void initialize() throws IOException, ClassNotFoundException {
-        setLanguage();
+    public void initialize() throws IOException {
+        setTranslation();
         searchingTable();
         chosenCollection();
         setComboBoxes();
     }
 
-    public void setComboBoxes(){
 
-        ObservableList<String> forCountries=FXCollections.observableArrayList(serverWork.getCountries());
+    public void setComboBoxes() throws IOException {
+        PropertyConnection property=new PropertyConnection(translation);
+        String translationPath=new File("").getAbsolutePath()+"/src/main/resources/translation_"+property.open().getProperty("language")+".properties";
+
+        PropertyConnection propertyConnection=new PropertyConnection(translationPath);
         ArrayList<String> years=new ArrayList<>();
         years.add("Austria");
         years.add("Russia");
         ObservableList<String> forYears=FXCollections.observableArrayList(years);
-        ArrayList<String> cost=new ArrayList<>();
-        cost.add("Austria");
-        cost.add("Russia");
-        ObservableList<String> forCost=FXCollections.observableArrayList(cost);
-        cbCountry.setItems(forCountries);
-        cbCost.setItems(forCost);
+        cbCountry.setItems(serverWork.getCountries(property.open().getProperty("language")));
         cbYears.setItems(forYears);
-        ComboBoxListener helper1=new ComboBoxListener<>(cbCountry);
+        ComboBoxListener<String> helper1=new ComboBoxListener<>(cbCountry);
         ComboBoxListener<String> helper2=new ComboBoxListener<>(cbYears);
-        ComboBoxListener<String> helper3=new ComboBoxListener<>(cbCost);
-
+        ComboBoxListener<String> helper3=new ComboBoxListener<>(cbCurrency);
+        ComboBoxListener<String> helper4=new ComboBoxListener<>(cbValue);
+        ComboBoxListener<String> helper5=new ComboBoxListener<>(cbMint);
+        property.close();
     }
  public void setStage(Stage stage){
         this.stage=stage;
  }
 
-
-    private void setLanguage(){
-        if(LanguageSelectionScene.language.equals("ru")){
-            tf.setPromptText("Поиск");
-            coins.setText("Результаты поиска");
-            collect.setText("Ваши коллекции");
-            createCollectionButton.setText("Создать коллекцию");
-            leaveButton.setText("К авторизации");
-            add.setText("Добавить в коллекцию");
-            nickname.setText("Без входа в аккаунт");
-            addCollectionButton.setText("Добавить");
-            addCollectionLabel.setText("Добавить локальную коллекцию");
-        }
+    public void setLanguage() throws IOException {
+        PropertyConnection property=new PropertyConnection(translation);
+        this.language=property.open().getProperty("language");
+        property.close();
+    }
+    private void setTranslation() throws IOException {
+        setLanguage();
+        PropertyConnection p=new PropertyConnection(new File("")
+                .getAbsolutePath()+"/src/main/resources/translation_"+language+".properties");
+            tf.setPromptText(p.open().getProperty("tfF"));
+            coins.setText(p.open().getProperty("coinsF"));
+            collect.setText(p.open().getProperty("collectF"));
+            createCollectionButton.setText(p.open().getProperty("createCollectionButtonF"));
+            leaveButton.setText(p.open().getProperty("leaveButtonF"));
+            add.setText(p.open().getProperty("addF"));
+            addCollectionButton.setText(p.open().getProperty("addCollectionButtonF"));
+            addCollectionLabel.setText(p.open().getProperty("addCollectionLabelF"));
+            cbCountry.setPromptText(p.open().getProperty("cbCountryF"));
+            cbYears.setPromptText(p.open().getProperty("cbYearsF"));
+            cbCurrency.setPromptText(p.open().getProperty("cbCurrencyF"));
+            cbValue.setPromptText(p.open().getProperty("cbValueF"));
+            cbMint.setPromptText(p.open().getProperty("cbMintF"));
+            search.setText(p.open().getProperty("searchF"));
+            p.close();
     }
 
     public void setAccount(String string){
@@ -254,5 +259,17 @@ public class FirstScene{
 
         }
  }
+ @FXML
+ public void searching(){
+     SearchInformation searchInformation=new SearchInformation();
+     searchInformation.setCountry(cbCountry.getSelectionModel().getSelectedItem());
+     searchInformation.setYear(cbYears.getSelectionModel().getSelectedItem());
+     searchInformation.setCurrency(cbCurrency.getSelectionModel().getSelectedItem());
+     searchInformation.setValue(cbValue.getSelectionModel().getSelectedItem());
+     searchInformation.setMint(cbMint.getSelectionModel().getSelectedItem());
+
+        
+ }
+
 
 }
