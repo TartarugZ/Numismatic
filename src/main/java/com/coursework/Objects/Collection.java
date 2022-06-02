@@ -1,6 +1,8 @@
 package com.coursework.Objects;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Objects;
 
 public class Collection implements Serializable {
 
@@ -11,6 +13,10 @@ public class Collection implements Serializable {
 
     public Collection(String nameCollection) {
         this.nameCollection=nameCollection;
+    }
+
+    public void setCollection(ArrayList<Coin> collection) {
+        this.collection = collection;
     }
 
     public ArrayList<Coin> getCollection() {
@@ -36,6 +42,17 @@ public class Collection implements Serializable {
                 "collection=" + collection +
                 ", nameCollection='" + nameCollection + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+       Collection col=(Collection) o;
+       return this.nameCollection.equals(col.nameCollection) && Arrays.equals(new ArrayList[]{this.collection}, new ArrayList[]{col.collection});
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(collection, nameCollection);
     }
 }
 

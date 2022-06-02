@@ -116,6 +116,11 @@
     -fx-background-insets: 0 0 0 0, 0, 1, 2;
 }
 
+.text-area .content{
+    -fx-background-color: #1d1d1d;
+    -fx-text-fill: white;
+}
+
 .button:hover {
     -fx-background-color: #3a3a3a;
 }

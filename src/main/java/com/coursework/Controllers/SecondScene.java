@@ -64,7 +64,7 @@ public class SecondScene  {
     private CollectionBase collectionBase;
     private CollectionBase localCollectionBase;
     private Collection collectionBuffer;
-    private Collection collection;
+    private Collection collectionMain;
     private String nickname;
     private Desktop desktop=Desktop.getDesktop();
 
@@ -83,8 +83,10 @@ public class SecondScene  {
 
     public void setCC(Collection collection){
         this.cc =collection.getCollection();
-        this.collection=collection;
-        this.collectionBuffer=collection;
+        this.collectionMain =collection;
+        collectionBuffer=new Collection(collection.getNameCollection());
+        collectionBuffer.setNameCollection(collection.getNameCollection());
+        collectionBuffer.setCollection(collection.getCollection());
         refreshTable();
     }
 
@@ -142,9 +144,7 @@ public class SecondScene  {
         if(coinTableView.getSelectionModel().getSelectedIndex()>=0) {
             for(int i=0;i<cc.size();i++){
                 if(coinExists(cc.get(i))) {
-                    System.out.println(cc.size());
                     cc.remove(i);
-                    System.out.println(cc.size());
                 }
             }
             coinTableView.getItems().remove(coinTableView.getSelectionModel().getSelectedItem());
@@ -270,12 +270,15 @@ public class SecondScene  {
 
     @FXML
     private void save() throws IOException{
+
         for (int i=0;i<localCollectionBase.getAllCollections().size();i++){
-            if(localCollectionBase.getAllCollections().get(i)==collectionBuffer){
+            if(localCollectionBase.getAllCollections().get(i).equals(collectionBuffer)){
+                System.out.println("OH YES");
                 localCollectionBase.getAllCollections().remove(i);
+
             }
         }
-        localCollectionBase.addCollection(collection);
+        localCollectionBase.addCollection(collectionMain);
         fileWork.write(localCollectionBase,nickname);
     }
 

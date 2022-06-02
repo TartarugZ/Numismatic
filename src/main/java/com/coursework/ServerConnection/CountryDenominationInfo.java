@@ -44,16 +44,43 @@ public class CountryDenominationInfo implements Serializable {
     }
 
 
-    public ObservableList<String> getValue(){
-        ArrayList<String> values=new ArrayList<>();
-        curAndValues.forEach((key)->values.add(key.getFirst()));
-        return FXCollections.observableArrayList(values);
+    public ArrayList<String> getValue(){
+        HashSet<String> set = new HashSet<>();
+        curAndValues.forEach((key) -> set.add(key.getFirst()));
+        System.out.println(set);
+        return new ArrayList<>(set);
     }
 
-    public ObservableList<String> getCurrency(){
-        ArrayList<String> currencies=new ArrayList<>();
-        curAndValues.forEach((key)->currencies.add(key.getSecond()));
-        return FXCollections.observableArrayList(currencies);
+    public ArrayList<String> getCurrency() {
+        HashSet<String> set = new HashSet<>();
+        curAndValues.forEach((key) -> set.add(key.getSecond()));
+        System.out.println(set);
+        return new ArrayList<>(set);
+    }
+
+    public ArrayList<String> getSingleValue(String currency){
+        ArrayList<String> a=new ArrayList<>();
+        if(currency==null||currency.equals("")||currency.equals(" ")){
+            a.addAll(getValue());
+        }else{
+            curAndValues.forEach((key)->{
+                if(key.getSecond().equals(currency)) a.add(key.getFirst());
+            });}
+
+        return a;
+    }
+
+    public ArrayList<String> getSingleCurrency(String value){
+        ArrayList<String> a=new ArrayList<>();
+        if(value==null||value.equals("")||value.equals(" ")){
+            a.addAll(getCurrency());
+        }else {
+            curAndValues.forEach((key)->{
+                if(key.getFirst().equals(value)) a.add(key.getSecond());
+            });
+        }
+
+        return a;
     }
 
     @Override

@@ -7,6 +7,7 @@ import com.coursework.Objects.Collection;
 import com.coursework.Objects.CollectionBase;
 import com.coursework.Serialization.FileWork;
 import com.coursework.ServerConnection.CoinDTO;
+import com.coursework.ServerConnection.CountryDenominationInfo;
 import com.coursework.ServerConnection.SearchInformation;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -66,6 +67,7 @@ public class FirstScene{
     private ObservableList<CoinDTO> dataList = FXCollections.observableArrayList();
     private ObservableList<Collection> collections= FXCollections.observableArrayList();
     private ServerWork serverWork=new ServerWork();
+    private CountryDenominationInfo cdi;
 
     private Stage stage;
 
@@ -108,16 +110,32 @@ public class FirstScene{
             @Override
             public void handle(ActionEvent actionEvent) {
                 try {
-                    serverWork.loadValueAndCurrency(cbCountry.getSelectionModel().getSelectedItem(),language);
-                    //cbValue.setItems(serverWork.loadValueAndCurrency(cbCountry.getSelectionModel().getSelectedItem(),language).getValue());
-                    //cbCurrency.setItems(serverWork.loadValueAndCurrency(cbCountry.getSelectionModel().getSelectedItem(),language).getCurrency());
+                    cdi =serverWork.loadValueAndCurrency(cbCountry.getSelectionModel().getSelectedItem(),language);
+                    cbValue.setItems(FXCollections.observableArrayList(cdi.getValue()));
+                    cbCurrency.setItems(FXCollections.observableArrayList(cdi.getCurrency()));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         });
 
+        cbValue.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                cbCurrency.setItems(FXCollections.observableArrayList(cdi.getSingleCurrency(cbValue.getSelectionModel().getSelectedItem())));
+                ComboBoxListener<String> helper1=new ComboBoxListener<>(cbCurrency);
+                ComboBoxListener<String> helper2=new ComboBoxListener<>(cbValue);
+            }
+        });
 
+        cbCurrency.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                cbValue.setItems(FXCollections.observableArrayList(cdi.getSingleValue(cbCurrency.getSelectionModel().getSelectedItem())));
+                ComboBoxListener<String> helper1=new ComboBoxListener<>(cbCurrency);
+                ComboBoxListener<String> helper2=new ComboBoxListener<>(cbValue);
+            }
+        });
 
         ComboBoxListener<String> helper1=new ComboBoxListener<>(cbCountry);
         ComboBoxListener<String> helper2=new ComboBoxListener<>(cbYears);

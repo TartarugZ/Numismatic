@@ -73,12 +73,11 @@ public class SearchInformation implements Serializable {
 
 
     public  String stringArrayToString(ArrayList<String> array){
-System.out.println(array);
+
         String sts="";
 
         for(String elem:array){
             sts=sts+"\""+elem+"\",";
-            System.out.println(elem);
 
         }
         sts=sts.substring(0,sts.length()-1);
@@ -97,7 +96,6 @@ System.out.println(array);
 
         return  string;
     }
-
 
 
     public String  toJSON(){

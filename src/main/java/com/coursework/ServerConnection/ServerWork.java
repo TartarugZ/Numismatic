@@ -278,7 +278,6 @@ if(HttpURLConnection.HTTP_OK== connection.getResponseCode()){
 
     public ObservableList<CoinDTO> userRequest(SearchInformation searchInformation, String language) throws IOException {
 
-
         String jsonString =searchInformation.toJSON();
 
         final Content putResult = Request.Put("http://localhost:8080/search?lang="+language)
@@ -389,10 +388,8 @@ if(HttpURLConnection.HTTP_OK== connection.getResponseCode()){
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new GuavaModule());
         mapper.registerSubtypes(CountryDenominationInfo.class);
-        CountryDenominationInfo countryDenominationInfo=mapper.readValue(line, new TypeReference<CountryDenominationInfo>() {
-        });
+        CountryDenominationInfo countryDenominationInfo=mapper.readValue(line, new TypeReference<CountryDenominationInfo>() {});
         System.out.println(countryDenominationInfo);
-
 
             return countryDenominationInfo;
 
