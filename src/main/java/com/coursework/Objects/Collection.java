@@ -1,4 +1,4 @@
-package com.coursework;
+package com.coursework.Objects;
 import java.io.Serializable;
 import java.util.ArrayList;
 

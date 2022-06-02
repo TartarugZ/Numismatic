@@ -1,36 +1,49 @@
 package com.coursework.Controllers;
 
-import com.coursework.*;
+import com.coursework.Functions.ComboBoxListener;
+import com.coursework.Functions.PropertyConnection;
+import com.coursework.Objects.Coin;
+import com.coursework.Objects.Collection;
+import com.coursework.Objects.CollectionBase;
 import com.coursework.Serialization.FileWork;
+import com.coursework.ServerConnection.CoinDTO;
 import com.coursework.ServerConnection.SearchInformation;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.awt.*;
+import java.awt.event.ActionListener;
 import java.io.*;
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import com.coursework.ServerConnection.ServerWork;
+import javafx.util.Duration;
 
 import static com.coursework.Controllers.LanguageSelectionScene.translation;
 
 public class FirstScene{
     @FXML  private TextField tf;
-    @FXML  private TableView<String> tableview;
+    @FXML  private TableView<CoinDTO> tableview;
     @FXML  private TableView<Collection> tableview2;
-    @FXML  private TableColumn<String, String> coins;
+    @FXML  private TableColumn<CoinDTO, String> coins;
     @FXML  private TableColumn<Collection, String> collect;
     @FXML  private Button createCollectionButton;
     @FXML  private Button leaveButton;
@@ -50,32 +63,59 @@ public class FirstScene{
 
     private CollectionBase collectionBase = new CollectionBase();
     private CollectionBase localCollectionBase= new CollectionBase();
-    private final ObservableList<String> dataList = FXCollections.observableArrayList();
-    private final ObservableList<Collection> collections= FXCollections.observableArrayList();
+    private ObservableList<CoinDTO> dataList = FXCollections.observableArrayList();
+    private ObservableList<Collection> collections= FXCollections.observableArrayList();
     private ServerWork serverWork=new ServerWork();
-    
-    private ArrayList<String> cc = new ArrayList();
+
     private Stage stage;
 
     public void initialize() throws IOException {
         setTranslation();
-        searchingTable();
         chosenCollection();
         setComboBoxes();
+        linkCoin();
+        extraInfo();
+    }
+
+    public void extraInfo(){
+        tableview.setRowFactory(tv -> new TableRow<CoinDTO>() {
+            private Tooltip tooltip = new Tooltip();
+            @Override
+            public void updateItem(CoinDTO coinDTO, boolean empty) {
+                super.updateItem(coinDTO, empty);
+                if (coinDTO == null) {
+                    setTooltip(null);
+                } else {
+                    setTooltip(tooltip);
+                    tooltip.setPrefWidth(200);
+                    tooltip.setWrapText(true);
+                    tooltip.setText(coinDTO.getInfo());
+                    tooltip.setShowDuration(Duration.minutes(1));
+                }
+            }
+        });
     }
 
 
     public void setComboBoxes() throws IOException {
         PropertyConnection property=new PropertyConnection(translation);
-        String translationPath=new File("").getAbsolutePath()+"/src/main/resources/translation_"+property.open().getProperty("language")+".properties";
 
-        PropertyConnection propertyConnection=new PropertyConnection(translationPath);
-        ArrayList<String> years=new ArrayList<>();
-        years.add("Austria");
-        years.add("Russia");
-        ObservableList<String> forYears=FXCollections.observableArrayList(years);
         cbCountry.setItems(serverWork.getCountries(property.open().getProperty("language")));
-        cbYears.setItems(forYears);
+
+
+        cbCountry.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                try {
+                    cbValue.setItems(serverWork.loadValueAndCurrency(cbCountry.getSelectionModel().getSelectedItem(),language).getValue());
+                    cbCurrency.setItems(serverWork.loadValueAndCurrency(cbCountry.getSelectionModel().getSelectedItem(),language).getCurrency());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
         ComboBoxListener<String> helper1=new ComboBoxListener<>(cbCountry);
         ComboBoxListener<String> helper2=new ComboBoxListener<>(cbYears);
         ComboBoxListener<String> helper3=new ComboBoxListener<>(cbCurrency);
@@ -96,7 +136,6 @@ public class FirstScene{
         setLanguage();
         PropertyConnection p=new PropertyConnection(new File("")
                 .getAbsolutePath()+"/src/main/resources/translation_"+language+".properties");
-            tf.setPromptText(p.open().getProperty("tfF"));
             coins.setText(p.open().getProperty("coinsF"));
             collect.setText(p.open().getProperty("collectF"));
             createCollectionButton.setText(p.open().getProperty("createCollectionButtonF"));
@@ -117,32 +156,6 @@ public class FirstScene{
         this.nickname.setText(string);
     }
 
-    private void searchingTable(){
-        coins.setCellValueFactory(data -> new SimpleStringProperty(data.getValue()));
-        dataList.addAll(cc);
-        FilteredList<String> filteredCoins = new FilteredList<>(dataList, b -> true);
-
-        tf.textProperty().addListener((observable, oldValue, newValue) -> {
-            filteredCoins.setPredicate(coin -> {
-
-                if (newValue == null || newValue.isEmpty()) {
-                    return true;
-                }
-                if(newValue.length()>coin.length()) return false;
-                String lowerCaseFilter = newValue.toLowerCase();
-
-                if (coin.toLowerCase().substring(0,lowerCaseFilter.length()).equals(lowerCaseFilter) ) {
-                    return true; // Filter matches first name.
-                }else
-                    return false; // Does not match.
-            });
-        });
-
-        SortedList<String> sortedCoins = new SortedList<>(filteredCoins);
-        sortedCoins.comparatorProperty().bind(tableview.comparatorProperty());
-        tableview.setItems(sortedCoins);
-
-    }
 
     private void chosenCollection(){
         tableview2.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -155,7 +168,6 @@ public class FirstScene{
                     } catch (MalformedURLException e) {
                         e.printStackTrace();
                     }
-                    sets();
                     try {
                         stage.setScene(new Scene(fxmlLoader.load(), 1000, 600));
                     } catch (IOException e) {
@@ -177,12 +189,27 @@ public class FirstScene{
         });
     }
 
+    private void linkCoin(){
+        tableview.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if(event.getClickCount()==2){
+                    Desktop desktop=Desktop.getDesktop();
+                    try {
+                        desktop.browse(new URL("https://"+language+".ucoin.net" +tableview.getSelectionModel().getSelectedItem().getLinkUcoin()).toURI());
+                    } catch (IOException | URISyntaxException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+    }
+
     private boolean chosenCoin(){
         return tableview.getSelectionModel().getSelectedIndex() >= 0;
     }
 
     public void setCollection(CollectionBase base){
-
         collectionBase=base;
         collect.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getNameCollection()));
         collections.addAll(collectionBase.getAllCollections());
@@ -193,7 +220,6 @@ public class FirstScene{
     @FXML
     private void exit() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(new URL(fxmlPath+"AuthorizationS.fxml"));
-        sets();
         stage.setScene(new Scene(fxmlLoader.load(), 800, 600));
         AuthorizationScene controller = fxmlLoader.getController();
         controller.setStage(stage);
@@ -207,43 +233,40 @@ public class FirstScene{
         stageEdit.setTitle("Coin Searcher");
         stageEdit.getIcons().add(new Image("file:resources/images/icon1.png"));
         stageEdit.setScene(new Scene(fxmlLoader.load(), 300, 200));
-        CreateCollectionScene controller = fxmlLoader.getController();
+        CreateCollectionStage controller = fxmlLoader.getController();
         controller.setStage(stageEdit);
         Collection collection=new Collection(" ");
         controller.setCollection(collection);
         stageEdit.showAndWait();
         if(controller.isClosed()){
-            tableview2.getItems().add(collection);
             collectionBase.addCollection(collection);
+            tableview2.getItems().clear();
+            collections.addAll(collectionBase.getAllCollections());
+            tableview2.setItems(collections);
         }
     }
 
     @FXML
     private void addLocalCollection() throws IOException, ClassNotFoundException {
         localCollectionBase=fileWork.read(nickname.getText());
-        System.out.println(fileWork.read(nickname.getText()));
+        System.out.println(localCollectionBase.toString());
         FXMLLoader fxmlLoader = new FXMLLoader(new URL(fxmlPath+"AddCollectionS.fxml"));
         Stage stageEdit = new Stage();
         stageEdit.initModality(Modality.APPLICATION_MODAL);
         stageEdit.setTitle("Coin Searcher");
         stageEdit.getIcons().add(new Image("file:resources/images/icon1.png"));
         stageEdit.setScene(new Scene(fxmlLoader.load(), 270, 260));
-        AddCollectionScene controller = fxmlLoader.getController();
+        AddCollectionStage controller = fxmlLoader.getController();
         controller.setStage(stageEdit);
-        Collection collection=new Collection(" ");
-        controller.setCollection(collection);
         controller.setCollectionBase(localCollectionBase, collectionBase);
         stageEdit.showAndWait();
         if(controller.isClosed()){
-            tableview2.getItems().add(collection);
-            collectionBase.addCollection(collection);
+            tableview2.getItems().clear();
+            collections.addAll(collectionBase.getAllCollections());
+            tableview2.setItems(collections);
         }
     }
 
-    private void sets(){
-        stage.setTitle("Coin Searcher");
-        stage.getIcons().add(new Image("file:resources/images/icon1.png"));
-    }
     @FXML
  private  void  adding() throws IOException {
         if(chosenCoin()) {
@@ -253,23 +276,38 @@ public class FirstScene{
             stageEdit.setTitle("Coin Searcher");
             stageEdit.getIcons().add(new Image("file:resources/images/icon1.png"));
             stageEdit.setScene(new Scene(fxmlLoader.load(), 280, 250));
-            AddCoinScene controller = fxmlLoader.getController();
-            controller.setCollectionBase(collectionBase, new Coin(), stageEdit );
+            AddCoinStage controller = fxmlLoader.getController();
+            controller.setCollectionBase(collectionBase,tableview.getSelectionModel().getSelectedItem().toCoin(), stageEdit );
             stageEdit.showAndWait();
-
         }
+        System.out.println(cbValue.getSelectionModel().getSelectedItem());
  }
+
  @FXML
- public void searching(){
+ public void searching() throws IOException {
+     ArrayList<Integer> year=new ArrayList<>();
+     ArrayList<String> currency=new ArrayList<>();
+     ArrayList<String> value=new ArrayList<>();
+     ArrayList<String> mint=new ArrayList<>();
+     if(cbYears.getSelectionModel().getSelectedItem()!=null) {
+         year.add(Integer.parseInt(cbYears.getSelectionModel().getSelectedItem()));
+     }else year.add(null);
+     currency.add(cbCurrency.getSelectionModel().getSelectedItem());
+     value.add(cbValue.getSelectionModel().getSelectedItem());
+     mint.add(cbMint.getSelectionModel().getSelectedItem());
+
+
      SearchInformation searchInformation=new SearchInformation();
      searchInformation.setCountry(cbCountry.getSelectionModel().getSelectedItem());
-     searchInformation.setYear(cbYears.getSelectionModel().getSelectedItem());
-     searchInformation.setCurrency(cbCurrency.getSelectionModel().getSelectedItem());
-     searchInformation.setValue(cbValue.getSelectionModel().getSelectedItem());
-     searchInformation.setMint(cbMint.getSelectionModel().getSelectedItem());
+     searchInformation.setYear(year);
+     searchInformation.setCurrency(currency);
+     searchInformation.setValue(value);
+     searchInformation.setMint(mint);
+     System.out.println(searchInformation);
+     coins.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().toString()));
+     dataList=serverWork.userRequest(searchInformation,language);
+     tableview.setItems(dataList);
 
-        
  }
-
 
 }

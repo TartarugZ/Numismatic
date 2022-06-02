@@ -1,15 +1,0 @@
-
-|
-java:S1192"fDefine a constant instead of duplicating this literal "/src/main/resources/UsersCollections/" 3 times.(õ’¨Á
-o	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(´î»™
-h
-java:S1450"RRemove the "fis" field and declare it as a local variable in the relevant methods.(Ğ¹—
-m
-java:S1450	"RRemove the "fos" field and declare it as a local variable in the relevant methods.(§ƒàâÿÿÿÿÿ
-h
-java:S1450
-"RRemove the "ois" field and declare it as a local variable in the relevant methods.(à‚åÛ
-h
-java:S1450"RRemove the "oos" field and declare it as a local variable in the relevant methods.(ş°Âå
-M	java:S106/"9Replace this use of System.out or System.err by a logger.(Ô
-S	java:S1062"9Replace this use of System.out or System.err by a logger.(ı¤êöıÿÿÿÿ

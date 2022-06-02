@@ -1,13 +1,13 @@
 package com.coursework.Controllers;
 
-import com.coursework.PropertyConnection;
+import com.coursework.Functions.PropertyConnection;
+import com.coursework.ServerConnection.ServerWork;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -26,7 +26,6 @@ public class SignUpScene{
     private Stage stage;
     private String language;
 
-
     public void setStage(Stage stage){
         this.stage=stage;
     }
@@ -34,8 +33,6 @@ public class SignUpScene{
     @FXML
     protected void signClose() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(new URL(fxmlPath+"AuthorizationS.fxml"));
-        stage.setTitle("Coin Searcher");
-        stage.getIcons().add(new Image("file:resources/images/icon1.png"));
         stage.setScene(new Scene(fxmlLoader.load(), 800, 600));
         AuthorizationScene controller = fxmlLoader.getController();
         controller.setStage(stage);
@@ -43,18 +40,20 @@ public class SignUpScene{
 
     @FXML
     protected void registered() throws IOException {
-
+        ServerWork serverWork = new ServerWork();
+        serverWork.userSignUp(createL.getText(),createP.getText());
         FXMLLoader fxmlLoader = new FXMLLoader(new URL(fxmlPath+"AuthorizationS.fxml"));
-        stage.setTitle("Coin Searcher");
-        stage.getIcons().add(new Image("file:resources/images/icon1.png"));
         stage.setScene(new Scene(fxmlLoader.load(), 800, 600));
         AuthorizationScene controller = fxmlLoader.getController();
         controller.setStage(stage);
         //добавить сохранение регистрационных данных
     }
 
-
     public void initialize() throws IOException {
+        setTranslation();
+    }
+
+    private void setTranslation() throws IOException {
         setLanguage();
         PropertyConnection p=new PropertyConnection(new File("")
                 .getAbsolutePath()+"/src/main/resources/translation_"+language+".properties");
@@ -64,9 +63,9 @@ public class SignUpScene{
         signUpButton.setText(p.open().getProperty("signUpButtonSU"));
         goBackButton.setText(p.open().getProperty("goBackButtonSU"));
         p.close();
-
     }
-    public void setLanguage() throws IOException {
+
+    private void setLanguage() throws IOException {
         PropertyConnection property=new PropertyConnection(translation);
         this.language=property.open().getProperty("language");
         property.close();

@@ -42,34 +42,31 @@
                           </columnConstraints>
                           <rowConstraints>
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
                               <Label fx:id="country" text="Country" />
-                              <Label fx:id="year" text="Year" GridPane.rowIndex="1" />
-                              <Label fx:id="price" text="Cost" GridPane.rowIndex="2" />
+                              <Label fx:id="year" text="Year" GridPane.rowIndex="3" />
+                              <Label fx:id="price" text="Cost" GridPane.rowIndex="4" />
                               <Label fx:id="lcountry" styleClass="label-bright" text="Label" GridPane.columnIndex="1" />
-                              <Label fx:id="lyear" styleClass="label-bright" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                              <Label fx:id="lcost" styleClass="label-bright" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                              <Label fx:id="currency" text="Currency" GridPane.rowIndex="3" />
-                              <Label fx:id="lcurrency" styleClass="label-bright" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                              <Label fx:id="value" text="Value" GridPane.rowIndex="4" />
-                              <Label fx:id="lvalue" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                              <Hyperlink fx:id="llink" text="Hyperlink" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-                              <Label fx:id="category" text="Category" GridPane.rowIndex="5" />
-                              <Label fx:id="lcategory" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                              <Label fx:id="mint" text="Mint" GridPane.rowIndex="6" />
-                              <Label fx:id="lmint" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                              <Label fx:id="dateOf" text="Date of adding" GridPane.rowIndex="7" />
-                              <Label fx:id="ldate" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-                              <Label fx:id="link" text="Ucoin link" GridPane.rowIndex="8" />
+                              <Label fx:id="lyear" styleClass="label-bright" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                              <Label fx:id="lcost" styleClass="label-bright" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                              <Label fx:id="currency" text="Currency" GridPane.rowIndex="2" />
+                              <Label fx:id="lcurrency" styleClass="label-bright" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <Label fx:id="value" text="Value" GridPane.rowIndex="1" />
+                              <Label fx:id="lvalue" styleClass="label-bright" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <Hyperlink fx:id="llink" text="Hyperlink" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                              <Label fx:id="mint" text="Mint" GridPane.rowIndex="5" />
+                              <Label fx:id="lmint" styleClass="label-bright" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                              <Label fx:id="dateOf" text="Date of adding" GridPane.rowIndex="6" />
+                              <Label fx:id="ldate" styleClass="label-bright" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                              <Label fx:id="link" text="Ucoin link" GridPane.rowIndex="7" />
                            </children>
                         </GridPane>
                         <ButtonBar layoutX="219.0" layoutY="559.0" prefHeight="40.0" prefWidth="408.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="23.0">

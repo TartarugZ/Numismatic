@@ -1,4 +1,4 @@
-package com.coursework;
+package com.coursework.Objects;
 
 import com.coursework.Serialization.ReadObjects;
 import com.coursework.Serialization.WriteObjects;
@@ -19,7 +19,6 @@ public class Coin implements Serializable {
     private transient StringProperty cost;
     private transient StringProperty currency;
     private transient StringProperty value;
-    private transient StringProperty category;
     private transient StringProperty mint;
     private transient StringProperty date;
     private transient StringProperty linkUcoin;
@@ -46,7 +45,6 @@ public Coin(String string){
     this.cost = new SimpleStringProperty("");
     this.currency=new SimpleStringProperty("");
     this.value=new SimpleStringProperty("");
-    this.category=new SimpleStringProperty("");
     this.mint=new SimpleStringProperty("");
     this.date=new SimpleStringProperty("");
     this.linkUcoin=new SimpleStringProperty("");
@@ -75,10 +73,6 @@ public Coin(String string){
     public StringProperty getValueProperty(){return  value;}
     public void setValue(String string){this.value.set(string);}
 
-    public String getCategory(){return this.category.get();}
-    public StringProperty getCategoryProperty(){return  category;}
-    public void setCategory(String string){this.category.set(string);}
-
     public String getMint(){return this.mint.get();}
     public StringProperty getMintProperty(){return  mint;}
     public void setMint(String string){this.mint.set(string);}
@@ -99,7 +93,6 @@ public Coin(String string){
                 ", cost=" + cost +
                 ", currency=" + currency +
                 ", value=" + value +
-                ", category=" + category +
                 ", mint=" + mint +
                 ", date=" + date +
                 ", linkUcoin=" + linkUcoin +
@@ -113,18 +106,17 @@ public Coin(String string){
         this.cost = new SimpleStringProperty();
         this.currency=new SimpleStringProperty();
         this.value=new SimpleStringProperty();
-        this.category=new SimpleStringProperty();
         this.mint=new SimpleStringProperty();
         this.date=new SimpleStringProperty();
         this.linkUcoin=new SimpleStringProperty();
     }
     @Serial
     private void writeObject(ObjectOutputStream s) throws IOException {
-        WriteObjects.writeAllProp(s,country,years, cost,currency,value,category,mint,date,linkUcoin);
+        WriteObjects.writeAllProp(s,country,years, cost,currency,value,mint,date,linkUcoin);
     }
     @Serial
     private void readObject(ObjectInputStream s) throws IOException, ClassNotFoundException {
         init();
-        ReadObjects.readAllProp(s, country,years, cost,currency,value,category,mint,date,linkUcoin);
+        ReadObjects.readAllProp(s, country,years, cost,currency,value,mint,date,linkUcoin);
     }
 }

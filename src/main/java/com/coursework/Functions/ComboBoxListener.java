@@ -1,4 +1,4 @@
-package com.coursework;
+package com.coursework.Functions;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

@@ -1,7 +1,7 @@
 package com.coursework.Controllers;
 
-import com.coursework.Collection;
-import com.coursework.PropertyConnection;
+import com.coursework.Objects.Collection;
+import com.coursework.Functions.PropertyConnection;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
@@ -13,7 +13,7 @@ import java.io.IOException;
 
 import static com.coursework.Controllers.LanguageSelectionScene.translation;
 
-public class CreateCollectionScene {
+public class CreateCollectionStage {
 
     @FXML private TextField tf;
     @FXML private Label name;
@@ -25,22 +25,25 @@ public class CreateCollectionScene {
     public void setStage(Stage stage){
         this.stage=stage;
     }
+
  public void setCollection(Collection collection){
         this.collection=collection;
  }
+
     public void initialize() throws IOException {
+        setTranslation();
+    }
+
+    private void setTranslation() throws IOException {
         setLanguage();
         PropertyConnection p=new PropertyConnection(new File("")
                 .getAbsolutePath()+"/src/main/resources/translation_"+language+".properties");
-            name.setText(p.open().getProperty("nameC"));
+        name.setText(p.open().getProperty("nameC"));
         p.close();
-
     }
 
     @FXML
     private void enter(){
-
-
         if (tf.getText() == null || tf.getText().length() == 0) {
             String errorMessage = "Please, enter name of new collection or close this window\n";
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -51,8 +54,10 @@ public class CreateCollectionScene {
             alert.showAndWait();
         }
         else {
+            System.out.println(collection.getNameCollection()+"ONE");
             String string = tf.getText();
             collection.setNameCollection(string);
+            System.out.println(collection.getNameCollection()+"Two");
             closed=true;
             stage.close();
         }

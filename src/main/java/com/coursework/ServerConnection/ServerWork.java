@@ -1,37 +1,33 @@
 package com.coursework.ServerConnection;
 
+import com.coursework.Objects.Coin;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import org.apache.hc.core5.http.HttpEntity;
-import org.apache.hc.core5.http.NameValuePair;
-import org.apache.http.HttpRequest;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.HttpClients;
-import org.json.JSONArray;
-import org.jsoup.Connection;
-import org.jsoup.helper.HttpConnection;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.json.JSONObject;
-import org.apache.hc.core5.http.message.BasicNameValuePair;
-import org.apache.http.HttpHost;
-import org.apache.http.HttpVersion;
-import org.apache.http.client.fluent.Form;
-import org.apache.http.client.fluent.Content;
-import org.apache.http.client.fluent.Request;
-import org.apache.http.entity.ContentType;
+import com.fasterxml.jackson.datatype.guava.GuavaModule;
 
 import java.io.*;
 import java.net.*;
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.collections4.MultiMap;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.fluent.Content;
+import org.apache.http.client.fluent.Request;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicNameValuePair;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+
 
 public class ServerWork {
 
@@ -218,8 +214,6 @@ if(HttpURLConnection.HTTP_OK== connection.getResponseCode()){
 
             con.connect();
 
-
-
             StringBuilder sb= new StringBuilder();
             if(HttpURLConnection.HTTP_OK== con.getResponseCode()){
                 BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
@@ -236,9 +230,6 @@ if(HttpURLConnection.HTTP_OK== connection.getResponseCode()){
 
                     System.out.println(key + "  :  ");
                 });
-
-
-
 
 
                 System.out.println(sb);
@@ -262,7 +253,7 @@ if(HttpURLConnection.HTTP_OK== connection.getResponseCode()){
         try {
             con = (HttpURLConnection) new URL("http://localhost:8080/search/countries?lang="+string).openConnection();
             UserWork userWork=new UserWork();
-            con.setRequestProperty("Authorization",userWork.getPasswordAuthentication().toString());
+            //con.setRequestProperty("Authorization",userWork.getPasswordAuthentication().toString());
             con.setRequestMethod("GET");
             con.connect();
 
@@ -283,4 +274,130 @@ if(HttpURLConnection.HTTP_OK== connection.getResponseCode()){
         }catch (IOException e){e.printStackTrace();}
         return FXCollections.observableArrayList(we);
     }
+
+    public ObservableList<CoinDTO> userRequest(SearchInformation searchInformation, String language) throws IOException {
+
+
+        String jsonString =searchInformation.toJSON();
+
+        final Content putResult = Request.Put("http://localhost:8080/search?lang="+language)
+                .bodyString(jsonString,ContentType.APPLICATION_JSON)
+                .execute().returnContent();
+        System.out.println(putResult.asString());
+
+        StringBuilder sb = new StringBuilder();
+        BufferedReader in = new BufferedReader(new InputStreamReader(putResult.asStream()));
+        String line;
+        while ((line = in.readLine()) != null) {
+            sb.append(line);
+        }
+        line = sb.toString();
+
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+        if(putResult.asString().equals("coins with the specified parameters were not found")){
+            return FXCollections.observableArrayList();
+        }else { ArrayList<CoinDTO> listFromJackson = mapper.readValue(line,
+                new TypeReference<ArrayList<CoinDTO>>(){});
+            System.out.println(listFromJackson);
+            return FXCollections.observableArrayList(listFromJackson);}
+
+
+/*
+        HttpURLConnection con = null;
+        ArrayList<CoinDTO> we=new ArrayList<>();
+        try {
+            con = (HttpURLConnection) new URL("http://localhost:8080/search?lang="+language).openConnection();
+
+            con.setRequestMethod("PUT");
+
+            con.connect();
+
+            StringBuilder sb = new StringBuilder();
+
+            if (HttpURLConnection.HTTP_OK == con.getResponseCode()) {
+                BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                String line;
+                while ((line = in.readLine()) != null) {
+                    sb.append(line);
+                }
+                line = sb.toString();
+                we = objectMapper.readValue(line, new TypeReference<ArrayList<CoinDTO>>() {
+                });
+
+            }else System.out.println(con.getResponseCode()+con.getResponseMessage());
+        }catch (IOException e){e.printStackTrace();}
+        //return FXCollections.observableArrayList(we);
+        */
+
+/*
+        HttpClient httpclient = HttpClients.createDefault();
+        HttpPost httppost = new HttpPost("http://www.a-domain.com/foo/");
+
+// Request parameters and other properties.
+        List<NameValuePair> params = new ArrayList<NameValuePair>(2);
+        params.add(new BasicNameValuePair("param-1", "12345"));
+        params.add(new BasicNameValuePair("param-2", "Hello!"));
+        httppost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
+
+//Execute and get the response.
+        HttpResponse response = httpclient.execute(httppost);
+        HttpEntity entity = response.getEntity();
+
+        if (entity != null) {
+            try (InputStream instream = entity.getContent()) {
+                // do something useful
+            }
+        }
+        return FXCollections.observableArrayList(list);
+    }
+
+
+         */
+}
+
+    public boolean userCheck(String login, String password){
+            return true;
+}
+
+    public String userSignUp(String login, String password) throws IOException {
+        final Content postResult = Request.Post("http://localhost:8080/acc/new?lang=ru")
+                .bodyString("{\"username\": \""+login+"\",\"password\": \""+password+"\"}", ContentType.APPLICATION_JSON)
+                .execute().returnContent();
+        return postResult.asString();
+    }
+
+    public CountryDenominationInfo loadValueAndCurrency(String country,String language) throws IOException {
+
+        final Content putResult = Request.Put("http://localhost:8080/search/info?lang=" + language)
+                .bodyString("{\"country\": \"" + country + "\"}", ContentType.APPLICATION_JSON)
+                .execute().returnContent();
+        System.out.println(putResult.asString());
+
+        StringBuilder sb = new StringBuilder();
+        BufferedReader in = new BufferedReader(new InputStreamReader(putResult.asStream()));
+        String line;
+        while ((line = in.readLine()) != null) {
+            sb.append(line);
+        }
+        line = sb.toString();
+
+
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new GuavaModule());
+        JavaType type = mapper.getTypeFactory().constructType(new TypeReference<CountryDenominationInfo>() { });
+        System.out.println(type);
+        CountryDenominationInfo countryDenominationInfo=(CountryDenominationInfo) type.getContentTypeHandler();
+        System.out.println(countryDenominationInfo);
+
+        //ObjectMapper mapper = new ObjectMapper();
+        //CountryDenominationInfo listFromJackson = mapper.readValue(line,CountryDenominationInfo.class);
+        //System.out.println("HELLO");
+            return countryDenominationInfo;
+
+    }
+
+
 }

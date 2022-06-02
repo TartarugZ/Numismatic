@@ -1,4 +1,4 @@
-package com.coursework;
+package com.coursework.Functions;
 
 import java.io.FileInputStream;
 import java.io.IOException;

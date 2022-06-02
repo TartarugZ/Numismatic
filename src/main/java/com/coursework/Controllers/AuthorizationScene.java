@@ -1,9 +1,8 @@
 package com.coursework.Controllers;
 
-import com.coursework.CollectionBase;
-import com.coursework.PropertyConnection;
+import com.coursework.Objects.CollectionBase;
+import com.coursework.Functions.PropertyConnection;
 import com.coursework.Serialization.FileWork;
-import javafx.application.HostServices;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -32,43 +31,35 @@ public class AuthorizationScene{
     @FXML private Label signInLabel;
     private String fxmlPath= LanguageSelectionScene.fxmlPath;
 
-    public void setLanguage() throws IOException {
-        PropertyConnection property=new PropertyConnection(translation);
-        this.language=property.open().getProperty("language");
-        property.close();
-    }
-
     private String language;
-
     private Stage stage;
-
 
     public void initialize() throws IOException {
         imageAu.setImage(new Image("file:resources/images/Coins.png"));
-
-        setLanguage();
-        PropertyConnection p=new PropertyConnection(new File("")
-                .getAbsolutePath()+"/src/main/resources/translation_"+language+".properties");
-            loginText.setPromptText(p.open().getProperty("loginTextAuth"));
-            passwordText.setPromptText(p.open().getProperty("passwordTextAuth"));
-            enterButton.setText(p.open().getProperty("enterButtonAuth"));
-            signUpButton.setText(p.open().getProperty("signUpButtonAuth"));
-            signUpLabel.setText(p.open().getProperty("signUpLabelAuth"));
-            signInLabel.setText(p.open().getProperty("signInLabelAuth"));
-            changeButton.setText(p.open().getProperty("changeButtonAuth"));
-            p.close();
-
+        setTranslation();
     }
     public void setStage(Stage stage){
         this.stage=stage;
     }
+
+    private void setTranslation() throws IOException{
+        setLanguage();
+        PropertyConnection p=new PropertyConnection(new File("")
+                .getAbsolutePath()+"/src/main/resources/translation_"+language+".properties");
+        loginText.setPromptText(p.open().getProperty("loginTextAuth"));
+        passwordText.setPromptText(p.open().getProperty("passwordTextAuth"));
+        enterButton.setText(p.open().getProperty("enterButtonAuth"));
+        signUpButton.setText(p.open().getProperty("signUpButtonAuth"));
+        signUpLabel.setText(p.open().getProperty("signUpLabelAuth"));
+        signInLabel.setText(p.open().getProperty("signInLabelAuth"));
+        changeButton.setText(p.open().getProperty("changeButtonAuth"));
+        p.close();
+    }
     @FXML
     protected void signIn() throws IOException {
-        
         FileWork fileWork = new FileWork();
         fileWork.fileCreation(loginText.getText());
         FXMLLoader fxmlLoader = new FXMLLoader(new URL(fxmlPath+"FirstS.fxml"));
-        sets();
         stage.setScene(new Scene(fxmlLoader.load(), 1200, 750));
         FirstScene controller = fxmlLoader.getController();
         controller.setStage(stage);
@@ -81,7 +72,6 @@ public class AuthorizationScene{
     protected void signUp() throws IOException {
         //добавление нового аккаунта
         FXMLLoader fxmlLoader = new FXMLLoader(new URL(fxmlPath+"SignUpS.fxml"));
-        sets();
         stage.setScene(new Scene(fxmlLoader.load(), 800, 600));
         SignUpScene controller = fxmlLoader.getController();
         controller.setStage(stage);
@@ -90,16 +80,15 @@ public class AuthorizationScene{
     @FXML
     private void changeLanguage() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(new URL(fxmlPath+"LanguageS.fxml"));
-        sets();
         stage.setScene(new Scene(fxmlLoader.load(), 800, 600));
         LanguageSelectionScene controller = fxmlLoader.getController();
         controller.setStage(stage);
     }
 
-    private void sets(){
-        stage.setTitle("Coin Searcher");
-        stage.getIcons().add(new Image("file:resources/images/icon1.png"));
+    public void setLanguage() throws IOException {
+        PropertyConnection property=new PropertyConnection(translation);
+        this.language=property.open().getProperty("language");
+        property.close();
     }
-
 
 }

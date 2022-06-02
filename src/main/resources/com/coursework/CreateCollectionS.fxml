@@ -6,7 +6,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="300.0" styleClass="background" stylesheets="@Theme.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.coursework.Controllers.CreateCollectionScene">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="300.0" styleClass="background" stylesheets="@Theme.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.coursework.Controllers.CreateCollectionStage">
    <children>
       <TextField fx:id="tf" layoutX="69.0" layoutY="65.0" prefHeight="21.0" prefWidth="165.0" AnchorPane.leftAnchor="69.0" />
       <Label fx:id="name" layoutX="69.0" layoutY="33.0" text="Collection's name" AnchorPane.leftAnchor="69.0" />

@@ -1,7 +1,7 @@
 package com.coursework.Controllers;
 
-import com.coursework.Coin;
-import com.coursework.PropertyConnection;
+import com.coursework.Objects.Coin;
+import com.coursework.Functions.PropertyConnection;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -22,7 +22,6 @@ public class EditStage {
     @FXML private TextField price;
     @FXML private TextField currency;
     @FXML private TextField value;
-    @FXML private TextField category;
     @FXML private TextField mint;
     @FXML private TextField date;
     @FXML private TextField link;
@@ -32,7 +31,6 @@ public class EditStage {
     @FXML private Label priceLabel;
     @FXML private Label currencyLabel;
     @FXML private Label valueLabel;
-    @FXML private Label categoryLabel;
     @FXML private Label mintLabel;
     @FXML private Label dateLabel;
     @FXML private Label linkLabel;
@@ -44,19 +42,22 @@ public class EditStage {
 
     @FXML
     public void initialize() throws IOException {
+        setTranslation();
+    }
+
+    private void setTranslation() throws IOException {
         setLanguage();
         PropertyConnection p=new PropertyConnection(new File("")
                 .getAbsolutePath()+"/src/main/resources/translation_"+language+".properties");
-            cancel.setText(p.open().getProperty("cancelE"));
-            countryLabel.setText(p.open().getProperty("countryLabelE"));
-            yearLabel.setText(p.open().getProperty("yearLabelE"));
-            priceLabel.setText(p.open().getProperty("priceLabelE"));
-            currencyLabel.setText(p.open().getProperty("currencyLabelE"));
-            valueLabel.setText(p.open().getProperty("valueLabelE"));
-            categoryLabel.setText(p.open().getProperty("categoryLabelE"));
-            mintLabel.setText(p.open().getProperty("mintLabelE"));
-            dateLabel.setText(p.open().getProperty("dateLabelE"));
-            linkLabel.setText(p.open().getProperty("linkLabelE"));
+        cancel.setText(p.open().getProperty("cancelE"));
+        countryLabel.setText(p.open().getProperty("countryLabelE"));
+        yearLabel.setText(p.open().getProperty("yearLabelE"));
+        priceLabel.setText(p.open().getProperty("priceLabelE"));
+        currencyLabel.setText(p.open().getProperty("currencyLabelE"));
+        valueLabel.setText(p.open().getProperty("valueLabelE"));
+        mintLabel.setText(p.open().getProperty("mintLabelE"));
+        dateLabel.setText(p.open().getProperty("dateLabelE"));
+        linkLabel.setText(p.open().getProperty("linkLabelE"));
         p.close();
     }
 
@@ -77,7 +78,6 @@ public class EditStage {
         price.setText(coin.getCost());
         currency.setText(coin.getCurrency());
         value.setText(coin.getValue());
-        category.setText(coin.getCategory());
         mint.setText(coin.getMint());
         date.setText(coin.getDate());
         link.setText(coin.getLinkUcoin());
@@ -95,7 +95,6 @@ public class EditStage {
             coin.setCost(price.getText());
             coin.setCurrency(currency.getText());
             coin.setValue(value.getText());
-            coin.setCategory(category.getText());
             coin.setMint(mint.getText());
             coin.setDate(date.getText());
             coin.setLinkUcoin(link.getText());

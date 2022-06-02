@@ -6,12 +6,11 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane prefHeight="750.0" prefWidth="1200.0" styleClass="background" stylesheets="@Theme.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.coursework.Controllers.FirstScene">
    <children>
-      <TableView fx:id="tableview" layoutX="35.0" layoutY="28.0" prefHeight="311.0" prefWidth="689.0">
+      <TableView fx:id="tableview" layoutX="35.0" layoutY="28.0" prefHeight="348.0" prefWidth="689.0">
         <columns>
           <TableColumn fx:id="coins" prefWidth="670.0" text="Search results" />
         </columns>
@@ -21,7 +20,6 @@
           <TableColumn fx:id="collect" prefWidth="320.0" text="Your collections" />
         </columns>
       </TableView>
-      <TextField fx:id="tf" layoutX="278.0" layoutY="337.0" promptText="Search" />
       <Button fx:id="leaveButton" layoutX="14.0" layoutY="695.0" mnemonicParsing="false" onAction="#exit" text="Sign out" />
       <Label fx:id="nickname" layoutX="986.0" layoutY="18.0" />
       <Button fx:id="add" layoutX="278.0" layoutY="385.0" mnemonicParsing="false" onAction="#adding" prefHeight="33.0" prefWidth="204.0" text="Add coin to collection" />

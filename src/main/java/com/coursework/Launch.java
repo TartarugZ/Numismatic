@@ -2,7 +2,6 @@ package com.coursework;
 
 import com.coursework.Controllers.LanguageSelectionScene;
 import javafx.application.Application;
-import javafx.application.HostServices;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -12,7 +11,7 @@ import java.io.IOException;
 
 public class Launch extends Application {
 
-    private Stage mainStage = new Stage();
+    private final Stage mainStage = new Stage();
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -21,7 +20,7 @@ public class Launch extends Application {
         Scene scene = new Scene(fxmlLoader.load(), 800, 560);
         stage.setScene(scene);
         stage.setTitle("Coin Searcher");
-        stage.getIcons().add(new Image("file:resources/images/icon1.png"));//wewe
+        stage.getIcons().add(new Image("file:resources/images/icon1.png"));
         LanguageSelectionScene controller = fxmlLoader.getController();
         controller.setStage(stage);
         stage.showAndWait();

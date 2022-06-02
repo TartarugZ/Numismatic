@@ -1,6 +1,6 @@
 package com.coursework.Serialization;
 
-import com.coursework.CollectionBase;
+import com.coursework.Objects.CollectionBase;
 
 import java.io.*;
 

@@ -1,13 +1,11 @@
 package com.coursework.Controllers;
 
-import com.coursework.PropertyConnection;
+import com.coursework.Functions.PropertyConnection;
 import com.coursework.ServerConnection.ServerWork;
-import javafx.application.HostServices;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
@@ -32,10 +30,8 @@ public class LanguageSelectionScene{
         lEnglish.graphicProperty().setValue(new ImageView("file:resources/images/English.png"));
     }
 
-    private void languageChange() throws IOException {
+    private void next() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(new URL(fxmlPath+"AuthorizationS.fxml"));
-        stage.setTitle("Coin Searcher");
-        stage.getIcons().add(new Image("file:resources/images/icon1.png"));
         stage.setScene(new Scene(fxmlLoader.load(), 800, 560));
         AuthorizationScene controller = fxmlLoader.getController();
         controller.setStage(stage);
@@ -45,17 +41,16 @@ public class LanguageSelectionScene{
     @FXML
     protected void chooseRussian() throws IOException, InterruptedException {
         setLanguage("ru");
-        languageChange();
-        /*
+        next();
+
         ServerWork serverWork= new ServerWork();
-        serverWork.collectionCreate("Ishtar","j");
-        */
+        //serverWork.collectionCreate("Ishtar","j");
     }
 
     @FXML
     protected void chooseEnglish() throws IOException{
         setLanguage("en");
-        languageChange();
+        next();
     }
 
     public static void setLanguage(String language) throws IOException {

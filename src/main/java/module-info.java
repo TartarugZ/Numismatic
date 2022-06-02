@@ -10,6 +10,9 @@ module com.example.coursework {
     requires org.json;
     requires com.fasterxml.jackson.databind;
     requires java.desktop;
+    requires com.fasterxml.jackson.datatype.jsr310;
+    requires commons.collections4;
+    requires com.fasterxml.jackson.datatype.guava;
 
 
     opens com.coursework to javafx.fxml;
@@ -20,4 +23,8 @@ module com.example.coursework {
     opens com.coursework.Serialization to javafx.fxml;
     exports com.coursework.ServerConnection;
     opens com.coursework.ServerConnection to javafx.fxml;
+    exports com.coursework.Functions;
+    opens com.coursework.Functions to javafx.fxml;
+    exports com.coursework.Objects;
+    opens com.coursework.Objects to javafx.fxml;
 }

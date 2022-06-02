@@ -1,8 +1,8 @@
 package com.coursework.Controllers;
-import com.coursework.Coin;
-import com.coursework.Collection;
-import com.coursework.CollectionBase;
-import com.coursework.PropertyConnection;
+import com.coursework.Objects.Coin;
+import com.coursework.Objects.Collection;
+import com.coursework.Objects.CollectionBase;
+import com.coursework.Functions.PropertyConnection;
 import com.coursework.Serialization.FileWork;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -35,7 +35,6 @@ public class SecondScene  {
     @FXML private Label lcost;
     @FXML private Label lcurrency;
     @FXML private Label lvalue;
-    @FXML private Label lcategory;
     @FXML private Label lmint;
     @FXML private Label ldate;
     @FXML private Hyperlink llink;
@@ -46,7 +45,6 @@ public class SecondScene  {
     @FXML private Label price;
     @FXML private Label currency;
     @FXML private Label value;
-    @FXML private Label category;
     @FXML private Label mint;
     @FXML private Label dateOf;
     @FXML private Label link;
@@ -95,7 +93,7 @@ public class SecondScene  {
     @FXML
     public void initialize() throws IOException {
         setTranslation();
-
+        visible(false);
         coinDetails(null);
         coinTableView.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> coinDetails(newValue));
@@ -122,7 +120,6 @@ public class SecondScene  {
         price.setText(p.open().getProperty("priceS"));
         currency.setText(p.open().getProperty("currencyS"));
         value.setText(p.open().getProperty("valueS"));
-        category.setText(p.open().getProperty("categoryS"));
         mint.setText(p.open().getProperty("mintS"));
         dateOf.setText(p.open().getProperty("dateOfS"));
         link.setText(p.open().getProperty("linkS"));
@@ -169,7 +166,6 @@ public class SecondScene  {
                         cc.get(i).setCurrency(selectedCoin.getCurrency());
                         cc.get(i).setCost(selectedCoin.getCost());
                         cc.get(i).setValue(selectedCoin.getValue());
-                        cc.get(i).setCategory(selectedCoin.getCategory());
                         cc.get(i).setMint(selectedCoin.getMint());
                         cc.get(i).setDate(selectedCoin.getDate());
                         cc.get(i).setLinkUcoin(selectedCoin.getLinkUcoin());
@@ -209,17 +205,36 @@ public class SecondScene  {
         }
     }
 
+    private void visible(boolean a){
+        lcountry.setVisible(a);
+        lyear.setVisible(a);
+        lcost.setVisible(a);
+        lcurrency.setVisible(a);
+        lvalue.setVisible(a);
+        lmint.setVisible(a);
+        ldate.setVisible(a);
+        llink.setVisible(a);
+        country.setVisible(a);
+        year.setVisible(a);
+        price.setVisible(a);
+        currency.setVisible(a);
+        value.setVisible(a);
+        mint.setVisible(a);
+        dateOf.setVisible(a);
+        link.setVisible(a);
+    }
+
     private void coinDetails(Coin coin) {
         if (coin != null) {
+            visible(true);
             lcountry.setText(coin.getCountry());
             lyear.setText(coin.getYears());
             lcost.setText(coin.getCost());
             lcurrency.setText(coin.getCurrency());
             lvalue.setText(coin.getValue());
-            lcategory.setText(coin.getCategory());
             lmint.setText(coin.getMint());
             ldate.setText(coin.getDate());
-            llink.setText(coin.getLinkUcoin());
+            llink.setText("https://"+language+".ucoin.net" +coin.getLinkUcoin());
             editButton.setDisable(false);
             deleteButton.setDisable(false);
 
@@ -227,7 +242,7 @@ public class SecondScene  {
                 @Override
                 public void handle(MouseEvent mouseEvent) {
                     try {
-                        desktop.browse(new URL("https://" +llink.getText()).toURI());
+                        desktop.browse(new URL(llink.getText()).toURI());
                     } catch (IOException | URISyntaxException e) {
                         e.printStackTrace();
                     }
@@ -240,8 +255,6 @@ public class SecondScene  {
     @FXML
     protected void goSearch() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(new URL(fxmlPath+"FirstS.fxml"));
-        stage.setTitle("Coin Searcher");
-        stage.getIcons().add(new Image("file:resources/images/icon1.png"));
         stage.setScene(new Scene(fxmlLoader.load(), 1200, 750));
         FirstScene controller = fxmlLoader.getController();
         controller.setStage(stage);
