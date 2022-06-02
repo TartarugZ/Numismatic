@@ -136,6 +136,7 @@ public CoinDTO(){
     coin.setMint(getMint());
     coin.setDate(getDataOfCreate().toString());
     coin.setLinkUcoin(getLinkUcoin());
+    coin.setInfo(getInfo());
     return coin;
     }
 

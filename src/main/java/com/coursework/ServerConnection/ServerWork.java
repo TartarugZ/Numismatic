@@ -2,6 +2,7 @@ package com.coursework.ServerConnection;
 
 import com.coursework.Objects.Coin;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.json.JsonMapper;
@@ -387,14 +388,12 @@ if(HttpURLConnection.HTTP_OK== connection.getResponseCode()){
 
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new GuavaModule());
-        JavaType type = mapper.getTypeFactory().constructType(new TypeReference<CountryDenominationInfo>() { });
-        System.out.println(type);
-        CountryDenominationInfo countryDenominationInfo=(CountryDenominationInfo) type.getContentTypeHandler();
+        mapper.registerSubtypes(CountryDenominationInfo.class);
+        CountryDenominationInfo countryDenominationInfo=mapper.readValue(line, new TypeReference<CountryDenominationInfo>() {
+        });
         System.out.println(countryDenominationInfo);
 
-        //ObjectMapper mapper = new ObjectMapper();
-        //CountryDenominationInfo listFromJackson = mapper.readValue(line,CountryDenominationInfo.class);
-        //System.out.println("HELLO");
+
             return countryDenominationInfo;
 
     }

@@ -22,23 +22,8 @@ public class Coin implements Serializable {
     private transient StringProperty mint;
     private transient StringProperty date;
     private transient StringProperty linkUcoin;
-    transient  ArrayList<String> a=new ArrayList<>();
+    private transient StringProperty info;
 
-
-/*
-    public Coin(CoinDTO coinDTO) {
-        this.country = new SimpleStringProperty(coinDTO.getCountry());
-        this.years = new SimpleStringProperty(coinDTO.getYears().toString());
-        this.cost = new SimpleStringProperty(coinDTO.getCost());
-        this.currency=new SimpleStringProperty(coinDTO.getCurrency());
-        this.value=new SimpleStringProperty(coinDTO.getValue());
-        this.category=new SimpleStringProperty(coinDTO.getCategory());
-        this.mint=new SimpleStringProperty(coinDTO.getMint());
-        this.date=new SimpleStringProperty(coinDTO.getDataOfCreate().toString());
-        this.linkUcoin=new SimpleStringProperty(coinDTO.getLinkUcoin());
-    }
-
- */
 public Coin(String string){
     this.country = new SimpleStringProperty(string);
     this.years = new SimpleStringProperty("");
@@ -48,6 +33,7 @@ public Coin(String string){
     this.mint=new SimpleStringProperty("");
     this.date=new SimpleStringProperty("");
     this.linkUcoin=new SimpleStringProperty("");
+    this.info=new SimpleStringProperty("");
 }
     public Coin(){init();}
 
@@ -85,6 +71,10 @@ public Coin(String string){
     public StringProperty getLinkUcoinProperty(){return  linkUcoin;}
     public void setLinkUcoin(String string){this.linkUcoin.set(string);}
 
+    public String getInfo(){return this.info.get();}
+    public StringProperty getInfoProperty(){return  info;}
+    public void setInfo(String string){this.info.set(string);}
+
     @Override
     public String toString() {
         return "Coin{" +
@@ -109,14 +99,15 @@ public Coin(String string){
         this.mint=new SimpleStringProperty();
         this.date=new SimpleStringProperty();
         this.linkUcoin=new SimpleStringProperty();
+        this.info=new SimpleStringProperty();
     }
     @Serial
     private void writeObject(ObjectOutputStream s) throws IOException {
-        WriteObjects.writeAllProp(s,country,years, cost,currency,value,mint,date,linkUcoin);
+        WriteObjects.writeAllProp(s,country,years, cost,currency,value,mint,date,linkUcoin,info);
     }
     @Serial
     private void readObject(ObjectInputStream s) throws IOException, ClassNotFoundException {
         init();
-        ReadObjects.readAllProp(s, country,years, cost,currency,value,mint,date,linkUcoin);
+        ReadObjects.readAllProp(s, country,years, cost,currency,value,mint,date,linkUcoin,info);
     }
 }

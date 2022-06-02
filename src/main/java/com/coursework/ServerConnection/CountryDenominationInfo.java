@@ -1,10 +1,7 @@
 package com.coursework.ServerConnection;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,18 +10,18 @@ import org.apache.commons.collections4.map.MultiValueMap;
 
 public class CountryDenominationInfo implements Serializable {
     private String country;
-    private MultiMap<String,ArrayList<String>> curAndValues;
+    private HashSet<ValAndCurPair> curAndValues;
+    private boolean allInfo;
 
-    public MultiMap<String, ArrayList<String>> getCurAndValues() {
+
+
+    public HashSet<ValAndCurPair> getCurAndValues() {
         return curAndValues;
     }
 
-    public void setCurAndValues(MultiMap<String, ArrayList<String>> curAndValues) {
+    public void setCurAndValues(HashSet<ValAndCurPair> curAndValues) {
         this.curAndValues = curAndValues;
     }
-
-
-    private boolean allInfo;
 
     public CountryDenominationInfo() {
     }
@@ -38,19 +35,6 @@ public class CountryDenominationInfo implements Serializable {
     }
 
 
-
-
-
-    public void setCurAndValues() {
-
-        this.curAndValues = new MultiValueMap<>();
-    }
-    public void addToCurAndValues(String f, String s){
-
-        curAndValues.put(f,s);
-
-    }
-
     public boolean isAllInfo() {
         return allInfo;
     }
@@ -59,21 +43,25 @@ public class CountryDenominationInfo implements Serializable {
         this.allInfo = allInfo;
     }
 
+
     public ObservableList<String> getValue(){
-        ArrayList<String> values = new ArrayList<>();
-        curAndValues.forEach((key,value)->{
-                values.add(key);
-                });
+        ArrayList<String> values=new ArrayList<>();
+        curAndValues.forEach((key)->values.add(key.getFirst()));
         return FXCollections.observableArrayList(values);
     }
 
     public ObservableList<String> getCurrency(){
-        ArrayList<String> currency = new ArrayList<>();
-        curAndValues.forEach((key,value)->{
-            ArrayList<String> h=(ArrayList<String>)value;
-            currency.addAll(h);
-        });
-        return FXCollections.observableArrayList(currency);
+        ArrayList<String> currencies=new ArrayList<>();
+        curAndValues.forEach((key)->currencies.add(key.getSecond()));
+        return FXCollections.observableArrayList(currencies);
     }
 
+    @Override
+    public String toString() {
+        return "CountryDenominationInfo{" +
+                "country='" + country + '\'' +
+                ", curAndValues=" + curAndValues +
+                ", allInfo=" + allInfo +
+                '}';
+    }
 }

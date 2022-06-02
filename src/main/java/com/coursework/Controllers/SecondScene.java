@@ -53,6 +53,7 @@ public class SecondScene  {
     @FXML private Button deleteButton;
     @FXML private Button saveButton1;
     @FXML private Button saveButton;
+    @FXML private TextArea info;
     private String fxmlPath = LanguageSelectionScene.fxmlPath;
     private FileWork fileWork=new FileWork();
     private String language;
@@ -62,6 +63,7 @@ public class SecondScene  {
     private ObservableList<Coin> cc2= FXCollections.observableArrayList(cc);
     private CollectionBase collectionBase;
     private CollectionBase localCollectionBase;
+    private Collection collectionBuffer;
     private Collection collection;
     private String nickname;
     private Desktop desktop=Desktop.getDesktop();
@@ -82,6 +84,7 @@ public class SecondScene  {
     public void setCC(Collection collection){
         this.cc =collection.getCollection();
         this.collection=collection;
+        this.collectionBuffer=collection;
         refreshTable();
     }
 
@@ -169,6 +172,7 @@ public class SecondScene  {
                         cc.get(i).setMint(selectedCoin.getMint());
                         cc.get(i).setDate(selectedCoin.getDate());
                         cc.get(i).setLinkUcoin(selectedCoin.getLinkUcoin());
+                        cc.get(i).setInfo(selectedCoin.getInfo());
                     }
                 }
                 coinDetails(selectedCoin);
@@ -191,7 +195,7 @@ public class SecondScene  {
             stageEdit.initModality(Modality.APPLICATION_MODAL);
             stageEdit.setTitle("Coin Searcher");
             stageEdit.getIcons().add(new Image("file:resources/images/icon1.png"));
-            stageEdit.setScene(new Scene(fxmlLoader.load(), 650, 520));
+            stageEdit.setScene(new Scene(fxmlLoader.load(), 970, 520));
 
             EditStage controller = fxmlLoader.getController();
             controller.setStage(stageEdit);
@@ -222,6 +226,7 @@ public class SecondScene  {
         mint.setVisible(a);
         dateOf.setVisible(a);
         link.setVisible(a);
+        info.setVisible(a);
     }
 
     private void coinDetails(Coin coin) {
@@ -237,7 +242,8 @@ public class SecondScene  {
             llink.setText("https://"+language+".ucoin.net" +coin.getLinkUcoin());
             editButton.setDisable(false);
             deleteButton.setDisable(false);
-
+            info.setText(coin.getInfo());
+            info.setEditable(false);
             llink.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent mouseEvent) {
@@ -264,8 +270,13 @@ public class SecondScene  {
 
     @FXML
     private void save() throws IOException{
-         localCollectionBase.addCollection(collection);
-         fileWork.write(localCollectionBase,nickname);
+        for (int i=0;i<localCollectionBase.getAllCollections().size();i++){
+            if(localCollectionBase.getAllCollections().get(i)==collectionBuffer){
+                localCollectionBase.getAllCollections().remove(i);
+            }
+        }
+        localCollectionBase.addCollection(collection);
+        fileWork.write(localCollectionBase,nickname);
     }
 
     @FXML

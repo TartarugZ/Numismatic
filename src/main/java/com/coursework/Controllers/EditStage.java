@@ -3,11 +3,8 @@ package com.coursework.Controllers;
 import com.coursework.Objects.Coin;
 import com.coursework.Functions.PropertyConnection;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
+import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -34,6 +31,7 @@ public class EditStage {
     @FXML private Label mintLabel;
     @FXML private Label dateLabel;
     @FXML private Label linkLabel;
+    @FXML private TextArea info;
 
     private Stage stage;
     private Coin coin= new Coin();
@@ -81,6 +79,7 @@ public class EditStage {
         mint.setText(coin.getMint());
         date.setText(coin.getDate());
         link.setText(coin.getLinkUcoin());
+        info.setText(coin.getInfo());
     }
 
     public boolean isOkClicked() {
@@ -98,6 +97,7 @@ public class EditStage {
             coin.setMint(mint.getText());
             coin.setDate(date.getText());
             coin.setLinkUcoin(link.getText());
+            coin.setInfo(info.getText());
             okClicked=true;
             stage.close();
         }

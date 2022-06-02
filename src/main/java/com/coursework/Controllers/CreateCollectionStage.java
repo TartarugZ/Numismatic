@@ -54,10 +54,8 @@ public class CreateCollectionStage {
             alert.showAndWait();
         }
         else {
-            System.out.println(collection.getNameCollection()+"ONE");
             String string = tf.getText();
             collection.setNameCollection(string);
-            System.out.println(collection.getNameCollection()+"Two");
             closed=true;
             stage.close();
         }

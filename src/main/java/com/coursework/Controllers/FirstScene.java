@@ -103,17 +103,20 @@ public class FirstScene{
         cbCountry.setItems(serverWork.getCountries(property.open().getProperty("language")));
 
 
+
         cbCountry.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                 try {
-                    cbValue.setItems(serverWork.loadValueAndCurrency(cbCountry.getSelectionModel().getSelectedItem(),language).getValue());
-                    cbCurrency.setItems(serverWork.loadValueAndCurrency(cbCountry.getSelectionModel().getSelectedItem(),language).getCurrency());
+                    serverWork.loadValueAndCurrency(cbCountry.getSelectionModel().getSelectedItem(),language);
+                    //cbValue.setItems(serverWork.loadValueAndCurrency(cbCountry.getSelectionModel().getSelectedItem(),language).getValue());
+                    //cbCurrency.setItems(serverWork.loadValueAndCurrency(cbCountry.getSelectionModel().getSelectedItem(),language).getCurrency());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         });
+
 
 
         ComboBoxListener<String> helper1=new ComboBoxListener<>(cbCountry);
@@ -165,17 +168,16 @@ public class FirstScene{
                     FXMLLoader fxmlLoader = null;
                     try {
                         fxmlLoader = new FXMLLoader(new URL(fxmlPath+"SecondS.fxml"));
-                    } catch (MalformedURLException e) {
+                        stage.setScene(new Scene(fxmlLoader.load(), 1200, 750));
+                        localCollectionBase=fileWork.read(nickname.getText());
+                    } catch (IOException | ClassNotFoundException e) {
                         e.printStackTrace();
                     }
-                    try {
-                        stage.setScene(new Scene(fxmlLoader.load(), 1000, 600));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+
                     String name = tableview2.getSelectionModel().getSelectedItem().getNameCollection();
                     SecondScene controller = fxmlLoader.getController();
                     controller.setStage(stage);
+
                     controller.setCollectionBase(collectionBase, localCollectionBase);
                     controller.setNickname(nickname.getText());
                     for(int i=0;i<collectionBase.getAllCollections().size();i++){
@@ -280,7 +282,6 @@ public class FirstScene{
             controller.setCollectionBase(collectionBase,tableview.getSelectionModel().getSelectedItem().toCoin(), stageEdit );
             stageEdit.showAndWait();
         }
-        System.out.println(cbValue.getSelectionModel().getSelectedItem());
  }
 
  @FXML
