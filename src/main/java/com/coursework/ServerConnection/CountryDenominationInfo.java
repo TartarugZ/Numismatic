@@ -44,21 +44,21 @@ public class CountryDenominationInfo implements Serializable {
     }
 
 
-    public ArrayList<String> getValue(){
+    public List<String> getValue(){
         HashSet<String> set = new HashSet<>();
         curAndValues.forEach((key) -> set.add(key.getFirst()));
         System.out.println(set);
         return new ArrayList<>(set);
     }
 
-    public ArrayList<String> getCurrency() {
+    public List<String> getCurrency() {
         HashSet<String> set = new HashSet<>();
         curAndValues.forEach((key) -> set.add(key.getSecond()));
         System.out.println(set);
         return new ArrayList<>(set);
     }
 
-    public ArrayList<String> getSingleValue(String currency){
+    public List<String> getSingleValue(String currency){
         ArrayList<String> a=new ArrayList<>();
         if(currency==null||currency.equals("")||currency.equals(" ")){
             a.addAll(getValue());
@@ -70,7 +70,7 @@ public class CountryDenominationInfo implements Serializable {
         return a;
     }
 
-    public ArrayList<String> getSingleCurrency(String value){
+    public List<String> getSingleCurrency(String value){
         ArrayList<String> a=new ArrayList<>();
         if(value==null||value.equals("")||value.equals(" ")){
             a.addAll(getCurrency());

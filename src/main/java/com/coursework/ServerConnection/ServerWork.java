@@ -13,6 +13,7 @@ import com.fasterxml.jackson.datatype.guava.GuavaModule;
 import java.io.*;
 import java.net.*;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.collections4.MultiMap;
@@ -158,8 +159,6 @@ if(HttpURLConnection.HTTP_OK== connection.getResponseCode()){
             .execute().returnContent();
     System.out.println(postResult.asString());
 
-
-
         final Content postResult = Request.Get("http://localhost:8080/acc/get=?Kokomi")
                 .execute().returnContent();
         System.out.println(postResult.asString());
@@ -204,6 +203,11 @@ if(HttpURLConnection.HTTP_OK== connection.getResponseCode()){
         final Content getResult = Request.Get("http://localhost:8080/search/countries?lang=ru")
                 .execute().returnContent();
         System.out.println(getResult);
+
+        //        final Content postResult = Request.Post("http://localhost:8080/acc/new")
+//                .bodyString("{\"username\": \""+username+"\",\"password\": \""+password+"\"}", ContentType.APPLICATION_JSON)
+//                .execute().returnContent();
+//        return postResult.asString();
 
 */
         HttpURLConnection con=null;
@@ -253,8 +257,10 @@ if(HttpURLConnection.HTTP_OK== connection.getResponseCode()){
         ArrayList<String> we=new ArrayList<>();
         try {
             con = (HttpURLConnection) new URL("http://localhost:8080/search/countries?lang="+string).openConnection();
-            UserWork userWork=new UserWork();
-            //con.setRequestProperty("Authorization",userWork.getPasswordAuthentication().toString());
+            String auth = "Kokomi:Real";
+            byte[] encodedAuth = Base64.getEncoder().encode(auth.getBytes(StandardCharsets.UTF_8));
+            String authHeaderValue = "Basic " + new String(encodedAuth);
+            con.setRequestProperty("Authorization",authHeaderValue);
             con.setRequestMethod("GET");
             con.connect();
 
@@ -276,10 +282,10 @@ if(HttpURLConnection.HTTP_OK== connection.getResponseCode()){
         return FXCollections.observableArrayList(we);
     }
 
-    public ObservableList<CoinDTO> userRequest(SearchInformation searchInformation, String language) throws IOException {
-
+    public ArrayList<CoinDTO> userRequest(SearchInformation searchInformation, String language) throws IOException {
+System.out.println(searchInformation);
         String jsonString =searchInformation.toJSON();
-
+        System.out.println(jsonString);
         final Content putResult = Request.Put("http://localhost:8080/search?lang="+language)
                 .bodyString(jsonString,ContentType.APPLICATION_JSON)
                 .execute().returnContent();
@@ -297,11 +303,11 @@ if(HttpURLConnection.HTTP_OK== connection.getResponseCode()){
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JavaTimeModule());
         if(putResult.asString().equals("coins with the specified parameters were not found")){
-            return FXCollections.observableArrayList();
+            return new ArrayList<>();
         }else { ArrayList<CoinDTO> listFromJackson = mapper.readValue(line,
                 new TypeReference<ArrayList<CoinDTO>>(){});
             System.out.println(listFromJackson);
-            return FXCollections.observableArrayList(listFromJackson);}
+            return listFromJackson;}
 
 
 /*
@@ -361,11 +367,35 @@ if(HttpURLConnection.HTTP_OK== connection.getResponseCode()){
             return true;
 }
 
-    public String userSignUp(String login, String password) throws IOException {
-        final Content postResult = Request.Post("http://localhost:8080/acc/new?lang=ru")
-                .bodyString("{\"username\": \""+login+"\",\"password\": \""+password+"\"}", ContentType.APPLICATION_JSON)
-                .execute().returnContent();
-        return postResult.asString();
+    public String userSignUp(String username, String password) throws IOException {
+
+        HttpURLConnection con = null;
+        StringBuilder sb = new StringBuilder();
+        String result="";
+        try {
+            con = (HttpURLConnection) new URL("http://localhost:8080/acc/new").openConnection();
+
+            con.setRequestMethod("POST");
+            con.setRequestProperty("Content-Type", "application/json");
+            con.setRequestProperty("Accept", "application/json");
+            con.setDoOutput(true);
+            String jsonInputString = "{"+"\"username\""+":\""+username+"\","+ "\"password\""+":\""+ password+"\"}";
+            try(OutputStream os = con.getOutputStream()) {
+                byte[] input = jsonInputString.getBytes("utf-8");
+                os.write(input, 0, input.length);
+            }
+            con.connect();
+            if (HttpURLConnection.HTTP_OK == con.getResponseCode()) {
+                result=buffRead(con.getInputStream());
+                System.out.println(con.getResponseCode()+con.getResponseMessage());
+
+            }else {
+                result=buffRead(con.getInputStream());
+                System.out.println(con.getResponseCode()+con.getResponseMessage());
+            }
+        }catch (IOException e){e.printStackTrace();}
+        System.out.println(sb.toString());
+        return result;
     }
 
     public CountryDenominationInfo loadValueAndCurrency(String country,String language) throws IOException {
@@ -373,7 +403,7 @@ if(HttpURLConnection.HTTP_OK== connection.getResponseCode()){
         final Content putResult = Request.Put("http://localhost:8080/search/info?lang=" + language)
                 .bodyString("{\"country\": \"" + country + "\"}", ContentType.APPLICATION_JSON)
                 .execute().returnContent();
-        System.out.println(putResult.asString());
+        System.out.println(putResult);
 
         StringBuilder sb = new StringBuilder();
         BufferedReader in = new BufferedReader(new InputStreamReader(putResult.asStream()));
@@ -395,5 +425,15 @@ if(HttpURLConnection.HTTP_OK== connection.getResponseCode()){
 
     }
 
+    private String buffRead(InputStream inputStream) throws IOException {
+        StringBuilder sb=new StringBuilder();
+        BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
+        String line;
+        while ((line = in.readLine()) != null) {
+            sb.append(line);
+        }
+        line = sb.toString();
+        return line;
+    }
 
 }

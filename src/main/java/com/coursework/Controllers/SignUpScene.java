@@ -5,6 +5,7 @@ import com.coursework.ServerConnection.ServerWork;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -41,12 +42,17 @@ public class SignUpScene{
     @FXML
     protected void registered() throws IOException {
         ServerWork serverWork = new ServerWork();
-        serverWork.userSignUp(createL.getText(),createP.getText());
+        String result=serverWork.userSignUp(createL.getText(),createP.getText());
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("");
+        alert.setHeaderText(null);
+        alert.setContentText(result);
+        alert.showAndWait();
+
         FXMLLoader fxmlLoader = new FXMLLoader(new URL(fxmlPath+"AuthorizationS.fxml"));
         stage.setScene(new Scene(fxmlLoader.load(), 800, 600));
         AuthorizationScene controller = fxmlLoader.getController();
         controller.setStage(stage);
-        //добавить сохранение регистрационных данных
     }
 
     public void initialize() throws IOException {

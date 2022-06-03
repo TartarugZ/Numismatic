@@ -104,8 +104,6 @@ public class FirstScene{
 
         cbCountry.setItems(serverWork.getCountries(property.open().getProperty("language")));
 
-
-
         cbCountry.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -123,8 +121,7 @@ public class FirstScene{
             @Override
             public void handle(ActionEvent actionEvent) {
                 cbCurrency.setItems(FXCollections.observableArrayList(cdi.getSingleCurrency(cbValue.getSelectionModel().getSelectedItem())));
-                ComboBoxListener<String> helper1=new ComboBoxListener<>(cbCurrency);
-                ComboBoxListener<String> helper2=new ComboBoxListener<>(cbValue);
+
             }
         });
 
@@ -132,16 +129,16 @@ public class FirstScene{
             @Override
             public void handle(ActionEvent actionEvent) {
                 cbValue.setItems(FXCollections.observableArrayList(cdi.getSingleValue(cbCurrency.getSelectionModel().getSelectedItem())));
-                ComboBoxListener<String> helper1=new ComboBoxListener<>(cbCurrency);
-                ComboBoxListener<String> helper2=new ComboBoxListener<>(cbValue);
             }
         });
 
-        ComboBoxListener<String> helper1=new ComboBoxListener<>(cbCountry);
-        ComboBoxListener<String> helper2=new ComboBoxListener<>(cbYears);
-        ComboBoxListener<String> helper3=new ComboBoxListener<>(cbCurrency);
-        ComboBoxListener<String> helper4=new ComboBoxListener<>(cbValue);
-        ComboBoxListener<String> helper5=new ComboBoxListener<>(cbMint);
+
+
+        ComboBoxListener helper=new ComboBoxListener<>(cbCountry);
+        cbYears.setEditable(true);
+        cbValue.setEditable(true);
+        cbCurrency.setEditable(true);
+        cbMint.setEditable(true);
         property.close();
     }
  public void setStage(Stage stage){
@@ -315,7 +312,6 @@ public class FirstScene{
      value.add(cbValue.getSelectionModel().getSelectedItem());
      mint.add(cbMint.getSelectionModel().getSelectedItem());
 
-
      SearchInformation searchInformation=new SearchInformation();
      searchInformation.setCountry(cbCountry.getSelectionModel().getSelectedItem());
      searchInformation.setYear(year);
@@ -324,7 +320,18 @@ public class FirstScene{
      searchInformation.setMint(mint);
      System.out.println(searchInformation);
      coins.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().toString()));
-     dataList=serverWork.userRequest(searchInformation,language);
+     ArrayList<CoinDTO> we=serverWork.userRequest(searchInformation,language);
+     dataList=FXCollections.observableArrayList(we);
+     if(we.isEmpty()){
+         Alert alert = new Alert(Alert.AlertType.INFORMATION);
+         PropertyConnection propertyConnection=new PropertyConnection(new File("")
+                 .getAbsolutePath()+"/src/main/resources/translation_"+language+".properties");
+         alert.setTitle(propertyConnection.open().getProperty("information"));
+         alert.setHeaderText(null);
+         alert.setContentText(propertyConnection.open().getProperty("coinNotFound"));
+         alert.showAndWait();
+         propertyConnection.close();
+     }
      tableview.setItems(dataList);
 
  }

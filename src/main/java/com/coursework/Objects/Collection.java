@@ -47,7 +47,7 @@ public class Collection implements Serializable {
     @Override
     public boolean equals(Object o) {
        Collection col=(Collection) o;
-       return this.nameCollection.equals(col.nameCollection) && Arrays.equals(new ArrayList[]{this.collection}, new ArrayList[]{col.collection});
+       return this.nameCollection.equals(col.nameCollection) && this.collection.toString().equals(col.collection.toString());
     }
 
     @Override

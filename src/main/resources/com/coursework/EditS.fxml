@@ -52,6 +52,6 @@
                 <Button fx:id="cancel" mnemonicParsing="false" onAction="#cancelButton" text="Cancel" />
             </buttons>
         </ButtonBar>
-      <TextArea fx:id="info" layoutX="552.0" layoutY="21.0" prefHeight="359.0" prefWidth="365.0" />
+      <TextArea fx:id="info" layoutX="552.0" layoutY="21.0" prefHeight="359.0" prefWidth="365.0" stylesheets="@Theme.css" />
     </children>
 </AnchorPane>
