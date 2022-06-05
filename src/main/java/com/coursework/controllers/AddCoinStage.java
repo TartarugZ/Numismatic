@@ -1,9 +1,9 @@
 package com.coursework.controllers;
 
-import com.coursework.objects.Coin;
 import com.coursework.objects.Collection;
 import com.coursework.objects.CollectionBase;
 import com.coursework.functions.PropertyConnection;
+import com.coursework.serverConnection.CoinDTO;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -24,7 +24,7 @@ public class AddCoinStage {
     @FXML private TableColumn<Collection,String> names;
     @FXML private Button add;
     @FXML private Button cancel;
-    private Coin coin;
+    private CoinDTO coin;
     private Stage stage;
     private ArrayList<Collection> collections=new ArrayList<>();
     private ObservableList<Collection> collections2= FXCollections.observableArrayList(collections);
@@ -56,7 +56,7 @@ public class AddCoinStage {
         this.stage.close();
     }
 
-    public void setCollectionBase(CollectionBase collectionBase,Coin coin,Stage stage){
+    public void setCollectionBase(CollectionBase collectionBase,CoinDTO coin,Stage stage){
         this.collections=collectionBase.getAllCollections();
         this.coin=coin;
         this.stage=stage;

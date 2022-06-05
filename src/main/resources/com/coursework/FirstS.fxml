@@ -22,7 +22,7 @@
       </TableView>
       <Button fx:id="leaveButton" layoutX="14.0" layoutY="695.0" mnemonicParsing="false" onAction="#exit" text="Sign out" />
       <Label fx:id="nickname" layoutX="986.0" layoutY="18.0" />
-      <Button fx:id="add" layoutX="278.0" layoutY="410.0" mnemonicParsing="false" onAction="#adding" prefHeight="33.0" prefWidth="204.0" text="Add coin to collection" />
+      <Button fx:id="add" layoutX="278.0" layoutY="410.0" mnemonicParsing="false" onAction="#addingCoin" prefHeight="33.0" prefWidth="204.0" text="Add coin to collection" />
       <Button fx:id="addCollectionButton" layoutX="920.0" layoutY="410.0" mnemonicParsing="false" onAction="#addLocalCollection" prefHeight="33.0" prefWidth="199.0" text="Add local collection" />
       <Label fx:id="addCollectionLabel" layoutX="674.0" layoutY="393.0" prefHeight="33.0" prefWidth="248.0" />
       <ButtonBar layoutX="185.0" layoutY="521.0" prefHeight="40.0" prefWidth="812.0">

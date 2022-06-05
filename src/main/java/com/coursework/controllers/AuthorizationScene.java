@@ -66,7 +66,7 @@ public class AuthorizationScene{
            stage.setScene(new Scene(fxmlLoader.load(), 1200, 750));
            FirstScene controller = fxmlLoader.getController();
            controller.setStage(stage);
-           CollectionBase collectionBase = new CollectionBase();
+           CollectionBase collectionBase = serverWork.getCollections();
            controller.setCollection(collectionBase);
            controller.setAccount(loginText.getText());
        }else{

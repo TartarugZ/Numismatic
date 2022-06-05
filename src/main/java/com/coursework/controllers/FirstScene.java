@@ -26,7 +26,6 @@ import java.io.*;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import com.coursework.serverConnection.ServerWork;
 import javafx.util.Duration;
@@ -277,7 +276,7 @@ public class FirstScene{
     }
 
     @FXML
- private  void  adding() throws IOException {
+ private  void addingCoin() throws IOException {
         if(chosenCoin()) {
             FXMLLoader fxmlLoader = new FXMLLoader(new URL(FXML_PATH+"AddCoinS.fxml"));
             Stage stageEdit = new Stage();
@@ -286,7 +285,7 @@ public class FirstScene{
             stageEdit.getIcons().add(new Image("file:resources/images/icon1.png"));
             stageEdit.setScene(new Scene(fxmlLoader.load(), 280, 250));
             AddCoinStage controller = fxmlLoader.getController();
-            controller.setCollectionBase(collectionBase,tableview.getSelectionModel().getSelectedItem().toCoin(), stageEdit );
+            controller.setCollectionBase(collectionBase,tableview.getSelectionModel().getSelectedItem(), stageEdit );
             stageEdit.showAndWait();
         }
  }

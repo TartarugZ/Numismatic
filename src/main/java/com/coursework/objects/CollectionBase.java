@@ -10,6 +10,7 @@ public class CollectionBase implements Serializable {
     public ArrayList<Collection> getAllCollections() {
         return allCollections;
     }
+    public void setAllCollections(ArrayList<Collection> a){allCollections.addAll(a);}
     public void addCollection(Collection collection){
         allCollections.add(collection);
     }

@@ -2,6 +2,8 @@ package com.coursework.serverConnection;
 
 
 
+import com.coursework.objects.Collection;
+
 import java.io.Serializable;
 
 import java.util.ArrayList;
@@ -26,6 +28,12 @@ public class CollectionDTO implements Serializable {
     public ArrayList<CoinDTO> getCollection() {return collection;}
     public String getNameCollection() {
         return nameCollection;
+    }
+
+    public static Collection toCollection(CollectionDTO collectionDTO){
+        Collection collection=new Collection(collectionDTO.getNameCollection());
+        collection.setCollection(collectionDTO.getCollection());
+        return collection;
     }
 
     @Override

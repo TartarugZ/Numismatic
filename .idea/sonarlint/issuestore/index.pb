@@ -23,8 +23,6 @@ d
 pom.xml,4\4\442292b8a7efeabbe4cc176709b833b1792140ec
 m
 =src/main/java/com/coursework/ServerConnection/ServerWork.java,9\a\9af4803291ff12897e8f510bf64025da051f0e2d
-^
-.src/main/java/com/coursework/Objects/Coin.java,9\b\9b6e81339beaacd6774fbec86fce2d57920d4b0c
 i
 9src/main/java/com/coursework/Controllers/SecondScene.java,5\a\5ae995196b14c01b0846baf8a7e14d9d8aad1086
 z

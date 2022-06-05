@@ -8,7 +8,7 @@ import java.util.Objects;
 
 public class Collection implements Serializable {
 
-    private ArrayList<Coin> collection=new ArrayList<>();
+    private ArrayList<CoinDTO> collection=new ArrayList<>();
 
     private String nameCollection ;
 
@@ -17,17 +17,16 @@ public class Collection implements Serializable {
         this.nameCollection=nameCollection;
     }
 
-    public void setCollection(ArrayList<Coin> collection) {
+    public void setCollection(ArrayList<CoinDTO> collection) {
         this.collection = collection;
     }
 
-    public ArrayList<Coin> getCollection() {
+    public ArrayList<CoinDTO> getCollection() {
         return collection;
     }
 
-    public void addToCollection(Coin coin){
+    public void addToCollection(CoinDTO coin){
         collection.add(coin);
-
     }
 
     public String getNameCollection(){
@@ -48,8 +47,7 @@ public class Collection implements Serializable {
     public CollectionDTO toCollectionDTO(){
         CollectionDTO collectionDTO=new CollectionDTO();
         collectionDTO.setNameCollection(this.nameCollection);
-        ArrayList<CoinDTO> coins=new ArrayList<>();
-        collection.forEach((coin ->coins.add(coin.toCoinDTO()) ));
+        ArrayList<CoinDTO> coins = new ArrayList<>(collection);
         collectionDTO.setCollection(coins);
         return collectionDTO;
     }

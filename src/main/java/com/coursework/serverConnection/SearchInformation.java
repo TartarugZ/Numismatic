@@ -98,6 +98,9 @@ public class SearchInformation implements Serializable {
 
 
     public String  toJSON(){
+        if(value.get(0).equals("null")) value.set(0,"");
+        if(currency.get(0).equals("null")) currency.set(0,"");
+        if(mint.get(0).equals("null")) currency.set(0,"");
         return "{" +
                 "\"country\":\"" + country +"\"" +
                 ", \"year\":[" + Optional.ofNullable(integerArrayToString(year)).orElse("") +"]"+

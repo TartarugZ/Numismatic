@@ -7,6 +7,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -47,9 +48,22 @@ public class AddCollectionStage {
     @FXML
     private void adding(){
         if(tv1.getSelectionModel().getSelectedIndex()>=0) {
-            collectionBase.addCollection(tv1.getSelectionModel().getSelectedItem());
-            closed=true;
-            stage.close();
+            int y=0;
+            for(int i=0;i<collectionBase.getAllCollections().size();i++){
+                if(tv1.getSelectionModel().getSelectedItem().equals(collectionBase.getAllCollections().get(i))){
+                    y++;
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle(null);
+                    alert.setHeaderText(null);
+                    alert.setContentText("This collection is already added");
+                    alert.showAndWait();
+                }
+                if(y==0){
+                    collectionBase.addCollection(tv1.getSelectionModel().getSelectedItem());
+                    closed=true;
+                    stage.close();
+                }
+            }
         }
     }
 

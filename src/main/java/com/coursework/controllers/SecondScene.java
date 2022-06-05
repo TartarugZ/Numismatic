@@ -1,10 +1,12 @@
 package com.coursework.controllers;
-import com.coursework.objects.Coin;
 import com.coursework.objects.Collection;
 import com.coursework.objects.CollectionBase;
 import com.coursework.functions.PropertyConnection;
 import com.coursework.serialization.FileWork;
+import com.coursework.serverConnection.CoinDTO;
 import com.coursework.serverConnection.ServerWork;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -24,19 +26,20 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.awt.Desktop;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 
 import static com.coursework.controllers.LanguageSelectionScene.FXML_PATH;
 import static com.coursework.controllers.LanguageSelectionScene.TRANSLATION;
 
 public class SecondScene  {
 
-    @FXML private TableView<Coin> coinTableView;
-    @FXML private TableColumn<Coin, String> countryColumn;
-    @FXML private TableColumn<Coin, String> yearColumn;
-    @FXML private TableColumn<Coin, String> valueColumn;
-    @FXML private TableColumn<Coin, String> currencyColumn;
-    @FXML private TableColumn<Coin, String> costColumn;
-    @FXML private TableColumn<Coin, String> mintColumn;
+    @FXML private TableView<CoinDTO> coinTableView;
+    @FXML private TableColumn<CoinDTO, String> countryColumn;
+    @FXML private TableColumn<CoinDTO, String> yearColumn;
+    @FXML private TableColumn<CoinDTO, String> valueColumn;
+    @FXML private TableColumn<CoinDTO, String> currencyColumn;
+    @FXML private TableColumn<CoinDTO, String> costColumn;
+    @FXML private TableColumn<CoinDTO, String> mintColumn;
     @FXML private Label ldate;
     @FXML private Hyperlink llink;
     @FXML private Label collectionNameLabel;
@@ -44,7 +47,6 @@ public class SecondScene  {
     @FXML private Label dateOf;
     @FXML private Label link;
     @FXML private Button goSearchButton;
-    @FXML private Button editButton;
     @FXML private Button deleteButton;
     @FXML private Button saveButton1;
     @FXML private Button saveButton;
@@ -53,8 +55,8 @@ public class SecondScene  {
     private String language;
 
     private Stage stage;
-    private ArrayList<Coin> cc = new ArrayList<>();
-    private ObservableList<Coin> cc2= FXCollections.observableArrayList(cc);
+    private ArrayList<CoinDTO> cc = new ArrayList<>();
+    private ObservableList<CoinDTO> cc2= FXCollections.observableArrayList(cc);
     private CollectionBase collectionBase;
     private CollectionBase localCollectionBase;
     private Collection collectionMain;
@@ -93,17 +95,16 @@ public class SecondScene  {
         coinTableView.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> coinDetails(newValue));
 
-        editButton.setDisable(true);
         deleteButton.setDisable(true);
     }
 
     private  void refreshTable(){
-        countryColumn.setCellValueFactory(data -> data.getValue().getCountryProperty());
-        yearColumn.setCellValueFactory(data -> data.getValue().getYearsProperty());
-        valueColumn.setCellValueFactory(data -> data.getValue().getValueProperty());
-        currencyColumn.setCellValueFactory(data -> data.getValue().getCurrencyProperty());
-        costColumn.setCellValueFactory(data -> data.getValue().getPriceProperty());
-        mintColumn.setCellValueFactory(data -> data.getValue().getMintProperty());
+        countryColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getCountry()));
+        yearColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getYears().toString()));
+        valueColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getValue()));
+        currencyColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getCurrency()));
+        costColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getCost()));
+        mintColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getMint()));
         cc2= FXCollections.observableArrayList(cc);
         coinTableView.setItems(cc2);
     }
@@ -121,7 +122,6 @@ public class SecondScene  {
         dateOf.setText(p.open().getProperty("dateOfS"));
         link.setText(p.open().getProperty("linkS"));
         goSearchButton.setText(p.open().getProperty("goSearchButtonS"));
-        editButton.setText(p.open().getProperty("editButtonS"));
         deleteButton.setText(p.open().getProperty("deleteButtonS"));
         countryColumn.setText(p.open().getProperty("countryColumnS"));
         yearColumn.setText(p.open().getProperty("yearColumnS"));
@@ -134,11 +134,11 @@ public class SecondScene  {
     protected void deleteItem(){
 
        if(coinTableView.getSelectionModel().getSelectedIndex()>=0) {
-           Iterator<Coin> iterator =cc.iterator();
+           Iterator<CoinDTO> iterator =cc.iterator();
            System.out.println(cc.size());
            while (iterator.hasNext())
            {
-               Coin coin=iterator.next();
+               CoinDTO coin=iterator.next();
                System.out.println(coin);
                if(coinExists(coin)){
                    iterator.remove();
@@ -149,63 +149,9 @@ public class SecondScene  {
        }
     }
 
-  private boolean coinExists(Coin coin){
+  private boolean coinExists(CoinDTO coin){
       return coin == coinTableView.getSelectionModel().getSelectedItem();
   }
-
-
-    @FXML
-    protected void editItem(){
-        Coin selectedCoin = coinTableView.getSelectionModel().getSelectedItem();
-        if (selectedCoin != null) {
-            boolean okClicked = showEditStage(selectedCoin);
-            if (okClicked) {
-                for (Coin coin : cc) {
-                    if (coinExists(coin)) {
-                        coin.setCountry(selectedCoin.getCountry());
-                        coin.setYears(selectedCoin.getYears());
-                        coin.setCurrency(selectedCoin.getCurrency());
-                        coin.setCost(selectedCoin.getCost());
-                        coin.setValue(selectedCoin.getValue());
-                        coin.setMint(selectedCoin.getMint());
-                        coin.setDate(selectedCoin.getDate());
-                        coin.setLinkUcoin(selectedCoin.getLinkUcoin());
-                        coin.setInfo(selectedCoin.getInfo());
-                    }
-                }
-                coinDetails(selectedCoin);
-            }
-        } else {
-            // Ничего не выбрано.
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("No Selection");
-            alert.setHeaderText("No Person Selected");
-            alert.setContentText("Please select a person in the table.");
-
-            alert.showAndWait();
-        }
-    }
-
-    private boolean showEditStage(Coin coin) {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(new URL(FXML_PATH+"EditS.fxml"));
-            Stage stageEdit = new Stage();
-            stageEdit.initModality(Modality.APPLICATION_MODAL);
-            stageEdit.setTitle("Coin Searcher");
-            stageEdit.getIcons().add(new Image("file:resources/images/icon1.png"));
-            stageEdit.setScene(new Scene(fxmlLoader.load(), 970, 520));
-
-            EditStage controller = fxmlLoader.getController();
-            controller.setStage(stageEdit);
-            controller.setCoin(coin);
-            stageEdit.showAndWait();
-
-            return controller.isOkClicked();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
 
     private void visible(boolean a){
         ldate.setVisible(a);
@@ -215,25 +161,21 @@ public class SecondScene  {
         info.setVisible(a);
     }
 
-    private void coinDetails(Coin coin) {
+    private void coinDetails(CoinDTO coin) {
         if (coin != null) {
             visible(true);
-            ldate.setText(coin.getDate());
+            ldate.setText(coin.getDataOfCreate().toString());
             llink.setText("https://"+language+".ucoin.net" +coin.getLinkUcoin());
-            editButton.setDisable(false);
             deleteButton.setDisable(false);
             info.setText(coin.getInfo());
             info.setEditable(false);
-            llink.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent mouseEvent) {
-                    try {
-                        desktop.browse(new URL(llink.getText()).toURI());
-                    } catch (IOException | URISyntaxException e) {
-                        e.printStackTrace();
-                    }
-
+            llink.setOnMouseClicked(mouseEvent -> {
+                try {
+                    desktop.browse(new URL(llink.getText()).toURI());
+                } catch (IOException | URISyntaxException e) {
+                    e.printStackTrace();
                 }
+
             });
         }
     }
@@ -277,7 +219,6 @@ public class SecondScene  {
         this.language=property.open().getProperty("language");
         property.close();
     }
-
 
 }
 

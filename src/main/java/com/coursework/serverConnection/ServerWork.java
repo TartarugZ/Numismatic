@@ -1,6 +1,7 @@
 package com.coursework.serverConnection;
 
 import com.coursework.functions.PropertyConnection;
+import com.coursework.objects.Collection;
 import com.coursework.objects.CollectionBase;
 import com.fasterxml.jackson.core.type.TypeReference;
 import javafx.collections.FXCollections;
@@ -201,6 +202,41 @@ public class ServerWork {
     }
 
     public CollectionBase getCollections(){
+        HttpURLConnection con = null;
+        String result="";
+        try {
+            con = (HttpURLConnection) new URL("http://localhost:8080/collection/get").openConnection();
+            con.setRequestMethod("GET");
+            String auth = credits();
+            byte[] encodedAuth = Base64.getEncoder().encode(auth.getBytes(StandardCharsets.UTF_8));
+            String authHeaderValue = "Basic " + new String(encodedAuth);
+            con.setRequestProperty("Authorization",authHeaderValue);
+            con.setRequestProperty("Accept", "application/json");
+            con.connect();
+            if (HttpURLConnection.HTTP_OK == con.getResponseCode()) {
+                StringBuilder sb=new StringBuilder();
+                BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                String line;
+                while ((line = in.readLine()) != null) {
+                    sb.append(line);
+                }
+                line = sb.toString();
+                ObjectMapper objectMapper=new ObjectMapper();
+                objectMapper.registerModule(new JavaTimeModule());
+                System.out.println(line);
+                System.out.println("SUCCESS");
+                CollectionBase collectionBase=new CollectionBase();
+                ArrayList<CollectionDTO> a=objectMapper.readValue(line, new TypeReference<ArrayList<CollectionDTO>>() { });
+                ArrayList<Collection> b=new ArrayList<>();
+                a.forEach(x->b.add(x.toCollection(x)));
+                collectionBase.setAllCollections(b);
+                return collectionBase;
+
+            }else {
+                System.out.println("FAILURE");
+                return new CollectionBase();
+            }
+        }catch (IOException e){e.printStackTrace();}
         return new CollectionBase();
     }
 
@@ -222,11 +258,5 @@ public class ServerWork {
         return a;
     }
 
-    private String getUsername() throws IOException {
-        PropertyConnection property=new PropertyConnection(TRANSLATION);
-        String a=property.open().getProperty("username");
-        property.close();
-        return a;
-    }
 
 }

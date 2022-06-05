@@ -1,6 +1,5 @@
 package com.coursework.serverConnection;
 
-import com.coursework.objects.Coin;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -124,20 +123,6 @@ public CoinDTO(){
 
         return getCountry()+" "+getValue()+" "+getCurrency()+" "+getYears()+" "+getMint()+" "+getCost();
 
-    }
-
-    public Coin toCoin(){
-    Coin coin=new Coin();
-    coin.setCountry(getCountry());
-    coin.setYears(getYears().toString());
-    coin.setCost(getCost());
-    coin.setCurrency(getCurrency());
-    coin.setValue(getValue());
-    coin.setMint(getMint());
-    coin.setDate(getDataOfCreate().toString());
-    coin.setLinkUcoin(getLinkUcoin());
-    coin.setInfo(getInfo());
-    return coin;
     }
 
 
