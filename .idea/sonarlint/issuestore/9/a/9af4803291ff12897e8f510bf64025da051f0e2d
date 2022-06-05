@@ -1,0 +1,74 @@
+
+g
+java:S1192m"QDefine a constant instead of duplicating this literal "application/json" 4 times.(—‰µô
+d
+java:S11922"NDefine a constant instead of duplicating this literal "Authorization" 3 times.(¹Øè
+b
+java:S11921"GDefine a constant instead of duplicating this literal "Basic " 3 times.(Éë³Âûÿÿÿÿ
+`
+java:S1192¥"IDefine a constant instead of duplicating this literal "username" 3 times.(û­¯æ
+†
+java:S1319H"pThe return type of this method should be an interface such as "List" rather than the implementation "ArrayList".(ÈÚè€
+}
+java:S1488]"gImmediately return this expression instead of assigning it to the temporary variable "listFromJackson".(™ÌÉ
+o	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ÎÄó
+l
+java:S2095¤"NUse try-with-resources or close this "FileOutputStream" in a "finally" clause.(Ÿ‡Î‘8ã†Ëƒ“0
+S	java:S106C"9Replace this use of System.out or System.err by a logger.(ß‘˜™üÿÿÿÿ
+O
+java:S4719r"9Replace charset name argument with StandardCharsets.UTF_8(øÕÅ
+q
+java:S3923v"[Remove this conditional structure or edit its code blocks so that they're not all the same.(Šïëë
+N	java:S106x"9Replace this use of System.out or System.err by a logger.(­ìÄÉ
+N	java:S106|"9Replace this use of System.out or System.err by a logger.(­ìÄÉ
+S	java:S106"9Replace this use of System.out or System.err by a logger.(åö¡½úÿÿÿÿ
+T	java:S106ˆ"9Replace this use of System.out or System.err by a logger.(Õ°®ıÿÿÿÿ
+T	java:S106"9Replace this use of System.out or System.err by a logger.(¦¬ùĞşÿÿÿÿ
+O	java:S106ª"9Replace this use of System.out or System.err by a logger.(ùÒ†
+O	java:S106«"9Replace this use of System.out or System.err by a logger.(­ìÄÉ
+T	java:S106¯"9Replace this use of System.out or System.err by a logger.(Â€¡¹ıÿÿÿÿ
+W	java:S125®"<This block of commented-out lines of code should be removed.(œ¬¿Üşÿÿÿÿ
+O	java:S106°"9Replace this use of System.out or System.err by a logger.(­ìÄÉ
+P
+java:S4719È"9Replace charset name argument with StandardCharsets.UTF_8(øÕÅ
+T	java:S106Î"9Replace this use of System.out or System.err by a logger.(†ºéèÿÿÿÿÿ
+T	java:S106Ï"9Replace this use of System.out or System.err by a logger.(®ıáëûÿÿÿÿ
+O	java:S106Ó"9Replace this use of System.out or System.err by a logger.(­ìÄÉ
+T	java:S106Ô"9Replace this use of System.out or System.err by a logger.(®ıáëûÿÿÿÿ
+Z
+java:S1128"8Remove this unused import 'com.coursework.Objects.Coin'.(Ø£è–ûÿÿÿÿ8‡Ëƒ“0
+`
+java:S1128">Remove this unused import 'com.coursework.Objects.Collection'.(–ÄéÀüÿÿÿÿ8‡Ëƒ“0
+t
+java:S1128"RRemove this unused import 'com.fasterxml.jackson.databind.DeserializationFeature'.(ÌòÔ¹üÿÿÿÿ8‡Ëƒ“0
+f
+java:S1128	"DRemove this unused import 'com.fasterxml.jackson.databind.JavaType'.(¡è˜ıÿÿÿÿ8‡Ëƒ“0
+a
+java:S1128
+"DRemove this unused import 'com.fasterxml.jackson.databind.JsonNode'.(–×ª8‡Ëƒ“0
+m
+java:S1128"KRemove this unused import 'com.fasterxml.jackson.databind.json.JsonMapper'.(ıÅ’àûÿÿÿÿ8‡Ëƒ“0
+W
+java:S1128"5Remove this unused import 'java.nio.charset.Charset'.(ü¶ØŸıÿÿÿÿ8‡Ëƒ“0
+g
+java:S1128"ERemove this unused import 'org.apache.commons.collections4.MultiMap'.(œ¸¶‚øÿÿÿÿ8‡Ëƒ“0
+T
+java:S1128"7Remove this unused import 'org.apache.http.HttpEntity'.(©À¥ë8‡Ëƒ“0
+[
+java:S1128"9Remove this unused import 'org.apache.http.HttpResponse'.(«°üİÿÿÿÿÿ8‘‡Ëƒ“0
+V
+java:S1128":Remove this unused import 'org.apache.http.NameValuePair'.(ß²óH8‘‡Ëƒ“0
+[
+java:S1128">Remove this unused import 'org.apache.http.client.HttpClient'.(¨­—8‘‡Ëƒ“0
+k
+java:S1128"ORemove this unused import 'org.apache.http.client.entity.UrlEncodedFormEntity'.(³à‡48‘‡Ëƒ“0
+a
+java:S1128"DRemove this unused import 'org.apache.http.client.methods.HttpPost'.(ßó¢Ç8‘‡Ëƒ“0
+a
+java:S1128 "DRemove this unused import 'org.apache.http.impl.client.HttpClients'.(§¹øÿ8«‡Ëƒ“0
+i
+java:S1128!"GRemove this unused import 'org.apache.http.message.BasicNameValuePair'.(³öÖøşÿÿÿÿ8¬‡Ëƒ“0
+R
+java:S1128#"0Remove this unused import 'org.json.JSONObject'.(œÖ´üşÿÿÿÿ8¬‡Ëƒ“0
+N
+java:S1144ï"0Remove this unused private "getUsername" method.(¸ò‰¼8èßÄƒ“0

@@ -1,0 +1,12 @@
+
+€
+java:S1319"jThe type of "collection" should be an interface such as "List" rather than the implementation "ArrayList".(´ş×
+†
+java:S1319"pThe return type of this method should be an interface such as "List" rather than the implementation "ArrayList".(ä»“İ
+4
+java:S1700"Rename field "collection"( Ğªµüÿÿÿÿ
+t	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ş‹®ûúÿÿÿÿ
+\
+java:S2259>"AA "NullPointerException" could be thrown; "col" is nullable here.(ìÏÓ®şÿÿÿÿ
+:
+java:S2097<"Add a type test to this method.(İ¢êÍıÿÿÿÿ

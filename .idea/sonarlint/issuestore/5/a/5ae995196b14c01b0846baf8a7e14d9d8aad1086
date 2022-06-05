@@ -1,0 +1,9 @@
+
+?
+java:S1604â"(Make this anonymous inner class a lambda(Û¡Õ
+o	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ûĞ…Ù
+m
+java:S1450:"RRemove the "cc2" field and declare it as a local variable in the relevant methods.(ıûïèùÿÿÿÿ
+T	java:S106„"9Replace this use of System.out or System.err by a logger.(‘áÔ—øÿÿÿÿ
+L
+java:S1128"*Remove this unused import 'java.util.Map'.(¼è½Òşÿÿÿÿ8¡“„“0

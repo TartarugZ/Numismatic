@@ -1,6 +1,6 @@
 package com.coursework;
 
-import com.coursework.Controllers.LanguageSelectionScene;
+import com.coursework.controllers.LanguageSelectionScene;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

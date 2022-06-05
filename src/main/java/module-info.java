@@ -17,14 +17,14 @@ module com.example.coursework {
 
     opens com.coursework to javafx.fxml;
     exports com.coursework;
-    exports com.coursework.Controllers;
-    opens com.coursework.Controllers to javafx.fxml;
-    exports com.coursework.Serialization;
-    opens com.coursework.Serialization to javafx.fxml;
-    exports com.coursework.ServerConnection;
-    opens com.coursework.ServerConnection to javafx.fxml;
-    exports com.coursework.Functions;
-    opens com.coursework.Functions to javafx.fxml;
-    exports com.coursework.Objects;
-    opens com.coursework.Objects to javafx.fxml;
+    exports com.coursework.controllers;
+    opens com.coursework.controllers to javafx.fxml;
+    exports com.coursework.serialization;
+    opens com.coursework.serialization to javafx.fxml;
+    exports com.coursework.serverConnection;
+    opens com.coursework.serverConnection to javafx.fxml;
+    exports com.coursework.functions;
+    opens com.coursework.functions to javafx.fxml;
+    exports com.coursework.objects;
+    opens com.coursework.objects to javafx.fxml;
 }
