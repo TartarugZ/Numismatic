@@ -60,7 +60,7 @@ public class AuthScene {
     protected void signIn() throws IOException {
         ServerWork serverWork=new ServerWork();
         String b=serverWork.login(loginText.getText(),passwordText.getText());
-       if(b.equals("successful login")) {
+       if(b.equals("200")) {
            FileWork fileWork = new FileWork();
            fileWork.fileCreation(loginText.getText());
            FXMLLoader fxmlLoader = new FXMLLoader(new URL(FXML_PATH + "FirstS.fxml"));

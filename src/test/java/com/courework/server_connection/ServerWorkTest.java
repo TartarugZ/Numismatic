@@ -22,11 +22,13 @@ public class ServerWorkTest {
 
     @Test
     public void testGetCountriesRequest(){
-
         ArrayList<String> we=new ArrayList<>(serverWork.getCountries("ru"));
         System.out.println(we);
         Assertions.assertTrue(we.size() >0);
     }
+
+//    @Test
+//    public void test
 
     private String buffRead(InputStream inputStream) throws IOException {
         StringBuilder sb=new StringBuilder();

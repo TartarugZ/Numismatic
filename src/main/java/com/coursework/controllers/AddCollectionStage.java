@@ -26,8 +26,8 @@ public class AddCollectionStage {
     @FXML private Button cancel;
     private CollectionBase collectionBase;
     private Stage stage;
-    private ArrayList<Collection> collections=new ArrayList<>();
-    private ObservableList<Collection> collections2= FXCollections.observableArrayList(collections);
+    private ArrayList<Collection> collections;
+    private ObservableList<Collection> collections2;
     private boolean closed= false;
     private String language;
 
@@ -52,18 +52,19 @@ public class AddCollectionStage {
             for(int i=0;i<collectionBase.getAllCollections().size();i++){
                 if(tv1.getSelectionModel().getSelectedItem().equals(collectionBase.getAllCollections().get(i))){
                     y++;
+                }
+            }
+                if(y==0){
+                    collectionBase.addCollection(tv1.getSelectionModel().getSelectedItem());
+                    closed=true;
+                    stage.close();
+                }else{
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle(null);
                     alert.setHeaderText(null);
                     alert.setContentText("This collection is already added");
                     alert.showAndWait();
                 }
-                if(y==0){
-                    collectionBase.addCollection(tv1.getSelectionModel().getSelectedItem());
-                    closed=true;
-                    stage.close();
-                }
-            }
         }
     }
 
@@ -79,9 +80,9 @@ public class AddCollectionStage {
     public void setCollectionBase(CollectionBase localCollectionBase,CollectionBase collectionBase){
         this.collectionBase=collectionBase;
         this.collections=new ArrayList<>(localCollectionBase.getAllCollections());
-        names.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getNameCollection()));
-        collections2.addAll(collections);
-        tv1.setItems(collections2);
+        collections2= FXCollections.observableArrayList(collections);
+        this.names.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getNameCollection()));
+        this.tv1.setItems(collections2);
     }
     public boolean isClosed(){
         return closed;

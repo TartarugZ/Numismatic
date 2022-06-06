@@ -19,6 +19,8 @@ import org.apache.http.client.fluent.Content;
 import org.apache.http.client.fluent.Request;
 import org.apache.http.entity.ContentType;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static com.coursework.controllers.LanguageSelectionScene.TRANSLATION;
@@ -93,7 +95,7 @@ public class ServerWork {
                 result=buffRead(con.getInputStream());
                 log.info("Registration success: "+con.getResponseCode());
             }else if(con.getResponseCode()==205) {
-                result=buffRead(con.getInputStream());
+                result="User with this login already exists";
                 log.info("Registration problem: "+con.getResponseCode());
             }else{
                 result="Error";
@@ -119,7 +121,7 @@ public class ServerWork {
             return countryDenominationInfo;
     }
 
-    public String login(String username, String password){
+    public String login(String username, String password) throws IOException {
 
         HttpURLConnection con = null;
 
@@ -134,7 +136,6 @@ public class ServerWork {
             con.setRequestMethod("GET");
             con.connect();
             if (HttpURLConnection.HTTP_OK == con.getResponseCode()) {
-
                 PropertyConnection propertyConnection=new PropertyConnection(TRANSLATION);
                 try( FileOutputStream fileOutputStream=new FileOutputStream(TRANSLATION)){
                    String a=propertyConnection.open().getProperty("language");
@@ -143,15 +144,13 @@ public class ServerWork {
                    propertyConnection.open().setProperty("language",a);
                    propertyConnection.open().store(fileOutputStream,"");
                    propertyConnection.close();
-                   result=buffRead(con.getInputStream());
                    log.info("Login successful "+con.getResponseCode());
                 }
-
             }else {
                 log.info("Login failure "+con.getResponseCode());
             }
         }catch (IOException e){e.printStackTrace();}
-
+        result=String.valueOf(Optional.ofNullable(con.getResponseCode()).orElse(1));
         return result;
     }
 
@@ -198,16 +197,16 @@ public class ServerWork {
                 String line = buffRead(con.getInputStream());
                 ObjectMapper objectMapper=new ObjectMapper();
                 objectMapper.registerModule(new JavaTimeModule());
-                log.info("Collection received "+con.getResponseCode());
+                log.info("Get collections: success "+con.getResponseCode());
                 CollectionBase collectionBase=new CollectionBase();
-                ArrayList<CollectionDTO> a=objectMapper.readValue(line, new TypeReference<ArrayList<CollectionDTO>>() { });
+                ArrayList<CollectionDTO> a=new ArrayList<>(objectMapper.readValue(line, new TypeReference<List<CollectionDTO>>() { }));
                 ArrayList<Collection> b=new ArrayList<>();
                 a.forEach(x->b.add(CollectionDTO.toCollection(x)));
                 collectionBase.setAllCollections(b);
                 return collectionBase;
 
             }else {
-                log.info("Login failure "+con.getResponseCode());
+                log.info("Get collections: none "+con.getResponseCode());
                 return new CollectionBase();
             }
         }catch (IOException e){e.printStackTrace();}
@@ -217,7 +216,9 @@ public class ServerWork {
     public String checkCost(String url, String language) throws IOException {
         final Content getResult = Request.Get("http://localhost:8080/search/price?url="+url+"&lang=" + language)
                 .execute().returnContent();
-        log.info("Price received ");
+
+        log.log(Level.SEVERE,"Price received: {0} ", getResult.asString());
+
         return buffRead(getResult.asStream());
     }
 

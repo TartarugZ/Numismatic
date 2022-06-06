@@ -112,7 +112,8 @@ public class FirstScene{
         PropertyConnection property=new PropertyConnection(TRANSLATION);
         this.language=property.open().getProperty("language");
         String a=property.open().getProperty("username");
-        localCollectionBase=fileWork.read(a);
+        this.localCollectionBase=fileWork.read(a);
+        System.out.println(localCollectionBase);
         property.close();
     }
     private void setTranslation() throws IOException, ClassNotFoundException {

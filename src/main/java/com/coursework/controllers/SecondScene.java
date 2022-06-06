@@ -50,7 +50,8 @@ public class SecondScene  {
     private String language;
 
     private Stage stage;
-    private ArrayList<Coin> cc = new ArrayList<>();
+    private ArrayList<Coin> cc;
+    private ObservableList<Coin> cc2;
     private CollectionBase collectionBase;
     private CollectionBase localCollectionBase;
     private Collection collectionMain;
@@ -100,7 +101,7 @@ public class SecondScene  {
         currencyColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getCurrency()));
         costColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getCost()));
         mintColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getMint()));
-        ObservableList<Coin> cc2 = FXCollections.observableArrayList(cc);
+        cc2 = FXCollections.observableArrayList(cc);
         coinTableView.setItems(cc2);
     }
 
@@ -206,6 +207,9 @@ public class SecondScene  {
         ServerWork serverWork= new ServerWork();
         coinTableView.getSelectionModel().getSelectedItem().setCost(
                 serverWork.checkCost(coinTableView.getSelectionModel().getSelectedItem().getLinkUcoin(),language));
+        coinTableView.getItems().clear();
+        cc2.addAll(cc);
+        coinTableView.setItems(cc2);
     }
     public void setLanguage() throws IOException {
         PropertyConnection property=new PropertyConnection(TRANSLATION);

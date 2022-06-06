@@ -27,7 +27,7 @@ public class AddCoinStage {
     private Coin coin;
     private Stage stage;
     private ArrayList<Collection> collections;
-    private ObservableList<Collection> collections2= FXCollections.observableArrayList(collections);
+    private ObservableList<Collection> collections2;
     private String language;
 
     public void initialize() throws IOException {
@@ -58,10 +58,10 @@ public class AddCoinStage {
 
     public void setCollectionBase(CollectionBase collectionBase, Coin coin, Stage stage){
         this.collections=new ArrayList<>(collectionBase.getAllCollections());
+        this.collections2= FXCollections.observableArrayList(collections);
         this.coin=coin;
         this.stage=stage;
         names.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getNameCollection()));
-        collections2.addAll(collections);
         tv1.setItems(collections2);
     }
 

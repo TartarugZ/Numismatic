@@ -39,7 +39,8 @@ public class Collection implements Serializable {
     @Override
     public String toString() {
         return "Collection{" +
-                "collection=" + coinArrayList +
+                "coinArrayList=" + coinArrayList +
+                ", nameCollection='" + nameCollection + '\'' +
                 '}';
     }
 
