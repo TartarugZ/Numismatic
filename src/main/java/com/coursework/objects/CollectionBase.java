@@ -2,21 +2,21 @@ package com.coursework.objects;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 public class CollectionBase implements Serializable {
 
     private ArrayList<Collection> allCollections = new ArrayList<>();
 
-    public ArrayList<Collection> getAllCollections() {
+    public List<Collection> getAllCollections() {
         return allCollections;
     }
-    public void setAllCollections(ArrayList<Collection> a){allCollections.addAll(a);}
+    public void setAllCollections(List<Collection> a){allCollections.addAll(a);}
     public void addCollection(Collection collection){
         allCollections.add(collection);
     }
 
-    public CollectionBase(){
-    }
+    public CollectionBase(){/*пустой коструктор*/}
 
     @Override
     public String toString() {

@@ -3,7 +3,7 @@ package com.coursework.controllers;
 import com.coursework.objects.Collection;
 import com.coursework.objects.CollectionBase;
 import com.coursework.functions.PropertyConnection;
-import com.coursework.serverConnection.CoinDTO;
+import com.coursework.objects.Coin;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -24,9 +24,9 @@ public class AddCoinStage {
     @FXML private TableColumn<Collection,String> names;
     @FXML private Button add;
     @FXML private Button cancel;
-    private CoinDTO coin;
+    private Coin coin;
     private Stage stage;
-    private ArrayList<Collection> collections=new ArrayList<>();
+    private ArrayList<Collection> collections;
     private ObservableList<Collection> collections2= FXCollections.observableArrayList(collections);
     private String language;
 
@@ -56,8 +56,8 @@ public class AddCoinStage {
         this.stage.close();
     }
 
-    public void setCollectionBase(CollectionBase collectionBase,CoinDTO coin,Stage stage){
-        this.collections=collectionBase.getAllCollections();
+    public void setCollectionBase(CollectionBase collectionBase, Coin coin, Stage stage){
+        this.collections=new ArrayList<>(collectionBase.getAllCollections());
         this.coin=coin;
         this.stage=stage;
         names.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getNameCollection()));

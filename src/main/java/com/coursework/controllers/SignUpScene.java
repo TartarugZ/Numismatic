@@ -1,29 +1,26 @@
 package com.coursework.controllers;
 
 import com.coursework.functions.PropertyConnection;
-import com.coursework.serverConnection.ServerWork;
+import com.coursework.server_connection.ServerWork;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
+import static com.coursework.controllers.LanguageSelectionScene.FXML_PATH;
 import static com.coursework.controllers.LanguageSelectionScene.TRANSLATION;
 
 public class SignUpScene{
     @FXML private TextField createL;
-    @FXML private TextField createP;
+    @FXML private PasswordField createP;
     @FXML private Label registrationLabel;
     @FXML private Button signUpButton;
     @FXML private Button goBackButton;
-    private String fxmlPath = LanguageSelectionScene.FXML_PATH;
     private Stage stage;
     private String language;
 
@@ -33,9 +30,9 @@ public class SignUpScene{
 
     @FXML
     protected void signClose() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(new URL(fxmlPath+"AuthorizationS.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(new URL(FXML_PATH+"AuthorizationS.fxml"));
         stage.setScene(new Scene(fxmlLoader.load(), 800, 600));
-        AuthorizationScene controller = fxmlLoader.getController();
+        AuthScene controller = fxmlLoader.getController();
         controller.setStage(stage);
     }
 
@@ -49,9 +46,9 @@ public class SignUpScene{
         alert.setContentText(result);
         alert.showAndWait();
 
-        FXMLLoader fxmlLoader = new FXMLLoader(new URL(fxmlPath+"AuthorizationS.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(new URL(FXML_PATH+"AuthorizationS.fxml"));
         stage.setScene(new Scene(fxmlLoader.load(), 800, 600));
-        AuthorizationScene controller = fxmlLoader.getController();
+        AuthScene controller = fxmlLoader.getController();
         controller.setStage(stage);
     }
 

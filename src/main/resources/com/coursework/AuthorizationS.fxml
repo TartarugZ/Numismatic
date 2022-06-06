@@ -7,7 +7,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="560.0" prefWidth="800.0" styleClass="background" stylesheets="@Theme.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.coursework.controllers.AuthorizationScene">
+<AnchorPane prefHeight="560.0" prefWidth="800.0" styleClass="background" stylesheets="@Theme.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.coursework.controllers.AuthScene">
    <children>
       <ImageView fx:id="imageAu" fitHeight="259.0" fitWidth="297.0" layoutX="72.0" layoutY="162.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="72.0" AnchorPane.topAnchor="162.0" />
       <TextField fx:id="loginText" layoutX="446.0" layoutY="245.0" promptText="login" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="245.0" />

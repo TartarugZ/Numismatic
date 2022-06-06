@@ -78,7 +78,7 @@ public class AddCollectionStage {
 
     public void setCollectionBase(CollectionBase localCollectionBase,CollectionBase collectionBase){
         this.collectionBase=collectionBase;
-        this.collections=localCollectionBase.getAllCollections();
+        this.collections=new ArrayList<>(localCollectionBase.getAllCollections());
         names.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getNameCollection()));
         collections2.addAll(collections);
         tv1.setItems(collections2);

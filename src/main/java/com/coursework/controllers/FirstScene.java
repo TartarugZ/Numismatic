@@ -4,10 +4,10 @@ import com.coursework.functions.ComboBoxListener;
 import com.coursework.functions.PropertyConnection;
 import com.coursework.objects.Collection;
 import com.coursework.objects.CollectionBase;
-import com.coursework.serialization.FileWork;
-import com.coursework.serverConnection.CoinDTO;
-import com.coursework.serverConnection.CountryDenominationInfo;
-import com.coursework.serverConnection.SearchInformation;
+import com.coursework.functions.FileWork;
+import com.coursework.objects.Coin;
+import com.coursework.server_connection.CountryDenominationInfo;
+import com.coursework.server_connection.SearchInformation;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -27,16 +27,17 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 
-import com.coursework.serverConnection.ServerWork;
+import com.coursework.server_connection.ServerWork;
 import javafx.util.Duration;
+import java.util.logging.Logger;
 
 import static com.coursework.controllers.LanguageSelectionScene.FXML_PATH;
 import static com.coursework.controllers.LanguageSelectionScene.TRANSLATION;
 
 public class FirstScene{
-    @FXML  private TableView<CoinDTO> tableview;
+    @FXML  private TableView<Coin> tableview;
     @FXML  private TableView<Collection> tableview2;
-    @FXML  private TableColumn<CoinDTO, String> coins;
+    @FXML  private TableColumn<Coin, String> coins;
     @FXML  private TableColumn<Collection, String> collect;
     @FXML  private Button createCollectionButton;
     @FXML  private Button leaveButton;
@@ -59,6 +60,9 @@ public class FirstScene{
     private ObservableList<Collection> collections= FXCollections.observableArrayList();
     private ServerWork serverWork=new ServerWork();
     private CountryDenominationInfo cdi=new CountryDenominationInfo();
+    private String appName="Coin Searcher";
+    private String imagePath="file:resources/images/icon1.png";
+    Logger log = Logger.getLogger(FirstScene.class.getName());
 
     private Stage stage;
 
@@ -70,30 +74,9 @@ public class FirstScene{
         extraInfo();
     }
 
-    public void extraInfo(){
-        tableview.setRowFactory(tv -> new TableRow<>() {
-            Tooltip tooltip = new Tooltip();
-            @Override
-            public void updateItem(CoinDTO coinDTO, boolean empty) {
-                super.updateItem(coinDTO, empty);
-                if (coinDTO == null) {
-                    setTooltip(null);
-                } else {
-                    setTooltip(tooltip);
-                    tooltip.setPrefWidth(200);
-                    tooltip.setWrapText(true);
-                    tooltip.setText(coinDTO.getInfo());
-                    tooltip.setShowDuration(Duration.minutes(1));
-                }
-            }
-        });
-    }
-
-
     public void setComboBoxes() throws IOException {
         PropertyConnection property=new PropertyConnection(TRANSLATION);
-
-        cbCountry.setItems(serverWork.getCountries(property.open().getProperty("language")));
+        cbCountry.setItems(FXCollections.observableArrayList(serverWork.getCountries(property.open().getProperty("language"))));
         property.close();
 
         cbCountry.setOnAction(actionEvent -> {
@@ -119,9 +102,9 @@ public class FirstScene{
         cbValue.setEditable(true);
         cbCurrency.setEditable(true);
         cbMint.setEditable(true);
-
     }
- public void setStage(Stage stage){
+
+    public void setStage(Stage stage){
         this.stage=stage;
  }
 
@@ -214,7 +197,7 @@ public class FirstScene{
     private void exit() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(new URL(FXML_PATH+"AuthorizationS.fxml"));
         stage.setScene(new Scene(fxmlLoader.load(), 800, 600));
-        AuthorizationScene controller = fxmlLoader.getController();
+        AuthScene controller = fxmlLoader.getController();
         controller.setStage(stage);
     }
 
@@ -223,8 +206,8 @@ public class FirstScene{
         FXMLLoader fxmlLoader = new FXMLLoader(new URL(FXML_PATH+"CreateCollectionS.fxml"));
         Stage stageEdit = new Stage();
         stageEdit.initModality(Modality.APPLICATION_MODAL);
-        stageEdit.setTitle("Coin Searcher");
-        stageEdit.getIcons().add(new Image("file:resources/images/icon1.png"));
+        stageEdit.setTitle(appName);
+        stageEdit.getIcons().add(new Image(imagePath));
         stageEdit.setScene(new Scene(fxmlLoader.load(), 300, 200));
         CreateCollectionStage controller = fxmlLoader.getController();
         controller.setStage(stageEdit);
@@ -257,12 +240,12 @@ public class FirstScene{
     }
 
     @FXML
-    private void addLocalCollection() throws IOException, ClassNotFoundException {
+    private void addLocalCollection() throws IOException{
         FXMLLoader fxmlLoader = new FXMLLoader(new URL(FXML_PATH+"AddCollectionS.fxml"));
         Stage stageEdit = new Stage();
         stageEdit.initModality(Modality.APPLICATION_MODAL);
-        stageEdit.setTitle("Coin Searcher");
-        stageEdit.getIcons().add(new Image("file:resources/images/icon1.png"));
+        stageEdit.setTitle(appName);
+        stageEdit.getIcons().add(new Image(imagePath));
         stageEdit.setScene(new Scene(fxmlLoader.load(), 270, 260));
         AddCollectionStage controller = fxmlLoader.getController();
         controller.setStage(stageEdit);
@@ -281,8 +264,8 @@ public class FirstScene{
             FXMLLoader fxmlLoader = new FXMLLoader(new URL(FXML_PATH+"AddCoinS.fxml"));
             Stage stageEdit = new Stage();
             stageEdit.initModality(Modality.APPLICATION_MODAL);
-            stageEdit.setTitle("Coin Searcher");
-            stageEdit.getIcons().add(new Image("file:resources/images/icon1.png"));
+            stageEdit.setTitle(appName);
+            stageEdit.getIcons().add(new Image(imagePath));
             stageEdit.setScene(new Scene(fxmlLoader.load(), 280, 250));
             AddCoinStage controller = fxmlLoader.getController();
             controller.setCollectionBase(collectionBase,tableview.getSelectionModel().getSelectedItem(), stageEdit );
@@ -309,9 +292,10 @@ public class FirstScene{
      searchInformation.setCurrency(currency);
      searchInformation.setValue(value);
      searchInformation.setMint(mint);
+     log.info("Отправка на сервер: "+searchInformation.toJSON());
      coins.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().toString()));
-     ArrayList<CoinDTO> we=serverWork.userRequest(searchInformation,language);
-     ObservableList<CoinDTO> dataList = FXCollections.observableArrayList(we);
+     ArrayList<Coin> we=new ArrayList<>(serverWork.userRequest(searchInformation,language));
+     ObservableList<Coin> dataList = FXCollections.observableArrayList(we);
      if(we.isEmpty()){
          Alert alert = new Alert(Alert.AlertType.INFORMATION);
          PropertyConnection propertyConnection=new PropertyConnection(new File("")
@@ -323,8 +307,26 @@ public class FirstScene{
          propertyConnection.close();
      }
      tableview.setItems(dataList);
-
  }
+
+    public void extraInfo(){
+        tableview.setRowFactory(tv -> new TableRow<>() {
+            Tooltip tooltip = new Tooltip();
+            @Override
+            public void updateItem(Coin coin, boolean empty) {
+                super.updateItem(coin, empty);
+                if (coin == null) {
+                    setTooltip(null);
+                } else {
+                    setTooltip(tooltip);
+                    tooltip.setPrefWidth(200);
+                    tooltip.setWrapText(true);
+                    tooltip.setText(coin.getInfo());
+                    tooltip.setShowDuration(Duration.minutes(1));
+                }
+            }
+        });
+    }
 
  private boolean countryExists(){
         return cbCountry.getItems().contains(cbCountry.getSelectionModel().getSelectedItem());

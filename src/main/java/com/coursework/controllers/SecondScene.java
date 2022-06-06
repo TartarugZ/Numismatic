@@ -2,21 +2,16 @@ package com.coursework.controllers;
 import com.coursework.objects.Collection;
 import com.coursework.objects.CollectionBase;
 import com.coursework.functions.PropertyConnection;
-import com.coursework.serialization.FileWork;
-import com.coursework.serverConnection.CoinDTO;
-import com.coursework.serverConnection.ServerWork;
-import javafx.beans.property.SimpleIntegerProperty;
+import com.coursework.functions.FileWork;
+import com.coursework.objects.Coin;
+import com.coursework.server_connection.ServerWork;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -26,20 +21,19 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.awt.Desktop;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 
 import static com.coursework.controllers.LanguageSelectionScene.FXML_PATH;
 import static com.coursework.controllers.LanguageSelectionScene.TRANSLATION;
 
 public class SecondScene  {
 
-    @FXML private TableView<CoinDTO> coinTableView;
-    @FXML private TableColumn<CoinDTO, String> countryColumn;
-    @FXML private TableColumn<CoinDTO, String> yearColumn;
-    @FXML private TableColumn<CoinDTO, String> valueColumn;
-    @FXML private TableColumn<CoinDTO, String> currencyColumn;
-    @FXML private TableColumn<CoinDTO, String> costColumn;
-    @FXML private TableColumn<CoinDTO, String> mintColumn;
+    @FXML private TableView<Coin> coinTableView;
+    @FXML private TableColumn<Coin, String> countryColumn;
+    @FXML private TableColumn<Coin, String> yearColumn;
+    @FXML private TableColumn<Coin, String> valueColumn;
+    @FXML private TableColumn<Coin, String> currencyColumn;
+    @FXML private TableColumn<Coin, String> costColumn;
+    @FXML private TableColumn<Coin, String> mintColumn;
     @FXML private Label ldate;
     @FXML private Hyperlink llink;
     @FXML private Label collectionNameLabel;
@@ -51,12 +45,12 @@ public class SecondScene  {
     @FXML private Button saveButton1;
     @FXML private Button saveButton;
     @FXML private TextArea info;
+    @FXML private Button refresher;
     private FileWork fileWork=new FileWork();
     private String language;
 
     private Stage stage;
-    private ArrayList<CoinDTO> cc = new ArrayList<>();
-    private ObservableList<CoinDTO> cc2= FXCollections.observableArrayList(cc);
+    private ArrayList<Coin> cc = new ArrayList<>();
     private CollectionBase collectionBase;
     private CollectionBase localCollectionBase;
     private Collection collectionMain;
@@ -77,7 +71,7 @@ public class SecondScene  {
     }
 
     public void setCC(Collection collection){
-        this.cc =collection.getCollection();
+        this.cc =new ArrayList<>(collection.getCoinArrayList());
         this.collectionMain =collection;
         refreshTable();
     }
@@ -96,6 +90,7 @@ public class SecondScene  {
                 (observable, oldValue, newValue) -> coinDetails(newValue));
 
         deleteButton.setDisable(true);
+        refresher.setDisable(true);
     }
 
     private  void refreshTable(){
@@ -105,7 +100,7 @@ public class SecondScene  {
         currencyColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getCurrency()));
         costColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getCost()));
         mintColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getMint()));
-        cc2= FXCollections.observableArrayList(cc);
+        ObservableList<Coin> cc2 = FXCollections.observableArrayList(cc);
         coinTableView.setItems(cc2);
     }
 
@@ -127,6 +122,7 @@ public class SecondScene  {
         yearColumn.setText(p.open().getProperty("yearColumnS"));
         saveButton.setText(p.open().getProperty("saveButtonS"));
         saveButton1.setText(p.open().getProperty("saveButton1S"));
+        refresher.setText(p.open().getProperty("refresher"));
         p.close();
     }
 
@@ -134,22 +130,12 @@ public class SecondScene  {
     protected void deleteItem(){
 
        if(coinTableView.getSelectionModel().getSelectedIndex()>=0) {
-           Iterator<CoinDTO> iterator =cc.iterator();
-           System.out.println(cc.size());
-           while (iterator.hasNext())
-           {
-               CoinDTO coin=iterator.next();
-               System.out.println(coin);
-               if(coinExists(coin)){
-                   iterator.remove();
-               }
-           }
-           System.out.println(cc.size());
+           cc.removeIf(this::coinExists);
            coinTableView.getItems().remove(coinTableView.getSelectionModel().getSelectedItem());
        }
     }
 
-  private boolean coinExists(CoinDTO coin){
+  private boolean coinExists(Coin coin){
       return coin == coinTableView.getSelectionModel().getSelectedItem();
   }
 
@@ -161,12 +147,13 @@ public class SecondScene  {
         info.setVisible(a);
     }
 
-    private void coinDetails(CoinDTO coin) {
+    private void coinDetails(Coin coin) {
         if (coin != null) {
             visible(true);
             ldate.setText(coin.getDataOfCreate().toString());
             llink.setText("https://"+language+".ucoin.net" +coin.getLinkUcoin());
             deleteButton.setDisable(false);
+            refresher.setDisable(false);
             info.setText(coin.getInfo());
             info.setEditable(false);
             llink.setOnMouseClicked(mouseEvent -> {
@@ -200,7 +187,6 @@ public class SecondScene  {
             {
                 collectionz=iterator.next();
                 if(collectionz.equals(collectionMain)){
-                    System.out.println("OH YES");
                    iterator.remove();
                 }
             }
@@ -213,6 +199,13 @@ public class SecondScene  {
     private void save1(){
         ServerWork serverWork=new ServerWork();
         serverWork.sendCollection(collectionMain.toCollectionDTO());
+    }
+
+    @FXML
+    private void refresh() throws IOException {
+        ServerWork serverWork= new ServerWork();
+        coinTableView.getSelectionModel().getSelectedItem().setCost(
+                serverWork.checkCost(coinTableView.getSelectionModel().getSelectedItem().getLinkUcoin(),language));
     }
     public void setLanguage() throws IOException {
         PropertyConnection property=new PropertyConnection(TRANSLATION);

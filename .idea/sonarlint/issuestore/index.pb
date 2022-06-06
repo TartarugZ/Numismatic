@@ -1,29 +1,21 @@
 
-k
-;src/main/java/com/coursework/Serialization/ReadObjects.java,5\1\51309ad8dd82ee8d900bfb4813984596c2b95871
-l
-<src/main/java/com/coursework/Serialization/WriteObjects.java,6\9\69cbe67cf260f4cf6d178b7ba0be3483cc1c650c
 t
 Dsrc/main/java/com/coursework/ServerConnection/SearchInformation.java,b\1\b1dcc79436dc785b7fa41b462eeb0b4c2dd8f72f
 h
 8src/main/java/com/coursework/Objects/CollectionBase.java,3\c\3cd4d8237f3a977a6fda982db48c0b4ebbef523d
-h
-8src/main/java/com/coursework/Serialization/FileWork.java,a\5\a5fa5bf118a903989ef3fab74a959504ad322aa3
 n
 >src/main/java/com/coursework/Functions/PropertyConnection.java,6\9\69d27db90f88e06b5c2409244d313f332a12e345
 p
 @src/main/java/com/coursework/ServerConnection/ValAndCurPair.java,d\3\d3dc072804d3aad6fbdde1c15b3dfd9f319372c8
 i
 9src/main/java/com/coursework/Controllers/SignUpScene.java,f\9\f9feb542a90f7b67302047ed72f304c4102984fa
-p
-@src/main/java/com/coursework/ServerConnection/CollectionDTO.java,2\2\22bfde1b69af9c59a3dec9a37ba2be6b74ebc02f
 d
 4src/main/java/com/coursework/Objects/Collection.java,5\9\5939df76f81b075a202ea7b9c60ac92336534823
-7
-pom.xml,4\4\442292b8a7efeabbe4cc176709b833b1792140ec
 m
 =src/main/java/com/coursework/ServerConnection/ServerWork.java,9\a\9af4803291ff12897e8f510bf64025da051f0e2d
 i
 9src/main/java/com/coursework/Controllers/SecondScene.java,5\a\5ae995196b14c01b0846baf8a7e14d9d8aad1086
 z
 Jsrc/main/java/com/coursework/ServerConnection/CountryDenominationInfo.java,8\8\8864d48e1c24b8559d55ef148e4dc14c950d123e
+9
+	README.md,8\e\8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d

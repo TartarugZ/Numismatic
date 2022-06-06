@@ -1,14 +1,13 @@
 package com.coursework.objects;
-import com.coursework.serverConnection.CoinDTO;
-import com.coursework.serverConnection.CollectionDTO;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Collection implements Serializable {
 
-    private ArrayList<CoinDTO> collection=new ArrayList<>();
+    private ArrayList<Coin> coinArrayList =new ArrayList<>();
 
     private String nameCollection ;
 
@@ -17,16 +16,16 @@ public class Collection implements Serializable {
         this.nameCollection=nameCollection;
     }
 
-    public void setCollection(ArrayList<CoinDTO> collection) {
-        this.collection = collection;
+    public void setCoinArrayList(List<Coin> coinArrayList) {
+        this.coinArrayList = new ArrayList<>(coinArrayList);
     }
 
-    public ArrayList<CoinDTO> getCollection() {
-        return collection;
+    public List<Coin> getCoinArrayList() {
+        return coinArrayList;
     }
 
-    public void addToCollection(CoinDTO coin){
-        collection.add(coin);
+    public void addToCollection(Coin coin){
+        coinArrayList.add(coin);
     }
 
     public String getNameCollection(){
@@ -40,27 +39,32 @@ public class Collection implements Serializable {
     @Override
     public String toString() {
         return "Collection{" +
-                "collection=" + collection+
+                "collection=" + coinArrayList +
                 '}';
     }
 
     public CollectionDTO toCollectionDTO(){
         CollectionDTO collectionDTO=new CollectionDTO();
         collectionDTO.setNameCollection(this.nameCollection);
-        ArrayList<CoinDTO> coins = new ArrayList<>(collection);
+        ArrayList<Coin> coins = new ArrayList<>(coinArrayList);
         collectionDTO.setCollection(coins);
         return collectionDTO;
     }
 
     @Override
-    public boolean equals(Object o) {
-       Collection col=(Collection) o;
+    public boolean equals(Object obj) {
+        if (obj == null)
+            return false;
+
+        if (this.getClass() != obj.getClass())
+            return false;
+       Collection col=(Collection) obj;
        return this.nameCollection.equals(col.nameCollection);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(collection, nameCollection);
+        return Objects.hash(coinArrayList, nameCollection);
     }
 }
 

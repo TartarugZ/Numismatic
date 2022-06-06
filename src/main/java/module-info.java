@@ -13,16 +13,15 @@ module com.example.coursework {
     requires com.fasterxml.jackson.datatype.jsr310;
     requires commons.collections4;
     requires com.fasterxml.jackson.datatype.guava;
+    requires java.logging;
 
 
     opens com.coursework to javafx.fxml;
     exports com.coursework;
     exports com.coursework.controllers;
     opens com.coursework.controllers to javafx.fxml;
-    exports com.coursework.serialization;
-    opens com.coursework.serialization to javafx.fxml;
-    exports com.coursework.serverConnection;
-    opens com.coursework.serverConnection to javafx.fxml;
+    exports com.coursework.server_connection;
+    opens com.coursework.server_connection to javafx.fxml;
     exports com.coursework.functions;
     opens com.coursework.functions to javafx.fxml;
     exports com.coursework.objects;

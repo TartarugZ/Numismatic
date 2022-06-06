@@ -15,12 +15,11 @@ import java.net.URL;
 
 public class LanguageSelectionScene{
 
-
     @FXML private Button lRussian;
     @FXML private Button lEnglish;
     private Stage stage;
-    public static String FXML_PATH ="file:///"+new File("").getAbsolutePath()+"/src/main/resources/com/coursework/";
-    public static String TRANSLATION =new File("").getAbsolutePath()+"/src/main/resources/language.properties";
+    public static final String FXML_PATH ="file:///"+new File("").getAbsolutePath()+"/src/main/resources/com/coursework/";
+    public static final String TRANSLATION =new File("").getAbsolutePath()+"/src/main/resources/language.properties";
 
     public void setStage(Stage stage){this.stage=stage;}
 
@@ -32,9 +31,8 @@ public class LanguageSelectionScene{
     private void next() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(new URL(FXML_PATH +"AuthorizationS.fxml"));
         stage.setScene(new Scene(fxmlLoader.load(), 800, 560));
-        AuthorizationScene controller = fxmlLoader.getController();
+        AuthScene controller = fxmlLoader.getController();
         controller.setStage(stage);
-
     }
 
     @FXML
@@ -57,6 +55,5 @@ public class LanguageSelectionScene{
             propertyConnection.close();
         }
     }
-
 
 }
