@@ -29,6 +29,8 @@ import java.util.ArrayList;
 
 import com.coursework.server_connection.ServerWork;
 import javafx.util.Duration;
+
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static com.coursework.controllers.LanguageSelectionScene.FXML_PATH;
@@ -293,7 +295,7 @@ public class FirstScene{
      searchInformation.setCurrency(currency);
      searchInformation.setValue(value);
      searchInformation.setMint(mint);
-     log.info("Отправка на сервер: "+searchInformation.toJSON());
+     log.log(Level.INFO,"Отправка на сервер: {}",searchInformation.toJSON());
      coins.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().toString()));
      ArrayList<Coin> we=new ArrayList<>(serverWork.userRequest(searchInformation,language));
      ObservableList<Coin> dataList = FXCollections.observableArrayList(we);
