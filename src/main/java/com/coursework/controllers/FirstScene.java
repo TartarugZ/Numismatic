@@ -51,7 +51,6 @@ public class FirstScene{
     @FXML private  ComboBox<String> cbYears;
     @FXML private  ComboBox<String> cbCurrency;
     @FXML private  ComboBox<String> cbValue;
-    @FXML private  ComboBox<String> cbMint;
     @FXML private Button search;
 
     private FileWork fileWork = new FileWork();
@@ -103,7 +102,6 @@ public class FirstScene{
         cbYears.setEditable(true);
         cbValue.setEditable(true);
         cbCurrency.setEditable(true);
-        cbMint.setEditable(true);
     }
 
     public void setStage(Stage stage){
@@ -115,7 +113,6 @@ public class FirstScene{
         this.language=property.open().getProperty("language");
         String a=property.open().getProperty("username");
         this.localCollectionBase=fileWork.read(a);
-        System.out.println(localCollectionBase);
         property.close();
     }
     private void setTranslation() throws IOException, ClassNotFoundException {
@@ -133,7 +130,6 @@ public class FirstScene{
             cbYears.setPromptText(p.open().getProperty("cbYearsF"));
             cbCurrency.setPromptText(p.open().getProperty("cbCurrencyF"));
             cbValue.setPromptText(p.open().getProperty("cbValueF"));
-            cbMint.setPromptText(p.open().getProperty("cbMintF"));
             search.setText(p.open().getProperty("searchF"));
             p.close();
     }
@@ -142,38 +138,36 @@ public class FirstScene{
         this.nickname.setText(string);
     }
 
-
     private void chosenCollection(){
         tableview2.setOnMouseClicked(event -> {
-            if(event.getClickCount()==2){
-                FXMLLoader fxmlLoader = null;
-                try {
-                    fxmlLoader = new FXMLLoader(new URL(FXML_PATH+"SecondS.fxml"));
-                    stage.setScene(new Scene(fxmlLoader.load(), 1200, 750));
-
-                } catch (IOException e ) {
-                    e.printStackTrace();
-                }
-
-                String name = tableview2.getSelectionModel().getSelectedItem().getNameCollection();
-                SecondScene controller = fxmlLoader.getController();
-                controller.setStage(stage);
-
-                controller.setCollectionBase(collectionBase, localCollectionBase);
-                controller.setNickname(nickname.getText());
-                for(int i=0;i<collectionBase.getAllCollections().size();i++){
-                    if(collectionBase.getAllCollections().get(i).getNameCollection().equals(name)){
-                        controller.setCC(collectionBase.getAllCollections().get(i));
+            if(event.getClickCount()==2 && tableview2.getSelectionModel().getSelectedItem()!=null){
+                    FXMLLoader fxmlLoader = null;
+                    try {
+                        fxmlLoader = new FXMLLoader(new URL(FXML_PATH + "SecondS.fxml"));
+                        stage.setScene(new Scene(fxmlLoader.load(), 1200, 750));
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
+
+                    String name = tableview2.getSelectionModel().getSelectedItem().getNameCollection();
+                    SecondScene controller = fxmlLoader.getController();
+                    controller.setStage(stage);
+
+                    controller.setCollectionBase(collectionBase, localCollectionBase);
+                    controller.setNickname(nickname.getText());
+                    for (int i = 0; i < collectionBase.getAllCollections().size(); i++) {
+                        if (collectionBase.getAllCollections().get(i).getNameCollection().equals(name)) {
+                            controller.setCC(collectionBase.getAllCollections().get(i));
+                        }
+                    }
+                    controller.setCollectionNameLabel(name);
                 }
-                controller.setCollectionNameLabel(name);
-            }
         });
     }
 
     private void linkCoin(){
         tableview.setOnMouseClicked(event -> {
-            if(event.getClickCount()==2){
+            if(event.getClickCount()==2 && tableview.getSelectionModel().getSelectedItem()!=null){
                 Desktop desktop=Desktop.getDesktop();
                 try {
                     desktop.browse(new URL("https://"+language+".ucoin.net" +tableview.getSelectionModel().getSelectedItem().getLinkUcoin()).toURI());
@@ -287,15 +281,14 @@ public class FirstScene{
      }else year.add(null);
      currency.add(cbCurrency.getSelectionModel().getSelectedItem());
      value.add(cbValue.getSelectionModel().getSelectedItem());
-     mint.add(cbMint.getSelectionModel().getSelectedItem());
-
+     mint.add("");
      SearchInformation searchInformation=new SearchInformation();
      searchInformation.setCountry(cbCountry.getSelectionModel().getSelectedItem());
      searchInformation.setYear(year);
      searchInformation.setCurrency(currency);
      searchInformation.setValue(value);
      searchInformation.setMint(mint);
-     log.log(Level.INFO,"Отправка на сервер: {}",searchInformation.toJSON());
+     log.log(Level.INFO,"Отправка на сервер: {0}",searchInformation.toJSON());
      coins.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().toString()));
      ArrayList<Coin> we=new ArrayList<>(serverWork.userRequest(searchInformation,language));
      ObservableList<Coin> dataList = FXCollections.observableArrayList(we);

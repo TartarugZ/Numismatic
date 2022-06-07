@@ -26,16 +26,13 @@ public class FileWork {
 
     public void write(CollectionBase collectionBase, String string) throws IOException {
         String path = new File("").getAbsolutePath() + "/src/main/resources/UsersCollections/" + string + ".ser";
-
-            file=new File(path);
+        file=new File(path);
         try(FileOutputStream fos = new FileOutputStream(path)) {
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(collectionBase);
             oos.flush();
             oos.close();
         }
-
-
     }
 
     public void fileCreation(String string) throws IOException {

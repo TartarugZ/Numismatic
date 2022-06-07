@@ -6,10 +6,7 @@ import com.coursework.objects.Collection;
 import com.coursework.objects.CollectionBase;
 import com.coursework.objects.CollectionDTO;
 import com.fasterxml.jackson.core.type.TypeReference;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import com.fasterxml.jackson.datatype.guava.GuavaModule;
-
 import java.io.*;
 import java.net.*;
 import java.nio.charset.StandardCharsets;
@@ -19,12 +16,10 @@ import org.apache.http.client.fluent.Content;
 import org.apache.http.client.fluent.Request;
 import org.apache.http.entity.ContentType;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static com.coursework.controllers.LanguageSelectionScene.TRANSLATION;
-
 
 public class ServerWork {
     Logger log = Logger.getLogger(ServerWork.class.getName());
@@ -77,7 +72,7 @@ public class ServerWork {
 
     public String userSignUp(String username, String password) throws IOException {
 
-        HttpURLConnection con = null;
+        HttpURLConnection con;
         String result="";
         try {
             con = (HttpURLConnection) new URL("http://localhost:8080/acc/new").openConnection();
@@ -92,7 +87,7 @@ public class ServerWork {
             }
             con.connect();
             if (HttpURLConnection.HTTP_OK == con.getResponseCode()) {
-                result=buffRead(con.getInputStream());
+                result="User successfully created";
                 log.info("Registration success: "+con.getResponseCode());
             }else if(con.getResponseCode()==205) {
                 result="User with this login already exists";
@@ -117,7 +112,7 @@ public class ServerWork {
         mapper.registerModule(new GuavaModule());
         mapper.registerSubtypes(CountryDenominationInfo.class);
         CountryDenominationInfo countryDenominationInfo=mapper.readValue(line, new TypeReference<CountryDenominationInfo>() {});
-        log.info(""+countryDenominationInfo.toString());
+        log.log(Level.INFO,"Result: {0}",countryDenominationInfo);
             return countryDenominationInfo;
     }
 
@@ -214,12 +209,12 @@ public class ServerWork {
     }
 
     public String checkCost(String url, String language) throws IOException {
-        final Content getResult = Request.Get("http://localhost:8080/search/price?url="+url+"&lang=" + language)
-                .execute().returnContent();
+            final Content getResult = Request.Get("http://localhost:8080/search/price?url=" + url + "&lang=" + language)
+                    .execute().returnContent();
 
-        log.log(Level.SEVERE,"Price received: {0} ", getResult.asString());
+            log.log(Level.INFO, "Price received: {0} ", getResult.asString());
 
-        return buffRead(getResult.asStream());
+            return buffRead(getResult.asStream());
     }
 
     private String buffRead(InputStream inputStream) throws IOException {

@@ -1,6 +1,0 @@
-
-o	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ÎÄó
-_
-java:S2259&"BA "NullPointerException" could be thrown; "comp" is nullable here.(²âá‡8Ï—óª’0
-<
-java:S2097$"Add a type test to this method.(ÜÑã8Ö—óª’0

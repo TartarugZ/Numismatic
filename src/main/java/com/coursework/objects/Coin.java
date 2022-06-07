@@ -59,7 +59,7 @@ public Coin(){ /* пустой конструктор */ }
         this.years = years;
     }
     public String getCost() {
-        return cost;
+    if(this.cost.equals("none")) return "";else return cost;
     }
     public void setCost(String cost) {
         this.cost = cost;
@@ -102,7 +102,6 @@ public Coin(){ /* пустой конструктор */ }
             }
             return sb.toString();
         }else return "";
-
     }
 
     @Override

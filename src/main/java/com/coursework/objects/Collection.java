@@ -59,6 +59,7 @@ public class Collection implements Serializable {
 
         if (this.getClass() != obj.getClass())
             return false;
+
        Collection col=(Collection) obj;
        return this.nameCollection.equals(col.nameCollection);
     }

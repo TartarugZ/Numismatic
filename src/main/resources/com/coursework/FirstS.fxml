@@ -25,16 +25,15 @@
       <Button fx:id="add" layoutX="278.0" layoutY="410.0" mnemonicParsing="false" onAction="#addingCoin" prefHeight="33.0" prefWidth="204.0" text="Add coin to collection" />
       <Button fx:id="addCollectionButton" layoutX="920.0" layoutY="410.0" mnemonicParsing="false" onAction="#addLocalCollection" prefHeight="33.0" prefWidth="199.0" text="Add local collection" />
       <Label fx:id="addCollectionLabel" layoutX="674.0" layoutY="393.0" prefHeight="33.0" prefWidth="248.0" />
-      <ButtonBar layoutX="185.0" layoutY="521.0" prefHeight="40.0" prefWidth="812.0">
+      <ButtonBar layoutX="261.0" layoutY="527.0" prefHeight="40.0" prefWidth="653.0">
          <buttons>
             <ComboBox fx:id="cbCountry" prefWidth="150.0" promptText="Country" />
             <ComboBox fx:id="cbYears" prefHeight="25.0" prefWidth="150.0" promptText="Years" />
-            <ComboBox fx:id="cbCurrency" prefWidth="150.0" promptText="Currency" />
             <ComboBox fx:id="cbValue" prefWidth="150.0" promptText="Value" />
-            <ComboBox fx:id="cbMint" prefWidth="150.0" promptText="Mint" />
+            <ComboBox fx:id="cbCurrency" prefWidth="150.0" promptText="Currency" />
          </buttons>
       </ButtonBar>
       <Button fx:id="createCollectionButton" layoutX="920.0" layoutY="359.0" mnemonicParsing="false" onAction="#createCollection" prefHeight="33.0" prefWidth="199.0" text="Create a collection" />
-      <Button fx:id="search" layoutX="526.0" layoutY="573.0" mnemonicParsing="false" onAction="#searching" prefHeight="33.0" prefWidth="150.0" text="Search" />
+      <Button fx:id="search" layoutX="525.0" layoutY="579.0" mnemonicParsing="false" onAction="#searching" prefHeight="33.0" prefWidth="150.0" text="Search" />
    </children>
 </AnchorPane>

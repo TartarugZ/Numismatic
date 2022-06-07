@@ -1,22 +1,0 @@
-
-
-java:S1319+"dThe type of "year" should be an interface such as "List" rather than the implementation "ArrayList".(ò…Ñ•üÿÿÿÿ
-€
-java:S1319/"eThe type of "value" should be an interface such as "List" rather than the implementation "ArrayList".(¡‡°¥şÿÿÿÿ
-ƒ
-java:S13193"hThe type of "currency" should be an interface such as "List" rather than the implementation "ArrayList".(·ÿıÎøÿÿÿÿ
-z
-java:S13197"dThe type of "mint" should be an interface such as "List" rather than the implementation "ArrayList".(Õœ‚
-€
-java:S1319K"eThe type of "array" should be an interface such as "List" rather than the implementation "ArrayList".(€ğìûÿÿÿÿ
-{
-java:S1319W"eThe type of "array" should be an interface such as "List" rather than the implementation "ArrayList".(Üµ­’
-7
-java:S1643P"Use a StringBuilder instead.(ä™Øãøÿÿÿÿ
-2
-java:S1643\"Use a StringBuilder instead.(ßéŠ
-o	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ÎÄó
-œ
-java:S1186;"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(Ïş¢şÿÿÿÿ
-H
-java:S1128"-Remove this unused import 'java.util.Arrays'.(î–˜Éüÿÿÿÿ

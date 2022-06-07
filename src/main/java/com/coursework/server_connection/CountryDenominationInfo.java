@@ -8,8 +8,6 @@ public class CountryDenominationInfo implements Serializable {
     private HashSet<ValAndCurPair> curAndValues;
     private boolean allInfo;
 
-
-
     public Set<ValAndCurPair> getCurAndValues() {
         return curAndValues;
     }
@@ -28,7 +26,6 @@ public class CountryDenominationInfo implements Serializable {
         this.country = country;
     }
 
-
     public boolean isAllInfo() {
         return allInfo;
     }
@@ -36,7 +33,6 @@ public class CountryDenominationInfo implements Serializable {
     public void setAllInfo(boolean allInfo) {
         this.allInfo = allInfo;
     }
-
 
     public List<String> getValue(){
         HashSet<String> set = new HashSet<>();
@@ -75,7 +71,6 @@ public class CountryDenominationInfo implements Serializable {
                 if(key.getFirst().equals(value)) a.add(key.getSecond());
             });
         }
-
         return a;
     }
 

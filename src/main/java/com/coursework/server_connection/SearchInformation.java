@@ -10,7 +10,7 @@ public class SearchInformation implements Serializable {
     private ArrayList<Integer> year;
     private ArrayList<String> value;
     private ArrayList<String> currency;
-    private ArrayList<String> mint;
+    private ArrayList<String> mint=new ArrayList<>();
 
 
     public String getCountry() {
