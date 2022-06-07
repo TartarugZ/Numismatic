@@ -36,6 +36,9 @@ import java.util.logging.Logger;
 import static com.coursework.controllers.LanguageSelectionScene.FXML_PATH;
 import static com.coursework.controllers.LanguageSelectionScene.TRANSLATION;
 
+/**
+ * Класс, отвечающий за сцену поиска монеты
+ */
 public class FirstScene{
     @FXML  private TableView<Coin> tableview;
     @FXML  private TableView<Collection> tableview2;
@@ -53,19 +56,18 @@ public class FirstScene{
     @FXML private  ComboBox<String> cbValue;
     @FXML private Button search;
 
-    private FileWork fileWork = new FileWork();
     private String language;
-
+    private Stage stage;
     private CollectionBase collectionBase = new CollectionBase();
     private CollectionBase localCollectionBase= new CollectionBase();
     private ObservableList<Collection> collections= FXCollections.observableArrayList();
-    private ServerWork serverWork=new ServerWork();
+
     private CountryDenominationInfo cdi=new CountryDenominationInfo();
+    private FileWork fileWork = new FileWork();
+    private ServerWork serverWork=new ServerWork();
     private String appName="Coin Searcher";
     private String imagePath="file:resources/images/icon1.png";
     Logger log = Logger.getLogger(FirstScene.class.getName());
-
-    private Stage stage;
 
     public void initialize() throws IOException, ClassNotFoundException {
         setTranslation();
@@ -75,7 +77,7 @@ public class FirstScene{
         extraInfo();
     }
 
-    public void setComboBoxes() throws IOException {
+    private void setComboBoxes() throws IOException {
         PropertyConnection property=new PropertyConnection(TRANSLATION);
         cbCountry.setItems(FXCollections.observableArrayList(serverWork.getCountries(property.open().getProperty("language"))));
         property.close();
@@ -104,10 +106,17 @@ public class FirstScene{
         cbCurrency.setEditable(true);
     }
 
+    /** Присваивает окно для отображения
+     * @param stage окно для вывода
+     */
     public void setStage(Stage stage){
         this.stage=stage;
  }
 
+    /** Определение языка из session.properties и десериализация коллекций из файла
+     * @throws IOException ошибка при чтении property
+     * @throws ClassNotFoundException ошибка при чтении файла с коллекциями
+     */
     public void sets() throws IOException, ClassNotFoundException {
         PropertyConnection property=new PropertyConnection(TRANSLATION);
         this.language=property.open().getProperty("language");
@@ -134,6 +143,9 @@ public class FirstScene{
             p.close();
     }
 
+    /** для передачи имени аккаунта
+     * @param string имя аккаунта
+     */
     public void setAccount(String string){
         this.nickname.setText(string);
     }
@@ -182,6 +194,9 @@ public class FirstScene{
         return tableview.getSelectionModel().getSelectedIndex() >= 0;
     }
 
+    /** метод, передающий необходимые параметры в этот класс
+     * @param base текущий список коллекций
+     */
     public void setCollection(CollectionBase base){
         collectionBase=base;
         collect.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getNameCollection()));
@@ -256,7 +271,7 @@ public class FirstScene{
     }
 
     @FXML
- private  void addingCoin() throws IOException {
+    private  void addingCoin() throws IOException {
         if(chosenCoin()) {
             FXMLLoader fxmlLoader = new FXMLLoader(new URL(FXML_PATH+"AddCoinS.fxml"));
             Stage stageEdit = new Stage();
@@ -268,10 +283,10 @@ public class FirstScene{
             controller.setCollectionBase(collectionBase,tableview.getSelectionModel().getSelectedItem(), stageEdit );
             stageEdit.showAndWait();
         }
- }
+    }
 
- @FXML
- public void searching() throws IOException {
+    @FXML
+    private void searching() throws IOException {
      ArrayList<Integer> year=new ArrayList<>();
      ArrayList<String> currency=new ArrayList<>();
      ArrayList<String> value=new ArrayList<>();
@@ -303,9 +318,9 @@ public class FirstScene{
          propertyConnection.close();
      }
      tableview.setItems(dataList);
- }
+    }
 
-    public void extraInfo(){
+    private void extraInfo(){
         tableview.setRowFactory(tv -> new TableRow<>() {
             Tooltip tooltip = new Tooltip();
             @Override
@@ -324,8 +339,8 @@ public class FirstScene{
         });
     }
 
- private boolean countryExists(){
+    private boolean countryExists(){
         return cbCountry.getItems().contains(cbCountry.getSelectionModel().getSelectedItem());
- }
+    }
 
 }

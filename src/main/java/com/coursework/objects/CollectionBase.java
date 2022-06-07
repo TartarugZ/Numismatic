@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Класс базы коллекций
+ */
 public class CollectionBase implements Serializable {
 
     private ArrayList<Collection> allCollections = new ArrayList<>();

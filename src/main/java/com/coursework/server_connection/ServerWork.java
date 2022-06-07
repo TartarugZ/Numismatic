@@ -21,9 +21,16 @@ import java.util.logging.Logger;
 
 import static com.coursework.controllers.LanguageSelectionScene.TRANSLATION;
 
+/**
+ * Класс для контроля запросов на сервер
+ */
 public class ServerWork {
     Logger log = Logger.getLogger(ServerWork.class.getName());
 
+    /** Запрос на получение списка всех стран
+     * @param string язык приложения
+     * @return List стран
+     */
     public List<String> getCountries(String string) {
         HttpURLConnection con;
         ArrayList<String> we=new ArrayList<>();
@@ -47,6 +54,12 @@ public class ServerWork {
         return we;
     }
 
+    /**Запрос для поиска монет по отправленным на сервер характеристикам
+     * @param searchInformation SearchInformation со всеми характеристиками
+     * @param language язык приложения
+     * @return List найденных монет
+     * @throws IOException '
+     */
     public List<Coin> userRequest(SearchInformation searchInformation, String language) throws IOException {
 
         String jsonString = searchInformation.toJSON();
@@ -70,6 +83,12 @@ public class ServerWork {
 
     }
 
+    /**Запрос регистрации пользователя
+     * @param username имя пользователя
+     * @param password пароль пользователя
+     * @return String  ответ
+     * @throws IOException '
+     */
     public String userSignUp(String username, String password) throws IOException {
 
         HttpURLConnection con;
@@ -100,6 +119,12 @@ public class ServerWork {
         return result;
     }
 
+    /**Запрос на получение номиналов и валют конкретной страны
+     * @param country страна
+     * @param language язык приложения
+     * @return CountryDenominationInfo со страной и HashSet с парами номинал-валюта
+     * @throws IOException '
+     */
     public CountryDenominationInfo loadValueAndCurrency(String country,String language) throws IOException {
 
         final Content putResult = Request.Put("http://localhost:8080/search/info?lang=" + language)
@@ -116,6 +141,12 @@ public class ServerWork {
             return countryDenominationInfo;
     }
 
+    /**Вход в аккаунт
+     * @param username имя пользователя
+     * @param password пароль пользователя
+     * @return String ответ сервера
+     * @throws IOException '
+     */
     public String login(String username, String password) throws IOException {
 
         HttpURLConnection con = null;
@@ -140,15 +171,20 @@ public class ServerWork {
                    propertyConnection.open().store(fileOutputStream,"");
                    propertyConnection.close();
                    log.info("Login successful "+con.getResponseCode());
+                    result=String.valueOf(con.getResponseCode());
                 }
             }else {
                 log.info("Login failure "+con.getResponseCode());
+                result=String.valueOf(con.getResponseCode());
             }
         }catch (IOException e){e.printStackTrace();}
-        result=String.valueOf(Optional.ofNullable(con.getResponseCode()).orElse(1));
+
         return result;
     }
 
+    /** Отправка коллекции на сервер
+     * @param collection Коллекция Collection
+     */
     public void sendCollection(CollectionDTO collection){
         HttpURLConnection con = null;
         try {
@@ -177,6 +213,9 @@ public class ServerWork {
         }catch (IOException e){e.printStackTrace();}
     }
 
+    /**Запрос на получение коллекции с сервера
+     * @return База коллекций CollectionBase  массивом коллекций внутри
+     */
     public CollectionBase getCollections(){
         HttpURLConnection con;
         try {
@@ -208,6 +247,12 @@ public class ServerWork {
         return new CollectionBase();
     }
 
+    /**Запрос обновления цены
+     * @param url часть url-ссылки на монету
+     * @param language язык приложения
+     * @return String с обновленной ценой
+     * @throws IOException '
+     */
     public String checkCost(String url, String language) throws IOException {
             final Content getResult = Request.Get("http://localhost:8080/search/price?url=" + url + "&lang=" + language)
                     .execute().returnContent();

@@ -19,6 +19,9 @@ import java.net.URL;
 import static com.coursework.controllers.LanguageSelectionScene.FXML_PATH;
 import static com.coursework.controllers.LanguageSelectionScene.TRANSLATION;
 
+/**
+ * Класс отвечающий за сцену аутентификации
+ */
 public class AuthScene {
 
     @FXML private ImageView imageAu;
@@ -39,6 +42,10 @@ public class AuthScene {
         imageAu.setImage(new Image("file:resources/images/Coins.png"));
         setTranslation();
     }
+
+    /** Присваивает окно для отображения
+     * @param stage окно для вывода
+     */
     public void setStage(Stage stage){
         this.stage=stage;
     }
@@ -57,7 +64,7 @@ public class AuthScene {
         p.close();
     }
     @FXML
-    protected void signIn() throws IOException {
+    private void signIn() throws IOException {
         ServerWork serverWork=new ServerWork();
         String b=serverWork.login(loginText.getText(),passwordText.getText());
        if(b.equals("200")) {
@@ -80,7 +87,7 @@ public class AuthScene {
     }
 
     @FXML
-    protected void signUp() throws IOException {
+    private void signUp() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(new URL(FXML_PATH+"SignUpS.fxml"));
         stage.setScene(new Scene(fxmlLoader.load(), 800, 600));
         SignUpScene controller = fxmlLoader.getController();
@@ -95,6 +102,9 @@ public class AuthScene {
         controller.setStage(stage);
     }
 
+    /**Определение языка из session.properties
+     * @throws IOException ошибка при чтении property
+     */
     public void setLanguage() throws IOException {
         PropertyConnection property=new PropertyConnection(TRANSLATION);
         this.language=property.open().getProperty("language");

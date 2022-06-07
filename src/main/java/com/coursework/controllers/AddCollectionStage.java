@@ -19,6 +19,9 @@ import java.util.ArrayList;
 
 import static com.coursework.controllers.LanguageSelectionScene.TRANSLATION;
 
+/**
+ * Сцена, отвечающая за окно добавления коллекции из полученного списка в текущий список коллекций
+ */
 public class AddCollectionStage {
     @FXML private TableView<Collection> tv1;
     @FXML private TableColumn<Collection,String> names;
@@ -26,8 +29,6 @@ public class AddCollectionStage {
     @FXML private Button cancel;
     private CollectionBase collectionBase;
     private Stage stage;
-    private ArrayList<Collection> collections;
-    private ObservableList<Collection> collections2;
     private boolean closed= false;
     private String language;
 
@@ -68,6 +69,9 @@ public class AddCollectionStage {
         }
     }
 
+    /** Присваивает окно для отображения
+     * @param stage окно для вывода
+     */
     public void setStage(Stage stage) {
         this.stage = stage;
     }
@@ -77,17 +81,28 @@ public class AddCollectionStage {
         this.stage.close();
     }
 
+    /** метод, передающий необходимые параметры в этот класс
+     * @param localCollectionBase список локально сохранённых коллекций
+     * @param collectionBase текущий список коллекций
+     */
     public void setCollectionBase(CollectionBase localCollectionBase,CollectionBase collectionBase){
         this.collectionBase=collectionBase;
-        this.collections=new ArrayList<>(localCollectionBase.getAllCollections());
-        collections2= FXCollections.observableArrayList(collections);
+        ArrayList<Collection> collections = new ArrayList<>(localCollectionBase.getAllCollections());
+        ObservableList<Collection> collections2 = FXCollections.observableArrayList(collections);
         this.names.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getNameCollection()));
         this.tv1.setItems(collections2);
     }
+
+    /** вызывается для определения статуса переменной closed, которая меняется на false только в случае успешного добавления
+     * @return true or false
+     */
     public boolean isClosed(){
         return closed;
     }
 
+    /**Определение языка из session.properties
+     * @throws IOException  ошибка при чтении property
+     */
     public void setLanguage() throws IOException {
         PropertyConnection property=new PropertyConnection(TRANSLATION);
         this.language=property.open().getProperty("language");

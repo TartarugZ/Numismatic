@@ -15,6 +15,9 @@ import java.net.URL;
 import static com.coursework.controllers.LanguageSelectionScene.FXML_PATH;
 import static com.coursework.controllers.LanguageSelectionScene.TRANSLATION;
 
+/**
+ * класс для отображения сцены регистрации
+ */
 public class SignUpScene{
     @FXML private TextField createL;
     @FXML private PasswordField createP;
@@ -24,12 +27,15 @@ public class SignUpScene{
     private Stage stage;
     private String language;
 
+    /** Присваивает окно для отображения
+     * @param stage окно для вывода
+     */
     public void setStage(Stage stage){
         this.stage=stage;
     }
 
     @FXML
-    protected void signClose() throws IOException {
+    private void signClose() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(new URL(FXML_PATH+"AuthorizationS.fxml"));
         stage.setScene(new Scene(fxmlLoader.load(), 800, 600));
         AuthScene controller = fxmlLoader.getController();
@@ -37,7 +43,7 @@ public class SignUpScene{
     }
 
     @FXML
-    protected void registered() throws IOException {
+    private void registered() throws IOException {
         ServerWork serverWork = new ServerWork();
         String result=serverWork.userSignUp(createL.getText(),createP.getText());
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -68,6 +74,9 @@ public class SignUpScene{
         p.close();
     }
 
+    /**Определение языка из session.properties
+     * @throws IOException ошибка при чтении properties
+     */
     private void setLanguage() throws IOException {
         PropertyConnection property=new PropertyConnection(TRANSLATION);
         this.language=property.open().getProperty("language");

@@ -13,7 +13,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -25,6 +24,9 @@ import java.util.Iterator;
 import static com.coursework.controllers.LanguageSelectionScene.FXML_PATH;
 import static com.coursework.controllers.LanguageSelectionScene.TRANSLATION;
 
+/**
+ * класс для отображения сцены коллекции с монетами
+ */
 public class SecondScene  {
 
     @FXML private TableView<Coin> coinTableView;
@@ -58,31 +60,43 @@ public class SecondScene  {
     private String nickname;
     private Desktop desktop=Desktop.getDesktop();
 
+    /** Присваивает окно для отображения
+     * @param stage окно для вывода
+     */
     public void setStage(Stage stage){
         this.stage=stage;
     }
 
+    /**для передачи в этот класс текущей базы коллекций и локальной сериаизовнной базы
+     * @param collectionBase текущая база
+     * @param localCollectionBase сериализованная на устройтве
+     */
     public void setCollectionBase(CollectionBase collectionBase, CollectionBase localCollectionBase) {
         this.localCollectionBase=localCollectionBase;
         this.collectionBase = collectionBase;
 
     }
+
     public void setNickname(String string){
         this.nickname=string;
     }
 
+    /**передача коллекции в этот класс
+     * @param collection  коллекция для отображения
+     */
     public void setCC(Collection collection){
         this.cc =new ArrayList<>(collection.getCoinArrayList());
         this.collectionMain =collection;
         refreshTable();
     }
 
+    /**
+     * @param string имя коллекции
+     */
     public void setCollectionNameLabel(String string){
         this.collectionNameLabel.setText(string);
     }
 
-
-    @FXML
     public void initialize() throws IOException {
         setTranslation();
         visible(false);
@@ -128,7 +142,7 @@ public class SecondScene  {
     }
 
     @FXML
-    protected void deleteItem(){
+    private void deleteItem(){
 
        if(coinTableView.getSelectionModel().getSelectedIndex()>=0) {
            cc.removeIf(this::coinExists);
@@ -169,7 +183,7 @@ public class SecondScene  {
     }
 
     @FXML
-    protected void goSearch() throws IOException {
+    private void goSearch() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(new URL(FXML_PATH+"FirstS.fxml"));
         stage.setScene(new Scene(fxmlLoader.load(), 1200, 750));
         FirstScene controller = fxmlLoader.getController();
@@ -204,13 +218,19 @@ public class SecondScene  {
 
     @FXML
     private void refresh() throws IOException {
-        ServerWork serverWork= new ServerWork();
-        coinTableView.getSelectionModel().getSelectedItem().setCost(
-                serverWork.checkCost(coinTableView.getSelectionModel().getSelectedItem().getLinkUcoin(),language));
-        coinTableView.getItems().clear();
-        cc2.addAll(cc);
-        coinTableView.setItems(cc2);
+        if(coinTableView.getSelectionModel().getSelectedIndex()>=0) {
+            ServerWork serverWork = new ServerWork();
+            coinTableView.getSelectionModel().getSelectedItem().setCost(
+                    serverWork.checkCost(coinTableView.getSelectionModel().getSelectedItem().getLinkUcoin(), language));
+            coinTableView.getItems().clear();
+            cc2.addAll(cc);
+            coinTableView.setItems(cc2);
+        }
     }
+
+    /**Определение языка из session.properties
+     * @throws IOException ошибка при чтении properties
+     */
     public void setLanguage() throws IOException {
         PropertyConnection property=new PropertyConnection(TRANSLATION);
         this.language=property.open().getProperty("language");

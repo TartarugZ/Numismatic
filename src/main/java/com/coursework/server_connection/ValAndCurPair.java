@@ -2,6 +2,9 @@ package com.coursework.server_connection;
 
 import java.io.Serializable;
 
+/**
+ * Класс для пар номинал-валюта
+ */
 public  class ValAndCurPair implements Serializable {
     private String first;
     private String second;
@@ -32,6 +35,10 @@ public  class ValAndCurPair implements Serializable {
         return (first+second).hashCode();
     }
 
+    /**Сравнение двух объектов этого класса
+     * @param obj ValAndCurPair
+     * @return кгу щк афдыу
+     */
     @Override
     public boolean equals(Object obj) {
         if (obj == null)

@@ -13,6 +13,9 @@ import java.io.IOException;
 
 import static com.coursework.controllers.LanguageSelectionScene.TRANSLATION;
 
+/**
+ * Класс, отвечающий за окно создания коллекции
+ */
 public class CreateCollectionStage {
 
     @FXML private TextField tf;
@@ -22,10 +25,16 @@ public class CreateCollectionStage {
     private boolean closed = false;
     private String language;
 
+    /** Присваивает окно для отображения
+     * @param stage окно для вывода
+     */
     public void setStage(Stage stage){
         this.stage=stage;
     }
 
+    /** Присваивает окно для отображения
+     * @param collection новая коллекция
+     */
  public void setCollection(Collection collection){
         this.collection=collection;
  }
@@ -61,9 +70,16 @@ public class CreateCollectionStage {
         }
     }
 
+    /** вызывается для определения статуса переменной closed, которая меняется на false только в случае успешного добавления
+     * @return true or false
+     */
     public boolean isClosed(){
         return closed;
     }
+
+    /**Определение языка из session.properties
+     * @throws IOException ошибка при чтении property
+     */
     public void setLanguage() throws IOException {
         PropertyConnection property=new PropertyConnection(TRANSLATION);
         this.language=property.open().getProperty("language");

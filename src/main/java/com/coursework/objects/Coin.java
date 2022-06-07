@@ -7,6 +7,9 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+/**
+ * Клас монеты
+ */
 public class Coin implements Serializable {
 
 
@@ -20,7 +23,7 @@ public class Coin implements Serializable {
     private String mint;
     private LinkedHashMap<String,String> infoTable;
 
-public Coin(){ /* пустой конструктор */ }
+    public Coin(){ /* пустой конструктор */ }
 
     public void setInfoTable(Map<String, String> infoTable) {
         this.infoTable = new LinkedHashMap<>(infoTable);
@@ -89,6 +92,9 @@ public Coin(){ /* пустой конструктор */ }
         this.mint = mint;
     }
 
+    /** построчный вывод всех доп. характеристик монеты
+     * @return возвращает строку с характреистиками
+     */
     public String getInfo(){
         if(infoTable!=null){
         Iterator<Map.Entry<String, String>> iterator = infoTable.entrySet().iterator();

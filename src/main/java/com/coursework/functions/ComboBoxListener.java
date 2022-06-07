@@ -7,12 +7,18 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
+/** класс дляпомощи в использовании ComboBox: использование стрелочек на клавиатуре и поиск по содержимому
+ * @param <T> объект, который будет содержать в себе ComboBox
+ */
 public class ComboBoxListener<T> implements EventHandler<KeyEvent>{
     private ComboBox<T> comboBox;
     private ObservableList<T> data;
     private boolean moveToPosition = false;
     private int position;
 
+    /** конструктор для ComboBoxListener
+     * @param comboBox необходимый для улучшения ComboBox
+     */
     public ComboBoxListener(final ComboBox<T> comboBox) {
         this.comboBox = comboBox;
         data = comboBox.getItems();

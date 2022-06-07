@@ -9,6 +9,9 @@ import java.util.List;
 import java.util.Objects;
 
 
+/**
+ * Класс коллекции присылаемой с сервера
+ */
 public class CollectionDTO implements Serializable {
 
     private ArrayList<Coin> collection;
@@ -29,6 +32,10 @@ public class CollectionDTO implements Serializable {
         return nameCollection;
     }
 
+    /**Создание Collection а основе этой CollectionDTO
+     * @param collectionDTO текущая CollectionDTO
+     * @return Collection
+     */
     public static Collection toCollection(CollectionDTO collectionDTO){
         Collection collection=new Collection(collectionDTO.getNameCollection());
         collection.setCoinArrayList(collectionDTO.getCollection());

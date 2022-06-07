@@ -13,14 +13,27 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 
+/**
+ * Класс, отвечающий за сцену выбора языка
+ */
 public class LanguageSelectionScene{
 
     @FXML private Button lRussian;
     @FXML private Button lEnglish;
     private Stage stage;
-    public static final String FXML_PATH ="file:///"+new File("").getAbsolutePath()+"/src/main/resources/com/coursework/";
-    public static final String TRANSLATION =new File("").getAbsolutePath()+"/src/main/resources/language.properties";
 
+    /**
+     * путь к fxml файлам
+     */
+    public static final String FXML_PATH ="file:///"+new File("").getAbsolutePath()+"/src/main/resources/com/coursework/";
+    /**
+     * путь к файлу перевода
+     */
+    public static final String TRANSLATION =new File("").getAbsolutePath()+"/src/main/resources/session.properties";
+
+    /** Присваивает окно для отображения
+     * @param stage окно для вывода
+     */
     public void setStage(Stage stage){this.stage=stage;}
 
     public void initialize() {
@@ -36,17 +49,21 @@ public class LanguageSelectionScene{
     }
 
     @FXML
-    protected void chooseRussian() throws IOException {
+    private void chooseRussian() throws IOException {
         setLanguage("ru");
         next();
     }
 
     @FXML
-    protected void chooseEnglish() throws IOException{
+    private void chooseEnglish() throws IOException{
         setLanguage("en");
         next();
     }
 
+    /** Определение языка из session.properties
+     * @param language язык для записи в properties
+     * @throws IOException ошибка при чтении properties
+     */
     public static void setLanguage(String language) throws IOException {
         PropertyConnection propertyConnection = new PropertyConnection(TRANSLATION);
         try(FileOutputStream fileOutputStream=new FileOutputStream(TRANSLATION)) {

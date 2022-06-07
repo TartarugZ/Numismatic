@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Класс для отправки и получени от сервера информации поиска монеты
+ */
 public class SearchInformation implements Serializable {
     private String country;
     private ArrayList<Integer> year;
@@ -68,6 +71,10 @@ public class SearchInformation implements Serializable {
     }
 
 
+    /**массив строк для будущей строки в json
+     * @param array массив строк
+     * @return строка для json
+     */
     public  String stringArrayToString(List<String> array){
 
         StringBuilder sb=new StringBuilder();
@@ -78,6 +85,11 @@ public class SearchInformation implements Serializable {
 
         return  sb.toString().substring(0,sb.toString().length()-1);
     }
+
+    /**массив Integer для будущей строки в json
+     * @param array массив Integer
+     * @return строка для json
+     */
     public  String integerArrayToString(List<Integer> array){
 
        StringBuilder sb=new StringBuilder();
@@ -90,6 +102,9 @@ public class SearchInformation implements Serializable {
     }
 
 
+    /**Строка json для отравки на сервер и получения
+     * @return строка json
+     */
     public String  toJSON(){
         if(Optional.ofNullable(value.get(0)).orElse("null").equals("null")) value.set(0,"");
         if(Optional.ofNullable(currency.get(0)).orElse("null").equals("null")) currency.set(0,"");

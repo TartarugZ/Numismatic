@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Класс коллекции
+ */
 public class Collection implements Serializable {
 
     private ArrayList<Coin> coinArrayList =new ArrayList<>();
@@ -44,6 +47,9 @@ public class Collection implements Serializable {
                 '}';
     }
 
+    /**Создание CollectionDTO на основе этой коллекции
+     * @return CollectionDTO
+     */
     public CollectionDTO toCollectionDTO(){
         CollectionDTO collectionDTO=new CollectionDTO();
         collectionDTO.setNameCollection(this.nameCollection);
@@ -52,6 +58,10 @@ public class Collection implements Serializable {
         return collectionDTO;
     }
 
+    /**Сравнивает названия коллекций
+     * @param obj на вход идёт коллекция
+     * @return true or false
+     */
     @Override
     public boolean equals(Object obj) {
         if (obj == null)
