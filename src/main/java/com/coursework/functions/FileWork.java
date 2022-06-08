@@ -1,7 +1,6 @@
 package com.coursework.functions;
 
 import com.coursework.objects.CollectionBase;
-
 import java.io.*;
 import java.util.logging.Logger;
 
@@ -47,6 +46,7 @@ public class FileWork {
             oos.writeObject(collectionBase);
             oos.flush();
             oos.close();
+            log.info("Local save: success");
         }
     }
 

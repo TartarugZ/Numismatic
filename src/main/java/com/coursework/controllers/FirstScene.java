@@ -63,10 +63,10 @@ public class FirstScene{
     private ObservableList<Collection> collections= FXCollections.observableArrayList();
 
     private CountryDenominationInfo cdi=new CountryDenominationInfo();
-    private FileWork fileWork = new FileWork();
-    private ServerWork serverWork=new ServerWork();
-    private String appName="Coin Searcher";
-    private String imagePath="file:resources/images/icon1.png";
+    private final FileWork fileWork = new FileWork();
+    private final ServerWork serverWork=new ServerWork();
+    private static final String APP_NAME ="Coin Searcher";
+    private static final String IMAGE_PATH ="file:resources/images/icon1.png";
     Logger log = Logger.getLogger(FirstScene.class.getName());
 
     public void initialize() throws IOException, ClassNotFoundException {
@@ -218,8 +218,8 @@ public class FirstScene{
         FXMLLoader fxmlLoader = new FXMLLoader(new URL(FXML_PATH+"CreateCollectionS.fxml"));
         Stage stageEdit = new Stage();
         stageEdit.initModality(Modality.APPLICATION_MODAL);
-        stageEdit.setTitle(appName);
-        stageEdit.getIcons().add(new Image(imagePath));
+        stageEdit.setTitle(APP_NAME);
+        stageEdit.getIcons().add(new Image(IMAGE_PATH));
         stageEdit.setScene(new Scene(fxmlLoader.load(), 300, 200));
         CreateCollectionStage controller = fxmlLoader.getController();
         controller.setStage(stageEdit);
@@ -256,8 +256,8 @@ public class FirstScene{
         FXMLLoader fxmlLoader = new FXMLLoader(new URL(FXML_PATH+"AddCollectionS.fxml"));
         Stage stageEdit = new Stage();
         stageEdit.initModality(Modality.APPLICATION_MODAL);
-        stageEdit.setTitle(appName);
-        stageEdit.getIcons().add(new Image(imagePath));
+        stageEdit.setTitle(APP_NAME);
+        stageEdit.getIcons().add(new Image(IMAGE_PATH));
         stageEdit.setScene(new Scene(fxmlLoader.load(), 270, 260));
         AddCollectionStage controller = fxmlLoader.getController();
         controller.setStage(stageEdit);
@@ -276,8 +276,8 @@ public class FirstScene{
             FXMLLoader fxmlLoader = new FXMLLoader(new URL(FXML_PATH+"AddCoinS.fxml"));
             Stage stageEdit = new Stage();
             stageEdit.initModality(Modality.APPLICATION_MODAL);
-            stageEdit.setTitle(appName);
-            stageEdit.getIcons().add(new Image(imagePath));
+            stageEdit.setTitle(APP_NAME);
+            stageEdit.getIcons().add(new Image(IMAGE_PATH));
             stageEdit.setScene(new Scene(fxmlLoader.load(), 280, 250));
             AddCoinStage controller = fxmlLoader.getController();
             controller.setCollectionBase(collectionBase,tableview.getSelectionModel().getSelectedItem(), stageEdit );

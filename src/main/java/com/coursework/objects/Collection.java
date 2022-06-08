@@ -14,6 +14,16 @@ public class Collection implements Serializable {
 
     private String nameCollection ;
 
+    private boolean fromServer=false;
+
+    public boolean isFromServer() {
+        return fromServer;
+    }
+
+    public void setFromServer(boolean fromServer) {
+        this.fromServer = fromServer;
+    }
+
 
     public Collection(String nameCollection) {
         this.nameCollection=nameCollection;

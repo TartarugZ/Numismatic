@@ -185,10 +185,10 @@ public class ServerWork {
     /** Отправка коллекции на сервер
      * @param collection Коллекция Collection
      */
-    public void sendCollection(CollectionDTO collection){
+    public void sendCollection(CollectionDTO collection,String status){
         HttpURLConnection con = null;
         try {
-            con = (HttpURLConnection) new URL("http://localhost:8080/collection/postcollection").openConnection();
+            con = (HttpURLConnection) new URL("http://localhost:8080/collection/postcollection?status="+status).openConnection();
             con.setRequestMethod("POST");
             String auth = credits();
             byte[] encodedAuth = Base64.getEncoder().encode(auth.getBytes(StandardCharsets.UTF_8));
@@ -258,7 +258,6 @@ public class ServerWork {
                     .execute().returnContent();
 
             log.log(Level.INFO, "Price received: {0} ", getResult.asString());
-
             return buffRead(getResult.asStream());
     }
 

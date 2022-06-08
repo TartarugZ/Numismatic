@@ -39,6 +39,7 @@ public class CollectionDTO implements Serializable {
     public static Collection toCollection(CollectionDTO collectionDTO){
         Collection collection=new Collection(collectionDTO.getNameCollection());
         collection.setCoinArrayList(collectionDTO.getCollection());
+        collection.setFromServer(true);
         return collection;
     }
 

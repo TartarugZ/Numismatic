@@ -146,6 +146,7 @@ public class SecondScene  {
 
        if(coinTableView.getSelectionModel().getSelectedIndex()>=0) {
            cc.removeIf(this::coinExists);
+           collectionMain.setCoinArrayList(cc);
            coinTableView.getItems().remove(coinTableView.getSelectionModel().getSelectedItem());
        }
     }
@@ -212,8 +213,12 @@ public class SecondScene  {
 
     @FXML
     private void save1(){
+        String status="";
         ServerWork serverWork=new ServerWork();
-        serverWork.sendCollection(collectionMain.toCollectionDTO());
+        if(collectionMain.isFromServer()){
+           status="update";
+        }else status="new";
+        serverWork.sendCollection(collectionMain.toCollectionDTO(),status);
     }
 
     @FXML
