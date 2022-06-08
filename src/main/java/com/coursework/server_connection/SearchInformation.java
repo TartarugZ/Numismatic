@@ -57,7 +57,7 @@ public class SearchInformation implements Serializable {
         this.mint = new ArrayList<>(mint);
     }
 
-    public SearchInformation(){/*empty consrtuctor*/}
+    public SearchInformation(){/*empty конструктор*/}
 
     @Override
     public String toString() {
@@ -83,7 +83,7 @@ public class SearchInformation implements Serializable {
             sb.append("\"").append(elem).append("\",");
         }
 
-        return  sb.toString().substring(0,sb.toString().length()-1);
+        return  sb.substring(0,sb.toString().length()-1);
     }
 
     /**массив Integer для будущей строки в json
@@ -98,7 +98,7 @@ public class SearchInformation implements Serializable {
             sb.append(elem).append(",");
         }
 
-        return  sb.toString().substring(0,sb.toString().length()-1);
+        return  sb.substring(0,sb.toString().length()-1);
     }
 
 

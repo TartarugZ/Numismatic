@@ -213,11 +213,14 @@ public class SecondScene  {
 
     @FXML
     private void save1(){
-        String status="";
+        String status;
         ServerWork serverWork=new ServerWork();
         if(collectionMain.isFromServer()){
            status="update";
-        }else status="new";
+        }else {
+            collectionMain.setFromServer(true);
+            status="new";
+        }
         serverWork.sendCollection(collectionMain.toCollectionDTO(),status);
     }
 

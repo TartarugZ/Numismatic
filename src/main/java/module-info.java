@@ -11,7 +11,6 @@ module com.example.coursework {
     requires com.fasterxml.jackson.databind;
     requires java.desktop;
     requires com.fasterxml.jackson.datatype.jsr310;
-    requires commons.collections4;
     requires com.fasterxml.jackson.datatype.guava;
     requires java.logging;
 

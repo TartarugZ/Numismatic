@@ -239,7 +239,7 @@ public class FirstScene{
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("");
                 alert.setHeaderText(null);
-                alert.setContentText("Coolection with this name already exists");
+                alert.setContentText("Collection with this name already exists");
                 alert.showAndWait();
             }else {
                 collectionBase.addCollection(collection);

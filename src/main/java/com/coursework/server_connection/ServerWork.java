@@ -46,7 +46,7 @@ public class ServerWork {
             if (HttpURLConnection.HTTP_OK == con.getResponseCode()) {
                 String line=buffRead(con.getInputStream());
                 ObjectMapper objectMapper = new ObjectMapper();
-                we = objectMapper.readValue(line, new TypeReference<ArrayList<String>>() {
+                we = objectMapper.readValue(line, new TypeReference<>() {
                 });
                 log.info("Get country request: Success "+con.getResponseCode());
             }else log.info("Get country request: Failure "+con.getResponseCode());
@@ -87,9 +87,8 @@ public class ServerWork {
      * @param username имя пользователя
      * @param password пароль пользователя
      * @return String  ответ
-     * @throws IOException '
      */
-    public String userSignUp(String username, String password) throws IOException {
+    public String userSignUp(String username, String password){
 
         HttpURLConnection con;
         String result="";
@@ -136,7 +135,8 @@ public class ServerWork {
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new GuavaModule());
         mapper.registerSubtypes(CountryDenominationInfo.class);
-        CountryDenominationInfo countryDenominationInfo=mapper.readValue(line, new TypeReference<CountryDenominationInfo>() {});
+        CountryDenominationInfo countryDenominationInfo=mapper.readValue(line, new TypeReference<>() {
+        });
         log.log(Level.INFO,"Result: {0}",countryDenominationInfo);
             return countryDenominationInfo;
     }
@@ -145,11 +145,10 @@ public class ServerWork {
      * @param username имя пользователя
      * @param password пароль пользователя
      * @return String ответ сервера
-     * @throws IOException '
      */
-    public String login(String username, String password) throws IOException {
+    public String login(String username, String password){
 
-        HttpURLConnection con = null;
+        HttpURLConnection con;
 
         String result="";
         try {
@@ -186,7 +185,7 @@ public class ServerWork {
      * @param collection Коллекция Collection
      */
     public void sendCollection(CollectionDTO collection,String status){
-        HttpURLConnection con = null;
+        HttpURLConnection con;
         try {
             con = (HttpURLConnection) new URL("http://localhost:8080/collection/postcollection?status="+status).openConnection();
             con.setRequestMethod("POST");
